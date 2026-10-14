@@ -230,6 +230,9 @@ h3{font:500 16px/1.3 var(--sans);letter-spacing:.03em;color:var(--ink);margin-bo
 .voices{display:grid;gap:30px}
 .voices blockquote{font:italic 400 clamp(23px,2.3vw,28px)/1.45 var(--serif);color:#3b3428;border-left:1px solid #d8b98f;padding-left:24px}
 .voices cite{margin-top:10px}
+/* A second part inside a row (Research under the voices and the films) */
+.sub{margin-top:clamp(40px,5vw,56px);padding-top:clamp(26px,3vw,34px);border-top:1px solid rgba(127,117,98,.16)}
+.sub > p:not(.ref){font:400 clamp(21px,1.9vw,24px)/1.6 var(--serif);color:#433c2f}
 
 /* Rain Radio's skies, as round swatches */
 .skies{display:flex;flex-wrap:wrap;gap:clamp(8px,2.4vw,28px);margin-top:34px}
@@ -466,17 +469,16 @@ footer .wrap{display:grid;grid-template-columns:1fr;gap:36px}
 
     <section class="row"><div class="cols">
       <h2>What listeners notice</h2>
-      <div class="body voices">
-        <blockquote>I felt deep pulses of blissful energy throughout my body, and behind it all was pure, unmovable silence, eternity.<cite>S.W., Thailand</cite></blockquote>
-        <blockquote>A tree blooms for the first time in ten years; workers on site are calmer, clients are happy.<cite>B.C., landscape architect, Türkiye</cite></blockquote>
-      </div>
-    </div></section>
-
-    <section class="row"><div class="cols">
-      <h2>What the research shows</h2>
       <div class="body">
-        <p>At live concerts with more than 1,800 listeners, mood questionnaires showed significant drops in tension and other negative feelings after the ragas, and a rise in positive ones.</p>
-        <p class="ref">Travis, Morehead &amp; Parim (2023), <i>International Journal of Psychological Studies</i> 15(1), 8. <a href="https://doi.org/10.5539/ijps.v15n1p8">Read the paper</a></p>
+        <div class="voices">
+          <blockquote>I felt deep pulses of blissful energy throughout my body, and behind it all was pure, unmovable silence, eternity.<cite>S.W., Thailand</cite></blockquote>
+          <blockquote>A tree blooms for the first time in ten years; workers on site are calmer, clients are happy.<cite>B.C., landscape architect, Türkiye</cite></blockquote>
+        </div>
+        <div class="sub">
+          <h3>Research</h3>
+          <p>At live concerts with more than 1,800 listeners, mood questionnaires showed significant drops in tension and other negative feelings after the ragas, and a rise in positive ones.</p>
+          <p class="ref">Travis, Morehead &amp; Parim (2023), <i>International Journal of Psychological Studies</i> 15(1), 8. <a href="https://doi.org/10.5539/ijps.v15n1p8">Read the paper</a></p>
+        </div>
       </div>
     </div></section>
 
@@ -549,16 +551,14 @@ footer .wrap{display:grid;grid-template-columns:1fr;gap:36px}
           <button data-dir="-1" aria-label="Previous video"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 3 5 8l5 5"></path></svg></button>
           <button data-dir="1" aria-label="Next video"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m6 3 5 5-5 5"></path></svg></button>
         </div>
+        <div class="sub">
+          <h3>Research</h3>
+          <p>In a 60-day study with sixty dairy cows, the cows that heard music gave significantly more milk each day than cows without it, and those that heard raga music showed lower levels of the stress hormone cortisol.</p>
+          <p class="ref">Cao, Zhao, Feng et al. (2025), Effects of Raga music and Chinese five-element music on milk production, antioxidant, neuroendocrine, immune, and welfare indicators in dairy cows. <i>Frontiers in Veterinary Science</i> 12, 1623026. <a href="https://doi.org/10.3389/fvets.2025.1623026">Read the paper</a></p>
+        </div>
       </div>
     </div></section>
 
-    <section class="row"><div class="cols">
-      <h2>What the research shows</h2>
-      <div class="body">
-        <p>In a 60-day study with sixty dairy cows, the cows that heard music gave significantly more milk each day than cows without it, and those that heard raga music showed lower levels of the stress hormone cortisol.</p>
-        <p class="ref">Cao, Zhao, Feng et al. (2025), Effects of Raga music and Chinese five-element music on milk production, antioxidant, neuroendocrine, immune, and welfare indicators in dairy cows. <i>Frontiers in Veterinary Science</i> 12, 1623026. <a href="https://doi.org/10.3389/fvets.2025.1623026">Read the paper</a></p>
-      </div>
-    </div></section>
 
     <section class="row moonsec"><div class="cols">
       <h2>Blooming gardens</h2>
@@ -783,7 +783,7 @@ void main() {
 <script src="shared/light.js?v=1f3ee056"></script>
 <script src="life.js?v=1d606fdf"></script>
 <script src="app.js?v=570f6f17"></script>
-<script src="info.js?v=42bd44e0"></script>
+<script src="info.js?v=bb7c3f73"></script>
 <script src="analytics.js?v=a7dd31a4"></script>
 </body>
 </html>
