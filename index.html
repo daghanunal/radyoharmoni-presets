@@ -252,11 +252,16 @@ h3{font:500 16px/1.3 var(--sans);letter-spacing:.03em;color:var(--ink);margin-bo
 .reel{--gap:20px;display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - var(--gap)) / 2);gap:var(--gap);overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:10px;scrollbar-width:none}
 .reel::-webkit-scrollbar{display:none}
 .reel figure{scroll-snap-align:start}
-.film{position:relative;aspect-ratio:1;border-radius:4px 4px 100px 4px;overflow:hidden;background:#e9dfcd;isolation:isolate}
+.film{position:relative;aspect-ratio:1;border-radius:14px;overflow:hidden;background:#e9dfcd;isolation:isolate}
 /* The house look for the films: warm paper and saffron, gently faded, soft contrast, darker at the edges */
 .film video{width:100%;height:100%;object-fit:cover;filter:sepia(.34) saturate(.68) contrast(.88) brightness(1.06);display:block}
 .film::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(241,232,204,.6),rgba(191,122,31,.22));mix-blend-mode:soft-light;box-shadow:inset 0 0 70px rgba(74,46,18,.28);pointer-events:none;transition:opacity .8s}
 .film.playing::after{opacity:.7}
+.film::after{z-index:1}
+/* The farmers' words, in the site's type, on the soft band at the foot of each film */
+.film .cue{position:absolute;z-index:2;left:5%;right:5%;bottom:11%;margin:0;padding:10px 14px;text-align:center;font:italic 500 clamp(15px,1.35vw,18px)/1.3 var(--serif);color:#fffaf0;text-shadow:0 1px 8px rgba(40,28,16,.7),0 0 2px rgba(40,28,16,.5);background:radial-gradient(ellipse at center,rgba(40,28,16,.32),rgba(40,28,16,0) 72%);opacity:0;transition:opacity .45s ease;pointer-events:none}
+.film .cue.on{opacity:1}
+.film video::cue{font-family:"Cormorant Garamond",Georgia,serif;font-style:italic;font-size:1.2em;color:#fffaf0;background:rgba(40,30,20,.45)}
 .reel-nav{display:flex;gap:10px;margin-top:18px}
 .reel-nav button{width:44px;height:44px;border-radius:50%;border:1px solid rgba(127,117,98,.4);display:grid;place-items:center;color:var(--ink)}
 .reel-nav button:hover{background:#fffaf2}
@@ -467,10 +472,6 @@ footer .wrap{display:grid;grid-template-columns:1fr;gap:36px}
       <h2>Why it is played</h2>
       <div class="body">
         <blockquote class="q">“Gandharva Veda music makes a precious contribution to the creation of world peace: the use of sound, melody, and rhythm to restore balance and harmony in the mind, body, behavior, and environment.”<cite>Maharishi Mahesh Yogi, 1991</cite></blockquote>
-        <div class="sub">
-          <h3>Research</h3>
-          <p class="ref">Travis, Morehead &amp; Parim (2023), Effects of Gandharva Veda Music on Mood States, Health, and Brain Functioning. <i>International Journal of Psychological Studies</i> 15(1), 8. <a href="https://doi.org/10.5539/ijps.v15n1p8">Read the paper</a></p>
-        </div>
       </div>
     </div></section>
 
@@ -557,7 +558,7 @@ footer .wrap{display:grid;grid-template-columns:1fr;gap:36px}
       <h2>What farmers notice</h2>
       <div class="body carousel">
         <div class="reel" data-w="reel" tabindex="0" aria-label="Farmer testimony videos">
-          <figure><div class="film"><video src="media/films/farmer-1.mp4" poster="media/films/farmer-1.jpg" controls="" playsinline="" preload="none" aria-label="Farmer testimony 1"></video></div></figure><figure><div class="film"><video src="media/films/farmer-2.mp4" poster="media/films/farmer-2.jpg" controls="" playsinline="" preload="none" aria-label="Farmer testimony 2"></video></div></figure><figure><div class="film"><video src="media/films/farmer-3.mp4" poster="media/films/farmer-3.jpg" controls="" playsinline="" preload="none" aria-label="Farmer testimony 3"></video></div></figure><figure><div class="film"><video src="media/films/farmer-5.mp4" poster="media/films/farmer-5.jpg" controls="" playsinline="" preload="none" aria-label="Farmer testimony 4"></video></div></figure>
+          <figure><div class="film"><video src="media/films/farmer-1.mp4" poster="media/films/farmer-1.jpg" controls="" playsinline="" preload="none" aria-label="Farmer testimony 1"><track kind="captions" srclang="en" label="English" src="media/films/farmer-1.vtt" default=""></video><p class="cue" aria-hidden="true"></p></div></figure><figure><div class="film"><video src="media/films/farmer-2.mp4" poster="media/films/farmer-2.jpg" controls="" playsinline="" preload="none" aria-label="Farmer testimony 2"><track kind="captions" srclang="en" label="English" src="media/films/farmer-2.vtt" default=""></video><p class="cue" aria-hidden="true"></p></div></figure><figure><div class="film"><video src="media/films/farmer-3.mp4" poster="media/films/farmer-3.jpg" controls="" playsinline="" preload="none" aria-label="Farmer testimony 3"><track kind="captions" srclang="en" label="English" src="media/films/farmer-3.vtt" default=""></video><p class="cue" aria-hidden="true"></p></div></figure><figure><div class="film"><video src="media/films/farmer-5.mp4" poster="media/films/farmer-5.jpg" controls="" playsinline="" preload="none" aria-label="Farmer testimony 4"><track kind="captions" srclang="en" label="English" src="media/films/farmer-5.vtt" default=""></video><p class="cue" aria-hidden="true"></p></div></figure>
         </div>
         <div class="reel-nav">
           <button data-dir="-1" aria-label="Previous video"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 3 5 8l5 5"></path></svg></button>
@@ -795,7 +796,7 @@ void main() {
 <script src="shared/light.js?v=1f3ee056"></script>
 <script src="life.js?v=1d606fdf"></script>
 <script src="app.js?v=570f6f17"></script>
-<script src="info.js?v=51665b51"></script>
+<script src="info.js?v=752be107"></script>
 <script src="analytics.js?v=a7dd31a4"></script>
 </body>
 </html>

@@ -43,10 +43,6 @@
       <h2>Why it is played</h2>
       <div class="body">
         <blockquote class="q">“Gandharva Veda music makes a precious contribution to the creation of world peace: the use of sound, melody, and rhythm to restore balance and harmony in the mind, body, behavior, and environment.”<cite>Maharishi Mahesh Yogi, 1991</cite></blockquote>
-        <div class="sub">
-          <h3>Research</h3>
-          <p class="ref">Travis, Morehead &amp; Parim (2023), Effects of Gandharva Veda Music on Mood States, Health, and Brain Functioning. <i>International Journal of Psychological Studies</i> 15(1), 8. <a href="https://doi.org/10.5539/ijps.v15n1p8">Read the paper</a></p>
-        </div>
       </div>
     </div></section>
 
@@ -137,7 +133,7 @@
       <h2>What farmers notice</h2>
       <div class="body carousel">
         <div class="reel" data-w="reel" tabindex="0" aria-label="Farmer testimony videos">
-          ${FILMS.map((f, i) => `<figure><div class="film"><video src="${VID}${f}.mp4" poster="${VID}${f}.jpg" controls playsinline preload="none" aria-label="Farmer testimony ${i + 1}"></video></div></figure>`).join('')}
+          ${FILMS.map((f, i) => `<figure><div class="film"><video src="${VID}${f}.mp4" poster="${VID}${f}.jpg" controls playsinline preload="none" aria-label="Farmer testimony ${i + 1}"><track kind="captions" srclang="en" label="English" src="${VID}${f}.vtt" default></video><p class="cue" aria-hidden="true"></p></div></figure>`).join('')}
         </div>
         <div class="reel-nav">
           <button data-dir="-1" aria-label="Previous video"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 3 5 8l5 5"/></svg></button>
@@ -318,6 +314,23 @@
 
   // ── Farmers' films: one plays at a time ──
   const reel = w('reel');
+  // Captions in the site's own type over the film; the browser's own captions only in full screen
+  reel.querySelectorAll('video').forEach(v => {
+    const cue = v.parentElement.querySelector('.cue');
+    const track = v.textTracks && v.textTracks[0];
+    if (!track) return;
+    const inFull = () => document.fullscreenElement === v || document.webkitFullscreenElement === v || v.webkitDisplayingFullscreen;
+    const setMode = () => { track.mode = inFull() ? 'showing' : 'hidden'; };
+    setMode();
+    track.addEventListener('cuechange', () => {
+      const c = track.activeCues && track.activeCues[0];
+      if (c) cue.textContent = c.text;
+      cue.classList.toggle('on', !!c && !inFull());
+    });
+    ['fullscreenchange', 'webkitfullscreenchange'].forEach(ev => document.addEventListener(ev, setMode));
+    v.addEventListener('webkitbeginfullscreen', () => { track.mode = 'showing'; });
+    v.addEventListener('webkitendfullscreen', () => { track.mode = 'hidden'; });
+  });
   reel.querySelectorAll('video').forEach(v => {
     v.addEventListener('play', () => { reel.querySelectorAll('video').forEach(o => { if (o !== v) o.pause(); }); v.parentElement.classList.add('playing'); });
     v.addEventListener('pause', () => v.parentElement.classList.remove('playing'));
