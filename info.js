@@ -43,6 +43,10 @@
       <h2>Why it is played</h2>
       <div class="body">
         <blockquote class="q">“Gandharva Veda music makes a precious contribution to the creation of world peace: the use of sound, melody, and rhythm to restore balance and harmony in the mind, body, behavior, and environment.”<cite>Maharishi Mahesh Yogi, 1991</cite></blockquote>
+        <div class="sub">
+          <h3>Research</h3>
+          <p class="ref">Travis, Morehead &amp; Parim (2023), Effects of Gandharva Veda Music on Mood States, Health, and Brain Functioning. <i>International Journal of Psychological Studies</i> 15(1), 8. <a href="https://doi.org/10.5539/ijps.v15n1p8">Read the paper</a></p>
+        </div>
       </div>
     </div></section>
 
@@ -121,6 +125,11 @@
       <h2>Why it is played</h2>
       <div class="body">
         <blockquote class="q">“Those who listen to it, they’ll have the direct effect of it. But even those who do not listen, the quality of the environment, the quality of the ecology rises in the character of harmony. Harmony. Integration, and that neutralizes negative trends and tendencies in the world.”<cite>Maharishi Mahesh Yogi</cite></blockquote>
+        <div class="sub">
+          <h3>Research</h3>
+          <p>Mustard and fenugreek plants that heard Raga Bhairav in the morning and Raga Yaman Kalyan in the evening germinated and grew better than plants without music, with more chlorophyll, less of the stress marker hydrogen peroxide, and stronger protective enzymes.</p>
+          <p class="ref">Vir, Chauhan, Kumar, Saini &amp; Saini (2026), Impact of Indian classical raga on plant growth and biochemical parameters in Rai and Methi. <i>International Journal of Applied Research</i> 12(5), 281–288. <a href="https://doi.org/10.22271/allresearch.2026.v12.i5c.13644">Read the paper</a></p>
+        </div>
       </div>
     </div></section>
 
