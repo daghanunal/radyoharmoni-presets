@@ -255,13 +255,16 @@ h3{font:500 16px/1.3 var(--sans);letter-spacing:.03em;color:var(--ink);margin-bo
 .reel figure{scroll-snap-align:start}
 .film{position:relative;aspect-ratio:1;border-radius:14px;overflow:hidden;background:#e9dfcd;isolation:isolate}
 /* The house look for the films: warm paper and saffron, gently faded, soft contrast, darker at the edges */
-.film video{width:100%;height:100%;object-fit:cover;filter:sepia(.34) saturate(.68) contrast(.88) brightness(1.06);display:block}
+.film video{width:100%;height:100%;object-fit:cover;object-position:50% 20%;filter:sepia(.34) saturate(.68) contrast(.88) brightness(1.06);display:block}
 .film::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(241,232,204,.6),rgba(191,122,31,.22));mix-blend-mode:soft-light;box-shadow:inset 0 0 70px rgba(74,46,18,.28);pointer-events:none;transition:opacity .8s}
 .film.playing::after{opacity:.7}
 .film::after{z-index:1}
 /* The farmers' words, in the site's type, on the soft band at the foot of each film */
 .film .cue{position:absolute;z-index:2;left:5%;right:5%;bottom:11%;margin:0;padding:10px 14px;text-align:center;font:italic 500 clamp(15px,1.35vw,18px)/1.3 var(--serif);color:#fffaf0;text-shadow:0 1px 8px rgba(40,28,16,.7),0 0 2px rgba(40,28,16,.5);background:radial-gradient(ellipse at center,rgba(40,28,16,.32),rgba(40,28,16,0) 72%);opacity:0;transition:opacity .45s ease;pointer-events:none}
 .film .cue.on{opacity:1}
+/* Full screen shows the whole upright film, never a zoomed-in crop of it */
+.film video:fullscreen{object-fit:contain;object-position:center;background:#000}
+.film video:-webkit-full-screen{object-fit:contain;object-position:center;background:#000}
 .film video::cue{font-family:"Cormorant Garamond",Georgia,serif;font-style:italic;font-size:1.2em;color:#fffaf0;background:rgba(40,30,20,.45)}
 .reel-nav{display:flex;gap:10px;margin-top:18px}
 .reel-wrap{position:relative}
@@ -330,8 +333,7 @@ h3{font:500 16px/1.3 var(--sans);letter-spacing:.03em;color:var(--ink);margin-bo
 .form .check input{width:18px;height:18px;accent-color:var(--saffron)}
 .hp{position:absolute!important;left:-9999px;width:1px;height:1px;opacity:0}
 .thanks{font:italic 400 clamp(22px,2vw,26px)/1.4 var(--serif);color:var(--ink);margin-top:24px}
-.recaptcha-note{font-size:11.5px;line-height:1.5;color:#8f846f;margin-top:4px}
-.inline-form .note,.inline-form .recaptcha-note{flex-basis:100%;margin:0}
+.inline-form .note{flex-basis:100%;margin:0}
 .grecaptcha-badge{visibility:hidden!important}
 .inline-form{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
 .inline-form{max-width:520px}
@@ -578,7 +580,7 @@ footer .wrap{display:grid;grid-template-columns:1fr;gap:36px}
           <div class="porthole" data-w="moon">
             <canvas aria-hidden="true" width="290" height="290"></canvas>
             <img class="flat" src="media/yumurta.jpg" alt="">
-            <svg class="flat-moon" viewBox="0 0 100 100" aria-hidden="true"><circle class="mglow" cx="60" cy="25" r="16" fill="url(#mGlow)" style="opacity: 0.35;"></circle><circle cx="60" cy="25" r="7.5" fill="#33428a" fill-opacity=".55"></circle><path class="mlit" fill="#f4f1e6" d="M60,17.5 A7.5,7.5 0 0 1 60,32.5 A5.56,7.5 0 0 0 60,17.5Z"></path><defs><radialGradient id="mGlow"><stop offset="0" stop-color="#c8d2f2" stop-opacity=".5"></stop><stop offset="1" stop-color="#c8d2f2" stop-opacity="0"></stop></radialGradient></defs></svg>
+            <svg class="flat-moon" viewBox="0 0 100 100" aria-hidden="true"><circle class="mglow" cx="60" cy="25" r="16" fill="url(#mGlow)" style="opacity: 0.35;"></circle><circle cx="60" cy="25" r="7.5" fill="#33428a" fill-opacity=".55"></circle><path class="mlit" fill="#f4f1e6" d="M60,17.5 A7.5,7.5 0 0 1 60,32.5 A5.55,7.5 0 0 0 60,17.5Z"></path><defs><radialGradient id="mGlow"><stop offset="0" stop-color="#c8d2f2" stop-opacity=".5"></stop><stop offset="1" stop-color="#c8d2f2" stop-opacity="0"></stop></radialGradient></defs></svg>
           </div>
           <div>
             <p class="date" data-w="nextfull"></p>
@@ -716,7 +718,6 @@ footer .wrap{display:grid;grid-template-columns:1fr;gap:36px}
           <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
           <p><button class="btn" type="submit">Send</button></p>
           <p class="note" data-status="" aria-live="polite"></p>
-          <p class="recaptcha-note">This site is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy">Privacy Policy</a> and <a href="https://policies.google.com/terms">Terms of Service</a> apply.</p>
         </form>
         <form class="form" id="contactForm" data-w="contact" hidden="">
           <div class="form-two">
@@ -729,7 +730,6 @@ footer .wrap{display:grid;grid-template-columns:1fr;gap:36px}
           <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
           <p><button class="btn" type="submit">Send message</button></p>
           <p class="note" data-status="" aria-live="polite"></p>
-          <p class="recaptcha-note">This site is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy">Privacy Policy</a> and <a href="https://policies.google.com/terms">Terms of Service</a> apply.</p>
         </form>
       </div>
     </div></section>
@@ -738,7 +738,7 @@ footer .wrap{display:grid;grid-template-columns:1fr;gap:36px}
       <h2>Stay in tune</h2>
       <div class="body">
         <p>New ragas, the live full moon concerts and photographs from listeners, a few times a year.</p>
-        <form class="inline-form" data-w="subscribe"><input name="email" type="email" placeholder="Your email" aria-label="Your email" autocomplete="email" required=""><input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"><button class="btn" type="submit">Subscribe</button><p class="note" data-status="" aria-live="polite"></p><p class="recaptcha-note">This site is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy">Privacy Policy</a> and <a href="https://policies.google.com/terms">Terms of Service</a> apply.</p></form>
+        <form class="inline-form" data-w="subscribe"><input name="email" type="email" placeholder="Your email" aria-label="Your email" autocomplete="email" required=""><input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"><button class="btn" type="submit">Subscribe</button><p class="note" data-status="" aria-live="polite"></p></form>
       </div>
     </div></section></div></main>
 <footer id="foot">
@@ -749,7 +749,7 @@ footer .wrap{display:grid;grid-template-columns:1fr;gap:36px}
           <div class="about-body"><p>RadyoHarmoni is a free online radio station, streaming Gandharva Veda melodies non-stop, 24/7. We recommend playing the music continuously, to create an aura of peace and harmony in your surroundings.</p></div>
         </details>
         <div class="foot-col friends">
-          <h3 class="foot-h">Affiliates</h3>
+          <h3 class="foot-h">Affiliates of Radyo Harmoni</h3>
           <p><a href="https://tm-women.org/">TM-women.org</a><a href="https://apps.apple.com/app/id977489377">Veda App</a></p>
         </div>
         
@@ -773,6 +773,7 @@ footer .wrap{display:grid;grid-template-columns:1fr;gap:36px}
       <div class="legal">
         <p>Music Copyright © 2026, Maharishi Vedic University Ltd. and Maharishi Foundation Ltd. All rights reserved worldwide.</p>
         <p>Transcendental Meditation, TM-Sidhi, Maharishi, Maharishi Vedic, Vedic Science, Maharishi International University, Maharishi Vāstu, Maharishi Gandharva Veda, Fortune-Creating, Maharishi Sthāpatya Veda, Maharishi AyurVeda, and other terms used on this website are subject to trademark protection in many countries worldwide, including the United States, and are used with permission.</p>
+        <p>This site is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy">Privacy Policy</a> and <a href="https://policies.google.com/terms">Terms of Service</a> apply.</p>
         <p>Copyright 2026 © Academy of Arts for Enlightenment. <a href="privacy-policy/">Privacy policy</a> <button class="linkish" data-consent-open="">Privacy choices</button></p>
       </div>
     </div></footer>
@@ -937,7 +938,7 @@ void main() {
 <script src="shared/radio.js?v=2e9458ca"></script>
 <script src="shared/light.js?v=1f3ee056"></script>
 <script src="app.js?v=6022836a"></script>
-<script src="info.js?v=35646197"></script>
+<script src="info.js?v=c3832728"></script>
 <script src="analytics.js?v=a7dd31a4"></script>
 </body>
 </html>

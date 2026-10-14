@@ -183,7 +183,6 @@
           <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
           <p><button class="btn" type="submit">Send</button></p>
           <p class="note" data-status aria-live="polite"></p>
-          <p class="recaptcha-note">This site is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy">Privacy Policy</a> and <a href="https://policies.google.com/terms">Terms of Service</a> apply.</p>
         </form>
         <form class="form" id="contactForm" data-w="contact" hidden>
           <div class="form-two">
@@ -196,7 +195,6 @@
           <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
           <p><button class="btn" type="submit">Send message</button></p>
           <p class="note" data-status aria-live="polite"></p>
-          <p class="recaptcha-note">This site is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy">Privacy Policy</a> and <a href="https://policies.google.com/terms">Terms of Service</a> apply.</p>
         </form>
       </div>
     </div></section>
@@ -205,7 +203,7 @@
       <h2>Stay in tune</h2>
       <div class="body">
         <p>New ragas, the live full moon concerts and photographs from listeners, a few times a year.</p>
-        <form class="inline-form" data-w="subscribe"><input name="email" type="email" placeholder="Your email" aria-label="Your email" autocomplete="email" required><input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"><button class="btn" type="submit">Subscribe</button><p class="note" data-status aria-live="polite"></p><p class="recaptcha-note">This site is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy">Privacy Policy</a> and <a href="https://policies.google.com/terms">Terms of Service</a> apply.</p></form>
+        <form class="inline-form" data-w="subscribe"><input name="email" type="email" placeholder="Your email" aria-label="Your email" autocomplete="email" required><input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"><button class="btn" type="submit">Subscribe</button><p class="note" data-status aria-live="polite"></p></form>
       </div>
     </div></section>`;
 
@@ -235,7 +233,7 @@
           <div class="about-body"><p>RadyoHarmoni is a free online radio station, streaming Gandharva Veda melodies non-stop, 24/7. We recommend playing the music continuously, to create an aura of peace and harmony in your surroundings.</p></div>
         </details>
         <div class="foot-col friends">
-          <h3 class="foot-h">Affiliates</h3>
+          <h3 class="foot-h">Affiliates of Radyo Harmoni</h3>
           <p><a href="https://tm-women.org/">TM-women.org</a><a href="https://apps.apple.com/app/id977489377">Veda App</a></p>
         </div>
         ${ABOUT}
@@ -243,6 +241,7 @@
       <div class="legal">
         <p>Music Copyright © 2026, Maharishi Vedic University Ltd. and Maharishi Foundation Ltd. All rights reserved worldwide.</p>
         <p>Transcendental Meditation, TM-Sidhi, Maharishi, Maharishi Vedic, Vedic Science, Maharishi International University, Maharishi Vāstu, Maharishi Gandharva Veda, Fortune-Creating, Maharishi Sthāpatya Veda, Maharishi AyurVeda, and other terms used on this website are subject to trademark protection in many countries worldwide, including the United States, and are used with permission.</p>
+        <p>This site is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy">Privacy Policy</a> and <a href="https://policies.google.com/terms">Terms of Service</a> apply.</p>
         <p>Copyright 2026 © Academy of Arts for Enlightenment. <a href="privacy-policy/">Privacy policy</a> <button class="linkish" data-consent-open>Privacy choices</button></p>
       </div>
     </div>`;
