@@ -96,7 +96,7 @@
   const FILMS = ['farmer-1', 'farmer-2', 'farmer-3', 'farmer-5'];
   const RAIN = `
     <section class="row"><div class="cols">
-      <h2>The sky keeps nature’s time</h2>
+      <h2>The sky keeps Nature’s time</h2>
       <div class="body">
         <p>Gandharva Veda brings harmony, and Rain Radio plays ragas for balance in nature. The sky over Monte Verde changes with it.</p>
         <div class="skies" data-w="skies" role="group" aria-label="Sky over Monte Verde"></div>
@@ -113,7 +113,8 @@
     <section class="row"><div class="cols">
       <h2>Ancient as time</h2>
       <div class="body">
-        <blockquote class="q">“Gandharva music is that melody from which all the melodies have sprung … the eternal music of nature.”<cite>Maharishi Mahesh Yogi</cite></blockquote>
+        <blockquote class="q"><span class="q-short">“Gandharva music is that melody from which all the melodies have sprung … the eternal music of nature.”</span><span class="q-full" hidden>“Gandharva music is that melody from which all the melodies have sprung. When we say Indian classical music or Western modern music, these are different aspects of Gandharva music, the eternal music of nature. All languages and melodies spring from the infinite order that is maintained in nature in its different rhythms, harmonies, and frequencies.”</span><cite>Maharishi Mahesh Yogi</cite></blockquote>
+        <button class="more-q" type="button" aria-expanded="false">Read the full quote</button>
         <span class="nowline" data-w="nowline" data-word="sky" style="margin-top:22px"></span>
       </div>
     </div></section>
@@ -133,8 +134,12 @@
     <section class="row"><div class="cols">
       <h2>What farmers notice</h2>
       <div class="body carousel">
-        <div class="reel" data-w="reel" tabindex="0" aria-label="Farmer testimony videos">
-          ${FILMS.map((f, i) => `<figure><div class="film"><video src="${VID}${f}.mp4" poster="${VID}${f}.jpg" controls playsinline preload="none" aria-label="Farmer testimony ${i + 1}"><track kind="captions" srclang="en" label="English" src="${VID}${f}.vtt" default></video><p class="cue" aria-hidden="true"></p></div></figure>`).join('')}
+        <div class="reel-wrap at-start">
+          <div class="reel" data-w="reel" tabindex="0" aria-label="Farmer testimony videos">
+            ${FILMS.map((f, i) => `<figure><div class="film"><video src="${VID}${f}.mp4" poster="${VID}${f}.jpg" controls playsinline preload="none" aria-label="Farmer testimony ${i + 1}"><track kind="captions" srclang="en" label="English" src="${VID}${f}.vtt" default></video><p class="cue" aria-hidden="true"></p></div></figure>`).join('')}
+          </div>
+          <button class="reel-edge prev" data-dir="-1" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 3 5 8l5 5"/></svg></button>
+          <button class="reel-edge next" data-dir="1" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m6 3 5 5-5 5"/></svg></button>
         </div>
         <div class="reel-nav">
           <button data-dir="-1" aria-label="Previous video"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 3 5 8l5 5"/></svg></button>
@@ -204,9 +209,9 @@
       </div>
     </div></section>`;
 
-  // ── Footer: friends, About, and the legal lines; the same for both stations ──
+  // ── Footer: About Radyo Harmoni and About Maharishi Gandharva Veda (both fold open), affiliates, the legal lines ──
   const ABOUT = `
-    <details class="about">
+    <details class="about about-mgv">
       <summary>About Maharishi Gandharva Veda</summary>
       <div class="cols">
         <div><h4>What is Maharishi Gandharva Veda?</h4>
@@ -225,16 +230,16 @@
   const FOOT = `
     <div class="wrap">
       <div class="foot-row">
-        <div class="foot-col">
-          <h3 class="foot-h">About Radyo Harmoni</h3>
-          <p>RadyoHarmoni is a free online radio station, streaming Gandharva Veda melodies non-stop, 24/7. We recommend playing the music continuously, to create an aura of peace and harmony in your surroundings.</p>
-        </div>
+        <details class="about about-rh">
+          <summary>About Radyo Harmoni</summary>
+          <div class="about-body"><p>RadyoHarmoni is a free online radio station, streaming Gandharva Veda melodies non-stop, 24/7. We recommend playing the music continuously, to create an aura of peace and harmony in your surroundings.</p></div>
+        </details>
         <div class="foot-col friends">
-          <h3 class="foot-h">Friends of Radyo Harmoni</h3>
+          <h3 class="foot-h">Affiliates</h3>
           <p><a href="https://tm-women.org/">TM-women.org</a><a href="https://apps.apple.com/app/id977489377">Veda App</a></p>
         </div>
+        ${ABOUT}
       </div>
-      ${ABOUT}
       <div class="legal">
         <p>Music Copyright © 2026, Maharishi Vedic University Ltd. and Maharishi Foundation Ltd. All rights reserved worldwide.</p>
         <p>Transcendental Meditation, TM-Sidhi, Maharishi, Maharishi Vedic, Vedic Science, Maharishi International University, Maharishi Vāstu, Maharishi Gandharva Veda, Fortune-Creating, Maharishi Sthāpatya Veda, Maharishi AyurVeda, and other terms used on this website are subject to trademark protection in many countries worldwide, including the United States, and are used with permission.</p>
@@ -256,6 +261,15 @@
   }
   showSet(RH.radio.station);
   document.addEventListener('rh:station', e => showSet(e.detail));
+
+  // A long quote shown short, with a button for the whole of it
+  document.querySelectorAll('.more-q').forEach(b => b.addEventListener('click', () => {
+    const q = b.previousElementSibling, open = b.getAttribute('aria-expanded') !== 'true';
+    q.querySelector('.q-short').hidden = open;
+    q.querySelector('.q-full').hidden = !open;
+    b.setAttribute('aria-expanded', open);
+    b.textContent = open ? 'Show less' : 'Read the full quote';
+  }));
 
   // ── The day as a ribbon of light: colours across 24 hours from 01:00, the eight watches, a mark for now ──
   // Softened toward the paper, so the ribbon reads as light rather than as a chart.
@@ -306,7 +320,7 @@
 
   // ── Rain Radio's skies, as round swatches that change the picture above ──
   const skies = w('skies');
-  skies.innerHTML = RH.SKIES.map(([m, name, sw]) => `<button data-sky-pick="${m}" aria-pressed="${m === RH.sky}"><i style="background:${sw}"></i><b>${name}</b><small>${{ day: 'clear light', clouds: 'drifting', rain: 'with its sound', rainbow: 'after the rain', night: 'night blue' }[m]}</small></button>`).join('');
+  skies.innerHTML = RH.SKIES.map(([m, name, sw]) => `<button data-sky-pick="${m}" aria-pressed="${m === RH.sky}"><i style="background:${sw}"></i><b>${name}</b><small>${{ day: 'clear light', sun: 'through the clouds', rain: 'with its sound', rainbow: 'after the rain', night: 'night blue' }[m]}</small></button>`).join('');
   skies.querySelectorAll('[data-sky-pick]').forEach(b => b.addEventListener('click', () => {
     RH.setSky(b.dataset.skyPick);
     if (scrollY > innerHeight * .4) scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
@@ -336,7 +350,14 @@
     v.addEventListener('play', () => { reel.querySelectorAll('video').forEach(o => { if (o !== v) o.pause(); }); v.parentElement.classList.add('playing'); });
     v.addEventListener('pause', () => v.parentElement.classList.remove('playing'));
   });
-  document.querySelectorAll('.reel-nav button').forEach(b => b.addEventListener('click', () => {
+  // Arrows over the films' edges, shown on hover with a mouse, each hidden at its end of the row
+  const reelWrap = reel.parentElement;
+  const ends = () => {
+    reelWrap.classList.toggle('at-start', reel.scrollLeft < 8);
+    reelWrap.classList.toggle('at-end', reel.scrollLeft + reel.clientWidth > reel.scrollWidth - 8);
+  };
+  reel.addEventListener('scroll', ends, { passive: true }); addEventListener('resize', ends); ends();
+  document.querySelectorAll('.reel-nav button, .reel-edge').forEach(b => b.addEventListener('click', () => {
     const card = reel.querySelector('figure');
     const gap = parseFloat(getComputedStyle(reel).columnGap) || 0;
     reel.scrollBy({ left: (+b.dataset.dir) * (card.getBoundingClientRect().width + gap), behavior: 'smooth' });

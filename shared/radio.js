@@ -203,6 +203,40 @@
       a.addEventListener('error', () => this.reconnectSoon());
       this.health = setInterval(() => this.checkHealth(), 20000);
       this.initMediaSession();
+      this.watchInterruptions();
+    }
+
+    // A phone call (or another app taking the sound) pauses the stream without the listener asking. Pick it up
+    // again once the interruption is over: Safari's Audio Session API says when, and coming back to the page does
+    // anywhere. Headphones pulled out or Bluetooth gone count as a pause the listener wanted, never resumed loudly.
+    watchInterruptions() {
+      const a = this.audio;
+      this.interrupted = false; this.deviceChanged = 0;
+      if (navigator.mediaDevices && navigator.mediaDevices.addEventListener) navigator.mediaDevices.addEventListener('devicechange', () => { this.deviceChanged = Date.now(); });
+      a.addEventListener('pause', () => {
+        if (!this.wantPlay || this.detaching) return;
+        if (Date.now() - this.deviceChanged < 2500) { this.wantPlay = false; this.emit('state', this.state()); return; }
+        if (!this.interrupted) { this.interrupted = true; this.pausedAt = Date.now(); }
+      });
+      a.addEventListener('playing', () => { this.interrupted = false; });
+      const back = () => { if (this.interrupted && this.wantPlay && document.visibilityState === 'visible') this.resumeAfterInterruption(); };
+      document.addEventListener('visibilitychange', back);
+      addEventListener('focus', back);
+      addEventListener('pageshow', back);
+      const session = navigator.audioSession;
+      if (session) {
+        try { session.type = 'playback'; } catch (e) {}
+        session.addEventListener('statechange', () => {
+          if (session.state !== 'interrupted' && this.interrupted && this.wantPlay) this.resumeAfterInterruption();
+        });
+      }
+    }
+
+    resumeAfterInterruption() {
+      this.interrupted = false;
+      // After more than a moment away, start again at the live edge (and, on Peace Radio, at this hour's raga)
+      if (Date.now() - this.pausedAt > 20000) this.detach();
+      this.play();
     }
 
     probeVolume() {
@@ -398,6 +432,9 @@
     }
 
     detach() {
+      // our own pause, not an interruption (the pause event arrives a moment later)
+      this.detaching = true; clearTimeout(this.detachDone);
+      this.detachDone = setTimeout(() => { this.detaching = false; }, 300);
       if (this.hls) { this.hls.destroy(); this.hls = null; }
       this.audio.pause();
       this.audio.removeAttribute('src');

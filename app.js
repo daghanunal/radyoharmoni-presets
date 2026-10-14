@@ -21,16 +21,17 @@
   // ── Rain Radio's sky: chosen in "Sky and timer" ───────────────
   const SKIES = [
     ['day', 'Day', 'linear-gradient(180deg,#bcd6ea,#6e9a6a)', '#3f5c55'],
-    ['clouds', 'Clouds', 'linear-gradient(180deg,#eef1f4,#9aa7b3)', '#56616b'],
-    ['rain', 'Rain', 'linear-gradient(180deg,#9aa7b5,#4d5d70)', '#37455a'],
+    ['sun', 'Sun', 'radial-gradient(circle at 68% 32%,#fffbe8 0 13%,#ffe7a6 22%,rgba(255,231,166,0) 44%),radial-gradient(ellipse at 28% 78%,#fff 0 22%,rgba(255,255,255,0) 46%),linear-gradient(180deg,#8fc1ea,#d6e8f5)', '#3f6787'],
+    ['rain', 'Rain', 'linear-gradient(180deg,#eef1f4,#9aa7b3)', '#56616b'],
     ['rainbow', 'Rainbow', 'conic-gradient(#f2a0a0,#f6d28a,#a8d8a0,#8fb9e8,#c3a2e8,#f2a0a0)', '#574f78'],
     ['night', 'Night', 'linear-gradient(180deg,#141c6e,#0b135b)', '#0b135b']
   ];
   let sky = 'day';
   try { sky = localStorage.getItem('rh-sky') || 'day'; } catch (e) {}
   if (qs.get('sky')) sky = qs.get('sky');
+  if (sky === 'clouds') sky = 'sun';   // the sky that was called Clouds
   if (!SKIES.some(s => s[0] === sky)) sky = 'day';
-  const fx = { clouds: 0, rain: 0, bow: 0, sun: 0 };
+  const fx = { clouds: 0, rain: 0, bow: 0, sun: 0, sunC: 0 };
 
   // The light to show: the hour's light on the sea; the chosen sky over Monte Verde.
   const currentTarget = () => radio.station === 'rain'
@@ -55,7 +56,6 @@
   // ── WebGL ───────────────────────────────────────────────────
   const cv = $('#gl');
   const gl = cv.getContext('webgl', { premultipliedAlpha: false, powerPreference: 'low-power' });
-  const life = new R.Life($('#life'));
   let U = {}, useGL = true, lastChrome = '', vidReady = false, photoReady = false, stillReady = false;
   if (!gl) fallback();
   else {
@@ -74,7 +74,7 @@
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
     const loc = gl.getAttribLocation(prog, 'a'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
     ['tex', 'tex2', 'res', 'vres', 'vres2', 'mpos', 't', 'amt', 'expo', 'sat', 'lift', 'grain', 'hz', 'drift', 'dv', 'cz',
-      'calm', 'moonK', 'ph', 'mr', 'hzS', 'clouds', 'rainK', 'bow', 'sunny', 'top', 'mid', 'bot'].forEach(n => U[n] = gl.getUniformLocation(prog, n));
+      'calm', 'moonK', 'ph', 'mr', 'hzS', 'clouds', 'rainK', 'bow', 'sunny', 'sunC', 'top', 'mid', 'bot'].forEach(n => U[n] = gl.getUniformLocation(prog, n));
     const texs = [0, 1].map(i => {
       gl.activeTexture(gl.TEXTURE0 + i);
       const tx = gl.createTexture();
@@ -106,7 +106,8 @@
       const stillAll = scene.classList.contains('still-2');
       calm += ((stillAll && !rain ? 1 : 0) - calm) * Math.min(1, dt * .6);
       moonK += ((grade.dark > .5 ? 1 : 0) - moonK) * Math.min(1, dt * .8);
-      fx.clouds += ((rain && sky === 'clouds' ? 1 : 0) - fx.clouds) * Math.min(1, dt * .7);
+      fx.clouds += ((rain && sky === 'rain' ? .7 : 0) - fx.clouds) * Math.min(1, dt * .7);   // rain comes with a grey sky
+      fx.sunC += ((rain && sky === 'sun' ? 1 : 0) - fx.sunC) * Math.min(1, dt * .5);
       fx.rain += ((rain && sky === 'rain' ? 1 : 0) - fx.rain) * Math.min(1, dt * .9);
       fx.bow += ((rain && sky === 'rainbow' ? 1 : 0) - fx.bow) * Math.min(1, dt * .5);
       fx.sun += ((rain && sky === 'day' ? 1 : 0) - fx.sun) * Math.min(1, dt * .6);
@@ -130,12 +131,9 @@
         gl.uniform1f(U.moonK, moonK); gl.uniform1f(U.ph, qs.get('moon') === 'full' ? .5 : moonNow.phase);
         gl.uniform2f(U.mpos, .8, portrait ? .86 : .87); gl.uniform1f(U.mr, portrait ? .024 : .033);
         gl.uniform1f(U.hzS, horizonUv(hzNow, drift * (1 - dv)));
-        gl.uniform1f(U.clouds, fx.clouds); gl.uniform1f(U.rainK, fx.rain); gl.uniform1f(U.bow, fx.bow); gl.uniform1f(U.sunny, fx.sun);
+        gl.uniform1f(U.clouds, fx.clouds); gl.uniform1f(U.rainK, fx.rain); gl.uniform1f(U.bow, fx.bow); gl.uniform1f(U.sunny, fx.sun); gl.uniform1f(U.sunC, fx.sunC);
         gl.drawArrays(gl.TRIANGLES, 0, 3);
       }
-      // At night, once every word has faded, a small boat with a lit lantern drifts across the bay.
-      const horizonPx = (1 - horizonUv(.34, 0)) * innerHeight;
-      life.draw(now, { show: scene.classList.contains('alive') && !rain && !reduce && grade.dark > .5, horizon: horizonPx });
       paintChrome();
       requestAnimationFrame(loop);
     }
@@ -172,7 +170,7 @@
     root.setProperty('--mgv', rain ? '#fffdf8' : grade.mgv);
     root.setProperty('--mgv-shadow', rain ? '0 1px 16px rgba(30,45,60,.45)' : 'none');
     // White words on a pale sky (golden, rose, day) get a soft shadow behind them so they stay readable.
-    const pale = rain ? (sky === 'day' || sky === 'rainbow') : (grade.top[0] * .299 + grade.top[1] * .587 + grade.top[2] * .114) > .62;
+    const pale = rain ? (sky === 'day' || sky === 'sun' || sky === 'rainbow') : (grade.top[0] * .299 + grade.top[1] * .587 + grade.top[2] * .114) > .62;
     root.setProperty('--title-shadow', pale ? '0 1px 2px rgba(70,50,40,.16),0 2px 26px rgba(70,45,35,.34)' : '0 2px 40px rgba(0,0,0,.12)');
     root.setProperty('--st-shadow', pale ? '0 1px 2px rgba(70,50,40,.25),0 1px 14px rgba(70,45,35,.4)' : '0 1px 18px rgba(50,40,60,.28)');
     root.setProperty('--mood-a', L.css(grade.top));
@@ -274,7 +272,7 @@
   document.addEventListener('click', e => { if (!panel.hidden && !e.target.closest('.more')) { panel.hidden = true; moreBtn.setAttribute('aria-expanded', false); } });
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && !panel.hidden) { panel.hidden = true; moreBtn.setAttribute('aria-expanded', false); moreBtn.focus(); } });
 
-  // ── A soft rain, made in the browser: filtered noise under the music ──
+  // ── Rain under the music: a recording of light rain on a window pane (CC0, see media/rain/SOURCE.txt), looped ──
   const rainSound = {
     ctx: null, gain: null,
     wanted() { return radio.station === 'rain' && sky === 'rain' && radio.wantPlay && !radio.audio.muted; },
@@ -282,22 +280,16 @@
       const AC = window.AudioContext || window.webkitAudioContext;
       if (!AC) return false;
       const ctx = this.ctx = new AC();
-      const len = ctx.sampleRate * 4, buf = ctx.createBuffer(2, len, ctx.sampleRate);
-      for (let ch = 0; ch < 2; ch++) {
-        const d = buf.getChannelData(ch); let last = 0;
-        for (let i = 0; i < len; i++) {
-          const w = Math.random() * 2 - 1;
-          last = (last + .045 * w) / 1.045;                       // brown noise for the body of the rain
-          d[i] = last * 2.8 + w * .1 * (Math.random() < .002 ? 6 : 1); // and the odd nearer drop
-        }
-      }
-      const src = ctx.createBufferSource(); src.buffer = buf; src.loop = true;
-      const hp = ctx.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 380;
-      const lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 2400;
-      const lfo = ctx.createOscillator(), lfoGain = ctx.createGain();
-      lfo.frequency.value = .07; lfoGain.gain.value = 500; lfo.connect(lfoGain); lfoGain.connect(lp.frequency); lfo.start();
-      this.gain = ctx.createGain(); this.gain.gain.value = 0;
-      src.connect(hp); hp.connect(lp); lp.connect(this.gain); this.gain.connect(ctx.destination); src.start();
+      this.gain = ctx.createGain(); this.gain.gain.value = 0; this.gain.connect(ctx.destination);
+      const LOOP = 2875392 / 44100;   // the loop's exact length; some decoders keep the MP3's lead-in silence
+      const load = url => fetch(url).then(r => { if (!r.ok) throw new Error(r.status); return r.arrayBuffer(); })
+        .then(data => new Promise((ok, no) => ctx.decodeAudioData(data, ok, no)));
+      load('media/rain/rain-loop.mp3').catch(() => load('media/rain/rain-loop.m4a')).then(buf => {
+        const src = ctx.createBufferSource(); src.buffer = buf; src.loop = true;
+        const extra = buf.duration - LOOP;
+        if (extra > .002) { src.loopStart = Math.min(extra, 1105 / 44100); src.loopEnd = src.loopStart + LOOP; }
+        src.connect(this.gain); src.start(0, src.loopStart);
+      }).catch(() => {});
       return true;
     },
     update() {
@@ -305,7 +297,8 @@
       if (on && !this.ctx && !this.build()) return;
       if (!this.ctx) return;
       if (on && this.ctx.state === 'suspended') this.ctx.resume();
-      const level = on ? .07 * (radio.canSetVolume ? radio.volume : 1) : 0;
+      // About 16 dB under the music (the stream runs near -18 LUFS, the loop at -26)
+      const level = on ? .4 * (radio.canSetVolume ? radio.volume : 1) : 0;
       this.gain.gain.cancelScheduledValues(this.ctx.currentTime);
       this.gain.gain.setTargetAtTime(level, this.ctx.currentTime, on ? 1.2 : .5);
     }
@@ -348,11 +341,11 @@
   vol.addEventListener('input', () => { radio.setVolume(+vol.value); fill(); if (radio.audio.muted && +vol.value > 0) radio.setMuted(false); rainSound.update(); });
   $('#mute').addEventListener('click', () => radio.setMuted(!radio.audio.muted));
 
-  // ── Stillness: while music plays, the player and controls fade, then every word, then the bay comes alive ──
+  // ── Stillness: while music plays, the player and controls fade, then every word ──
   let idle = [];
   function wake() {
     idle.forEach(clearTimeout); idle = [];
-    scene.classList.remove('still-1', 'still-2', 'still', 'alive');
+    scene.classList.remove('still-1', 'still-2', 'still');
     if (!introDone || !radio.wantPlay || scrollY > innerHeight * .5 || !panel.hidden) return;
     const fast = qs.has('fast') ? .25 : 1;
     idle.push(setTimeout(() => scene.classList.add('still-1'), 9000 * fast));
@@ -362,7 +355,6 @@
       try { seen = !!localStorage.getItem('rh-still-hint'); localStorage.setItem('rh-still-hint', '1'); } catch (e) {}
       if (!seen) { $('#hint').classList.add('show'); setTimeout(() => $('#hint').classList.remove('show'), 6000); }
     }, 15000 * fast));
-    idle.push(setTimeout(() => scene.classList.add('alive'), 19000 * fast));
   }
   ['pointermove', 'pointerdown', 'keydown', 'scroll', 'touchstart'].forEach(ev => addEventListener(ev, () => { if (introDone) wake(); }, { passive: true }));
   radio.on('state', () => { if (introDone) wake(); });

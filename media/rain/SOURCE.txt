@@ -1,0 +1,38 @@
+rain-loop.mp3 / rain-loop.m4a - source and processing
+Date: 2026-10-14
+
+SOURCE
+  Title:    RAIN on glass window.wav
+  Author:   nicoproson (Freesound user)
+  Page:     https://freesound.org/people/nicoproson/sounds/648529/
+            (short link: https://freesound.org/s/648529/)
+  License:  Creative Commons 0 (CC0 1.0 Universal, public domain dedication),
+            as shown on the sound page, linking to
+            http://creativecommons.org/publicdomain/zero/1.0/
+            No attribution required; credit given here as a courtesy.
+  Page description: "Light rain on a glass window indoor"
+  Original: WAV, 2:53.931, 96 kHz, 32 bit, stereo
+  File used: Freesound HQ preview MP3 (48 kHz stereo)
+            https://cdn.freesound.org/previews/648/648529_457982-hq.mp3
+
+WHAT WAS DONE
+  1. Decoded and resampled to 44.1 kHz stereo.
+  2. Trim: source 58.50 s to 126.70 s (a calm stretch: no single loud event,
+     loudest 400 ms only ~4.4 dB above the median level).
+  3. Seamless loop: loop length 65.202 s (2,875,392 samples). The last 3 s of
+     the trimmed segment (source 123.70-126.70 s) are crossfaded, equal-power
+     (sin/cos), into the first 3 s, so the end runs straight into the start.
+  4. EQ: high-pass 60 Hz (12 dB/oct) to drop sub rumble; -3 dB peaking cuts at
+     280 Hz and 363 Hz (Q 8) to soften two glass-pane resonances so they don't
+     colour the music's pitch. No high-shelf cut was needed: the recording has
+     very little energy above 8 kHz (~0.3%), so it is not hissy.
+     Filters were run on the loop tiled three times and the middle copy kept,
+     so the wrap stays seamless.
+  5. Loudness: one fixed gain (+11.7 dB) to -26 LUFS integrated (EBU R128).
+     No compression or limiting. True peak about -9.9 dBTP (mp3) / -9.2 dBTP (m4a).
+  6. Encoding: rain-loop.mp3 = MP3 112 kbps CBR (LAME), 44.1 kHz stereo, with a
+     gapless (LAME/Xing) header; rain-loop.m4a = AAC-LC ~96 kbps (Apple
+     AudioToolbox), 44.1 kHz stereo, for Safari.
+  Checked after encoding: both files decode to exactly 2,875,392 samples. There is no
+  jump in sample values, RMS level or spectrum at the point where the loop
+  wraps back to the start.

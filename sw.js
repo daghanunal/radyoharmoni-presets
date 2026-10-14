@@ -1,8 +1,8 @@
 /* Radyo Harmoni service worker: makes the page installable and readable offline.
    Network first, so a new revision always shows; the cache is only the fallback.
    Streams, videos and range requests are never touched. */
-const CACHE = 'rh-ayvalik-v3';
-const SHELL = ['./', './app.js', './info.js', './life.js', 'shared/radio.js', 'shared/light.js', 'shared/vendor/hls.min.js',
+const CACHE = 'rh-ayvalik-v4';
+const SHELL = ['./', './app.js', './info.js', 'shared/radio.js', 'shared/light.js', 'shared/vendor/hls.min.js',
   'shared/fonts/fonts.css', 'media/ayvalik.jpg', 'media/monteverde-photo.jpg', 'media/yumurta.jpg', './icons/icon-192.png'];
 
 self.addEventListener('install', e => {
