@@ -272,7 +272,10 @@ h3{font:500 16px/1.3 var(--sans);letter-spacing:.03em;color:var(--ink);margin-bo
 .porthole{position:relative;aspect-ratio:1;border-radius:50%;overflow:hidden;background:var(--night);box-shadow:0 26px 70px rgba(11,19,91,.22)}
 .porthole canvas{display:block;width:100%;height:100%}
 .porthole img.flat{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.42) saturate(.6) hue-rotate(10deg);display:none}
-.porthole.no-gl img.flat{display:block}
+.porthole.no-gl{background:#1f2d86}
+.porthole.no-gl img.flat{display:block;filter:brightness(.27) contrast(1.15);mix-blend-mode:luminosity}
+.porthole .flat-moon{position:absolute;inset:0;width:100%;height:100%;display:none}
+.porthole.no-gl .flat-moon{display:block}
 .date{font:italic 400 clamp(30px,3.3vw,42px)/1.2 var(--serif);margin-bottom:8px}
 .days{font:400 15.5px/1.55 var(--sans);color:#5f5646}
 .circle-row.wide{grid-template-columns:minmax(240px,380px) 1fr}
@@ -361,7 +364,8 @@ footer .wrap{display:grid;grid-template-columns:1fr;gap:36px}
   .title h1{font-size:clamp(46px,13vw,64px)}
   .word{font-size:26px}
   .always{font-size:52px}
-  .playrow{grid-template-columns:auto auto auto;justify-content:center;gap:12px 14px;margin-top:44px}
+  .playrow{grid-template-columns:1fr auto auto auto 1fr;gap:12px 14px;margin-top:44px}
+  .disc{grid-column:2}
   .cap{grid-column:1/-1;justify-self:center;text-align:center;margin:10px 0 0;font-size:14px;letter-spacing:.1em}
   .now{font-size:18px;text-align:center;margin-top:16px}
   .when{font-size:12px;margin-top:-4px}
@@ -381,7 +385,12 @@ footer .wrap{display:grid;grid-template-columns:1fr;gap:36px}
   .cells small{margin:0;font-size:11.5px}
   .circle-row,.circle-row.wide{grid-template-columns:1fr}
   .porthole{max-width:320px;width:100%}
-  .skies button{width:76px}
+  .skies{flex-wrap:nowrap;justify-content:space-between;gap:4px}
+  .skies button{width:auto;flex:1 1 0;min-width:0;gap:8px}
+  .skies i{width:50px;height:50px}
+  .skies b{font-size:17px}
+  .skies small{font-size:10px;letter-spacing:.02em}
+  .moonsel button{min-height:44px;padding:10px 18px}
   .form-two{grid-template-columns:1fr}
 }
 @media (prefers-reduced-motion:reduce){
@@ -517,6 +526,7 @@ footer .wrap{display:grid;grid-template-columns:1fr;gap:36px}
           <div class="porthole" data-w="moon">
             <canvas aria-hidden="true" width="290" height="290"></canvas>
             <img class="flat" src="media/yumurta.jpg" alt="">
+            <svg class="flat-moon" viewBox="0 0 100 100" aria-hidden="true"><circle class="mglow" cx="60" cy="25" r="16" fill="url(#mGlow)" style="opacity: 0.34;"></circle><circle cx="60" cy="25" r="7.5" fill="#33428a" fill-opacity=".55"></circle><path class="mlit" fill="#f4f1e6" d="M60,17.5 A7.5,7.5 0 0 1 60,32.5 A5.75,7.5 0 0 0 60,17.5Z"></path><defs><radialGradient id="mGlow"><stop offset="0" stop-color="#c8d2f2" stop-opacity=".5"></stop><stop offset="1" stop-color="#c8d2f2" stop-opacity="0"></stop></radialGradient></defs></svg>
           </div>
           <div>
             <p class="date" data-w="nextfull"></p>
@@ -840,8 +850,8 @@ void main() {
 <script src="shared/radio.js?v=c971138a"></script>
 <script src="shared/light.js?v=1f3ee056"></script>
 <script src="life.js?v=1d606fdf"></script>
-<script src="app.js?v=570f6f17"></script>
-<script src="info.js?v=510b2acd"></script>
+<script src="app.js?v=d0c3b271"></script>
+<script src="info.js?v=9216c87a"></script>
 <script src="analytics.js?v=a7dd31a4"></script>
 </body>
 </html>

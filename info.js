@@ -69,6 +69,7 @@
           <div class="porthole" data-w="moon">
             <canvas aria-hidden="true"></canvas>
             <img class="flat" src="media/yumurta.jpg" alt="">
+            <svg class="flat-moon" viewBox="0 0 100 100" aria-hidden="true"><circle class="mglow" cx="60" cy="25" r="16" fill="url(#mGlow)"/><circle cx="60" cy="25" r="7.5" fill="#33428a" fill-opacity=".55"/><path class="mlit" fill="#f4f1e6"/><defs><radialGradient id="mGlow"><stop offset="0" stop-color="#c8d2f2" stop-opacity=".5"/><stop offset="1" stop-color="#c8d2f2" stop-opacity="0"/></radialGradient></defs></svg>
           </div>
           <div>
             <p class="date" data-w="nextfull"></p>
@@ -348,18 +349,46 @@
     const d = Math.max(0, Math.round(moonNow.daysToFull));
     return d === 0 ? 'The full moon is tonight.' : `The next full moon is ${d} day${d > 1 ? 's' : ''} away. Tonight the moon is ${Math.round(moonNow.illumination * 100)}% lit.`;
   })();
+  // The moon is painted by WebGL; a drawn moon over the photo stands in where WebGL is missing or lost, so the
+  // buttons always change something.
+  const flat = flatMoon(moonBox);
   const yumurta = islandMoon(moonBox);
+  const moonTo = p => { flat.to(p); if (yumurta) yumurta.to(p); };
+  // Seen for the first time, tonight's moon grows to the concert's full moon.
+  new IntersectionObserver((e, ob) => { if (e[0].isIntersecting) { ob.disconnect(); if (document.querySelector('.moonsel [data-m="full"]').getAttribute('aria-pressed') === 'true') moonTo(.5); } }).observe(moonBox);
   document.querySelectorAll('.moonsel button').forEach(b => b.addEventListener('click', () => {
     document.querySelectorAll('.moonsel button').forEach(x => x.setAttribute('aria-pressed', x === b));
-    if (yumurta) yumurta.to(b.dataset.m === 'full' ? .5 : moonNow.phase);
+    moonTo(b.dataset.m === 'full' ? .5 : moonNow.phase);
   }));
+
+  function flatMoon(box) {
+    const lit = box.querySelector('.mlit'), glow = box.querySelector('.mglow'), R = 7.5;
+    let phase = moonNow.phase, from = phase, target = phase, t0 = 0;
+    // The lit part: the limb on the sunward side, closed by the terminator, an ellipse as wide as |cos| of the phase
+    const draw = () => {
+      const c = Math.cos(phase * 2 * Math.PI), waxing = phase % 1 < .5, rx = Math.abs(c) * R;
+      lit.setAttribute('d', `M60,${25 - R} A${R},${R} 0 0 ${waxing ? 1 : 0} 60,${25 + R} A${rx.toFixed(2)},${R} 0 0 ${waxing === c > 0 ? 0 : 1} 60,${25 - R}Z`);
+      glow.style.opacity = (.25 + .75 * (1 - c) / 2).toFixed(2);
+    };
+    const step = now => {
+      const k = Math.min(1, (now - t0) / 2600);
+      phase = from + (target - from) * (k * k * (3 - 2 * k)); draw();
+      if (k < 1) requestAnimationFrame(step);
+    };
+    draw();
+    return { to(p) { from = phase; target = p; t0 = performance.now(); requestAnimationFrame(step); } };
+  }
 
   function islandMoon(box) {
     const cv = box.querySelector('canvas');
     const gl = cv.getContext('webgl', { powerPreference: 'low-power' });
     if (!gl) { box.classList.add('no-gl'); return null; }
     const FS = `
+      #ifdef GL_FRAGMENT_PRECISION_HIGH
+      precision highp float;
+      #else
       precision mediump float;
+      #endif
       uniform sampler2D img; uniform float t, ph;
       varying vec2 uv;
       float hash(vec2 p){ p = fract(p * vec2(123.34, 456.21)); p += dot(p, p + 45.32); return fract(p.x * p.y); }
@@ -416,11 +445,10 @@
     img.src = 'media/yumurta.jpg';
     const size = () => { const s = Math.min(2, devicePixelRatio || 1); cv.width = cv.clientWidth * s; cv.height = cv.clientHeight * s; gl.viewport(0, 0, cv.width, cv.height); };
     addEventListener('resize', size); size();
-    // Seen for the first time, tonight's moon grows to the concert's full moon.
-    let shown = false;
+    // Phones drop WebGL contexts under memory pressure: then the drawn moon takes over
+    cv.addEventListener('webglcontextlost', e => { e.preventDefault(); ready = false; box.classList.add('no-gl'); });
     new IntersectionObserver(e => {
       visible = e[0].isIntersecting;
-      if (visible && !shown) { shown = true; api.to(.5); }
       if (visible) { size(); requestAnimationFrame(loop); }
     }).observe(box);
     function loop(now) {

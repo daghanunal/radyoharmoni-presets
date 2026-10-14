@@ -128,7 +128,7 @@
         gl.uniform3fv(U.top, grade.top); gl.uniform3fv(U.mid, grade.mid); gl.uniform3fv(U.bot, grade.bot);
         gl.uniform1f(U.calm, reduce ? 0 : calm);
         gl.uniform1f(U.moonK, moonK); gl.uniform1f(U.ph, qs.get('moon') === 'full' ? .5 : moonNow.phase);
-        gl.uniform2f(U.mpos, .8, portrait ? .77 : .8); gl.uniform1f(U.mr, portrait ? .024 : .033);
+        gl.uniform2f(U.mpos, .8, portrait ? .86 : .87); gl.uniform1f(U.mr, portrait ? .024 : .033);
         gl.uniform1f(U.hzS, horizonUv(hzNow, drift * (1 - dv)));
         gl.uniform1f(U.clouds, fx.clouds); gl.uniform1f(U.rainK, fx.rain); gl.uniform1f(U.bow, fx.bow); gl.uniform1f(U.sunny, fx.sun);
         gl.drawArrays(gl.TRIANGLES, 0, 3);
@@ -305,7 +305,7 @@
       if (on && !this.ctx && !this.build()) return;
       if (!this.ctx) return;
       if (on && this.ctx.state === 'suspended') this.ctx.resume();
-      const level = on ? .16 * (radio.canSetVolume ? radio.volume : 1) : 0;
+      const level = on ? .07 * (radio.canSetVolume ? radio.volume : 1) : 0;
       this.gain.gain.cancelScheduledValues(this.ctx.currentTime);
       this.gain.gain.setTargetAtTime(level, this.ctx.currentTime, on ? 1.2 : .5);
     }
