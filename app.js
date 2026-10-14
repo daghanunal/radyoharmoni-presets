@@ -341,6 +341,11 @@
   vol.addEventListener('input', () => { radio.setVolume(+vol.value); fill(); if (radio.audio.muted && +vol.value > 0) radio.setMuted(false); rainSound.update(); });
   $('#mute').addEventListener('click', () => radio.setMuted(!radio.audio.muted));
 
+  // ── The arrow at the foot of the picture leads to the sections below ──
+  $('#down').addEventListener('click', () => $('#info').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' }));
+  const scrolled = () => document.body.classList.toggle('scrolled', scrollY > 40);
+  addEventListener('scroll', scrolled, { passive: true }); scrolled();
+
   // ── Stillness: while music plays, the player and controls fade, then every word ──
   let idle = [];
   function wake() {
