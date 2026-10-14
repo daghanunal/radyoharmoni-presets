@@ -69,7 +69,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .mgv,.title,.st,.playrow,.bar{transition:opacity 1.6s ease}
 .still{cursor:none}
 
-.mgv{text-shadow:var(--mgv-shadow,none);text-align:center;font:400 clamp(16px,2vw,30px)/1.28 var(--play);letter-spacing:.34em;text-transform:uppercase;color:var(--mgv,var(--taupe));padding-left:.34em;transition:color 4s,opacity 1.6s ease}
+/* As on Harmoni: one line of spaced capitals in Cormorant, a touch smaller. The colour follows the light:
+   Canva's taupe on pale skies, cream at night and over Monte Verde. */
+.mgv{text-align:center;font:600 clamp(14px,1.45vw,18px)/1.3 var(--serif);letter-spacing:.32em;text-transform:uppercase;color:var(--mgv,var(--taupe));text-shadow:var(--mgv-shadow,none);padding-left:.32em;transition:color 4s,opacity 1.6s ease}
 
 .center{align-self:center;justify-self:center;display:grid;justify-items:center;margin-top:8vh}
 .title{display:inline-grid;justify-items:end}
@@ -331,7 +333,7 @@ footer .wrap{display:grid;grid-template-columns:1fr;gap:36px}
 }
 @media (max-width:700px){
   .ui{padding-top:54px;padding-bottom:84px}
-  .mgv{letter-spacing:.26em;padding-left:.26em}
+  .mgv{letter-spacing:.26em;padding-left:.26em;font-size:13px}
   .title h1{font-size:clamp(46px,13vw,64px)}
   .word{font-size:26px}
   .always{font-size:52px}
@@ -373,7 +375,7 @@ footer .wrap{display:grid;grid-template-columns:1fr;gap:36px}
   <div class="fallback-tint" id="tint"></div>
 
   <div class="ui" id="ui">
-    <p class="mgv" id="mgv">Maharishi<br>Gandharva Veda</p>
+    <p class="mgv" id="mgv">Maharishi Gandharva Veda</p>
 
     <div class="center">
       <div class="title" id="titleBox">
