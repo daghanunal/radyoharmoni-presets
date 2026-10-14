@@ -152,8 +152,8 @@
       <h2>Blooming gardens</h2>
       <div class="body">
         <p>In a study of thirty rose plants, the roses that heard Indian classical music grew the longest stems between their leaves, longer than roses in silence or with rock and pop. Play Rain Radio and the rose here opens with the music.</p>
-        <div class="circle-row">
-          <div class="porthole rose" data-w="rose"><svg viewBox="-120 -120 240 240" aria-hidden="true"></svg></div>
+        <div class="circle-row wide">
+          <div class="porthole rose" data-w="rose"><svg viewBox="-150 -150 300 300" aria-hidden="true"></svg></div>
           <p class="ref" style="margin:0">Chivukula &amp; Ramaswamy (2014), Effect of Different Types of Music on Rosa Chinensis Plants. <i>International Journal of Environmental Science and Development</i> 5(5), 431–434. <a href="https://doi.org/10.7763/IJESD.2014.V5.522">Read the paper</a></p>
         </div>
       </div>
@@ -434,46 +434,133 @@
     return api;
   }
 
-  // ── The rose that opens with Rain Radio's music ──
-  (function rose() {
-    const svg = w('rose').querySelector('svg');
-    const RINGS = [{ n: 8, r: 92, wd: 34 }, { n: 7, r: 74, wd: 30 }, { n: 6, r: 56, wd: 26 }, { n: 5, r: 40, wd: 21 }, { n: 4, r: 26, wd: 16 }];
-    const petal = (l, wd) => `M0,0 C${-wd},${-l * .28} ${-wd * .92},${-l * .96} 0,${-l} C${wd * .92},${-l * .96} ${wd},${-l * .28} 0,0Z`;
-    let s = `<defs>
-      <radialGradient id="rp" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="scale(100)"><stop offset="0" stop-color="#d9708c"/><stop offset=".45" stop-color="#eaa2b4"/><stop offset="1" stop-color="#fbe4ea"/></radialGradient>
-      <linearGradient id="rl" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#7f9b78"/><stop offset="1" stop-color="#b2c7a6"/></linearGradient></defs>`;
-    // five pointed leaves tucked behind the flower, each with a midrib
-    for (let i = 0; i < 5; i++) {
-      const a = i * 72 + 36;
-      s += `<g transform="rotate(${a})" opacity=".85"><path d="M0,-30 C20,-50 22,-88 0,-112 C-22,-88 -20,-50 0,-30Z" fill="url(#rl)"/><path d="M0,-34 L0,-104" stroke="#5e7a59" stroke-width=".8" opacity=".6"/></g>`;
+  // ── Blooming gardens: a rose branch drawn like an old botanical plate. The branch draws itself in when first seen,
+  //    the rose opens while Rain Radio plays, and a hummingbird comes to it once it is open. ──
+  (function garden() {
+    const box = w('rose'), svg = box.querySelector('svg');
+    const R = (seed => () => (seed = (seed * 16807) % 2147483647) / 2147483647)(11);
+    const f = n => n.toFixed(1);
+    const INK = 'stroke="#3b2f22" stroke-opacity=".5" stroke-width=".6" stroke-linejoin="round"';
+
+    // A serrated, pointed leaflet with its midrib and veins, base at (0,0), pointing up.
+    function leaflet(len, wid) {
+      const pts = [], teeth = 9;
+      for (const side of [1, -1]) {
+        const row = [];
+        for (let i = 0; i <= 36; i++) {
+          const t = i / 36, fr = (t * teeth) % 1;
+          const saw = (fr < .7 ? fr / .7 : (1 - fr) / .3) * .09 * Math.sin(Math.PI * t);
+          const half = wid * Math.pow(Math.sin(Math.PI * Math.min(1, t * 1.02)), .75) * (1 - .18 * t);
+          row.push([side * half * (1 + saw), -len * t]);
+        }
+        pts.push(side > 0 ? row : row.reverse());
+      }
+      const all = pts[0].concat(pts[1]);
+      let d = 'M0,0 ' + all.map(p => 'L' + f(p[0]) + ',' + f(p[1])).join(' ') + 'Z';
+      let veins = `M0,0 L0,${f(-len * .97)}`;
+      for (let i = 1; i <= 5; i++) {
+        const y = -len * i / 6.5, x = wid * .78 * Math.sin(Math.PI * i / 6.5);
+        veins += ` M0,${f(y)} Q${f(x * .5)},${f(y - len * .03)} ${f(x)},${f(y - len * .1)} M0,${f(y)} Q${f(-x * .5)},${f(y - len * .03)} ${f(-x)},${f(y - len * .1)}`;
+      }
+      return `<path d="${d}" fill="url(#gLeaf)" ${INK}/><path d="${veins}" fill="none" stroke="#2f4a2a" stroke-opacity=".35" stroke-width=".5"/>`
+        + `<path d="M0,0 ${all.slice(0, 18).map(p => 'L' + f(p[0] * .55) + ',' + f(p[1])).join(' ')}" fill="none" stroke="#e7f0c8" stroke-opacity=".35" stroke-width=".6"/>`;
     }
-    RINGS.forEach((g, i) => {
-      for (let j = 0; j < g.n; j++) s += `<path class="petal" data-ring="${i}" data-j="${j}" d="${petal(g.r, g.wd)}" fill="url(#rp)" stroke="#c79f63" stroke-width=".7" stroke-opacity=".8"/>`;
+    // A rose leaf: a stalk with a terminal leaflet and two pairs.
+    function leaf(x, y, ang, size, i) {
+      const L = 46 * size;
+      let g = `<g class="leaf" style="--d:${(.9 + i * .18).toFixed(2)}s" transform="translate(${f(x)},${f(y)}) rotate(${f(ang)})">`;
+      g += `<path d="M0,0 L0,${f(-L)}" stroke="#5b6b2e" stroke-width="1.1" ${'stroke-linecap="round"'}/>`;
+      g += `<g transform="translate(0,${f(-L)})">${leaflet(24 * size, 10 * size)}</g>`;
+      for (const [t, s] of [[.38, .82], [.72, .92]]) for (const side of [-1, 1])
+        g += `<g transform="translate(0,${f(-L * t)}) rotate(${side * 58})">${leaflet(20 * size * s, 8.5 * size * s)}</g>`;
+      return g + '</g>';
+    }
+    // A petal, broad with a soft notch at the rim, base at (0,0).
+    const petal = (l, wd) => `M0,0 C${f(wd * .95)},${f(-l * .12)} ${f(wd * 1.12)},${f(-l * .74)} ${f(wd * .42)},${f(-l * .97)} Q${f(wd * .16)},${f(-l * 1.04)} 0,${f(-l * .95)} Q${f(-wd * .16)},${f(-l * 1.04)} ${f(-wd * .42)},${f(-l * .97)} C${f(-wd * 1.12)},${f(-l * .74)} ${f(-wd * .95)},${f(-l * .12)} 0,0Z`;
+    const RINGS = [{ n: 6, l: 46, w: 30, a: 0 }, { n: 6, l: 39, w: 26, a: 30 }, { n: 5, l: 31, w: 21, a: 12 }, { n: 5, l: 23, w: 16, a: 48 }, { n: 4, l: 15, w: 11, a: 20 }];
+
+    let s = `<defs>
+      <radialGradient id="gPaper" cx=".5" cy=".42" r=".62"><stop offset="0" stop-color="#fbf6ea"/><stop offset=".75" stop-color="#f3ead8"/><stop offset="1" stop-color="#e9dcc3"/></radialGradient>
+      <linearGradient id="gLeaf" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#4f6f37"/><stop offset=".55" stop-color="#6f8f45"/><stop offset="1" stop-color="#9db265"/></linearGradient>
+      <linearGradient id="gStem" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5d4a2c"/><stop offset=".5" stop-color="#8a6c3e"/><stop offset="1" stop-color="#5d4a2c"/></linearGradient>
+      <radialGradient id="gPetal" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="scale(52)"><stop offset="0" stop-color="#9c3355"/><stop offset=".38" stop-color="#cf6487"/><stop offset=".8" stop-color="#eba9bd"/><stop offset="1" stop-color="#f8dbe3"/></radialGradient>
+      <radialGradient id="gBud" cx=".5" cy=".3" r=".7"><stop offset="0" stop-color="#e58aa6"/><stop offset="1" stop-color="#a83a5e"/></radialGradient>
+      <linearGradient id="gBird" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6e5aa8"/><stop offset=".45" stop-color="#3d7a62"/><stop offset="1" stop-color="#2c4a3c"/></linearGradient>
+      <filter id="fGrain"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="4"/><feColorMatrix values="0 0 0 0 .45  0 0 0 0 .38  0 0 0 0 .3  0 0 0 .07 0"/><feComposite in2="SourceGraphic" operator="in"/></filter>
+      <clipPath id="cRound"><circle r="150"/></clipPath>
+    </defs>
+    <g clip-path="url(#cRound)">
+    <circle r="150" fill="url(#gPaper)"/><circle r="150" fill="#000" filter="url(#fGrain)"/>
+    <g class="branch">`;
+    // Stem and side shoots, drawn in on first sight
+    const stem = 'M-118,138 C-92,92 -70,58 -46,30 C-22,2 -6,-14 14,-34 C26,-46 34,-56 40,-66';
+    const shoot1 = 'M-64,52 C-84,30 -98,8 -104,-22';
+    const shoot2 = 'M-14,-6 C10,-2 38,8 66,6';
+    s += [stem, shoot1, shoot2].map((d, i) => `<path class="stem" pathLength="1" d="${d}" fill="none" stroke="url(#gStem)" stroke-width="${[4.2, 2.6, 2.4][i]}" stroke-linecap="round" style="--d:${(i * .35).toFixed(2)}s"/>`).join('');
+    // Thorns along the stem
+    for (const [x, y, a] of [[-96, 98, -30], [-78, 70, 140], [-56, 42, -40], [-30, 14, 150], [-2, -20, -35], [24, -44, 150]])
+      s += `<path class="thorn" d="M0,0 L2.4,-1.4 L0,-6.5 L-2.4,-1.4Z" transform="translate(${x},${y}) rotate(${a})" fill="#7a4e30" ${INK}/>`;
+    // Leaves
+    [[-82, 80, -58, 1.05], [-58, 46, 62, .95], [-96, -6, -40, .8], [-30, 12, -64, .9], [8, -26, 70, .82], [44, 7, 98, .78]].forEach((l, i) => { s += leaf(l[0], l[1], l[2], l[3], i); });
+    // Two buds on the side shoots
+    const bud = (x, y, ang, sc, d) => `<g class="bud" style="--d:${d}s" transform="translate(${x},${y}) rotate(${ang}) scale(${sc})">
+        <path d="M0,0 C5,-4 7,-12 0,-22 C-7,-12 -5,-4 0,0Z" fill="url(#gBud)" ${INK}/>
+        <path d="M0,-1 C6,-6 9,-12 6,-19 M0,-1 C-6,-6 -9,-12 -6,-19 M0,-1 C3,-8 2,-14 0,-17" fill="none" stroke="#5c7a3a" stroke-width="1.4" stroke-linecap="round"/>
+        <path d="M0,0 C-3,3 -3,6 0,8 C3,6 3,3 0,0Z" fill="#6f8f45" ${INK}/></g>`;
+    s += bud(-104, -24, -12, 1.15, 2.4) + bud(66, 5, 78, 1.0, 2.7);
+    // The rose: sepals, then rings of petals from the outside in, then the tight heart
+    s += `<g class="rose-head" transform="translate(40,-68)"><g class="bloom">`;
+    for (let i = 0; i < 5; i++) s += `<path class="sepal" d="M0,0 C6,-8 6,-22 1,-31 C0,-33 -1,-33 -1,-31 C-6,-22 -6,-8 0,0Z" transform="rotate(${i * 72 + 18})" fill="#5f7d3b" ${INK}/>`;
+    RINGS.forEach((g, ri) => {
+      for (let j = 0; j < g.n; j++) {
+        s += `<path class="petal" data-r="${ri}" data-j="${j}" d="${petal(g.l, g.w)}" fill="url(#gPetal)" stroke="#8a2f4f" stroke-opacity=".45" stroke-width=".6"/>`;
+      }
     });
-    s += `<circle r="9" fill="#cf6683" stroke="#c79f63" stroke-width=".7"/><path d="M-5,0 A5,5 0 1 1 5,0 A3,3 0 1 1 -1,0" fill="none" stroke="#a84e68" stroke-width="1"/>`;
+    s += `<g class="heart"><path d="M-6,2 C-8,-6 -2,-11 4,-8 C9,-5 7,2 2,4 C-2,5 -4,1 -1,-2" fill="none" stroke="#7d2444" stroke-width="1.3" stroke-linecap="round"/><circle r="4.6" fill="#a43a5f" fill-opacity=".55"/></g>`;
+    s += `</g></g></g>`;
+    // A hummingbird, after the reel: iridescent green and violet, long bill, violet tail tips
+    s += `<g class="bird"><g class="bird-hover"><g transform="scale(-1 1) rotate(-16)">
+        <g class="wing w2"><path d="M8,-4 C4,-20 -6,-34 -20,-42 C-12,-28 -2,-14 4,-1Z" fill="#9aa7a0" fill-opacity=".55" ${INK}/></g>
+        <path d="M0,3 C-8,6 -15,11 -21,17 C-17,10 -10,4 -1,0Z" fill="#4c3f7a" ${INK}/>
+        <path d="M0,1 C-9,2 -17,4 -25,7 C-17,0 -9,-2 0,-1Z" fill="#6a52a8" ${INK}/>
+        <path d="M-2,0 C4,-8 16,-8 22,-2 C26,2 22,10 12,12 C4,13 -4,8 -2,0Z" fill="url(#gBird)" ${INK}/>
+        <path d="M18,-4 C22,-8 28,-7 29,-2 C29,2 25,4 21,3Z" fill="#3d7a62" ${INK}/>
+        <path d="M28,-3 L52,-6" stroke="#2a221a" stroke-width="1.3" stroke-linecap="round"/>
+        <circle cx="25" cy="-3" r=".9" fill="#1a1410"/>
+        <path d="M18,-1 C21,1 24,1 27,0" stroke="#d84a8a" stroke-width="1.6" fill="none"/>
+        <g class="wing w1"><path d="M10,-4 C8,-24 -2,-40 -16,-48 C-8,-32 2,-16 6,-1Z" fill="#c5d0c8" fill-opacity=".6" ${INK}/></g>
+      </g></g></g>`;
+    s += `</g>`;
+    svg.setAttribute('viewBox', '-150 -150 300 300');
     svg.innerHTML = s;
+
     const petals = [...svg.querySelectorAll('.petal')];
-    let open = .2;
+    let open = .18;
     const bloom = o => {
       open = o;
       petals.forEach(p => {
-        const i = +p.dataset.ring, j = +p.dataset.j, g = RINGS[i];
-        const twist = (1 - o) * (40 + i * 14);
-        const rot = j * 360 / g.n + i * 23 + twist;
-        const sc = (.45 + .55 * o) * (1 - i * .02 * (1 - o)) + (i === 4 ? .15 * (1 - o) : 0);
-        p.setAttribute('transform', `rotate(${rot.toFixed(1)}) scale(${sc.toFixed(3)})`);
+        const ri = +p.dataset.r, j = +p.dataset.j, g = RINGS[ri];
+        const twist = (1 - o) * (55 + ri * 18);
+        const rot = j * 360 / g.n + g.a + twist;
+        const sc = (.32 + .68 * o) * (1 - ri * .03 * (1 - o)) + (ri >= 3 ? .18 * (1 - o) : 0);
+        p.setAttribute('transform', `rotate(${rot.toFixed(1)}) scale(${sc.toFixed(3)} ${(sc * (.82 + .18 * o)).toFixed(3)})`);
       });
+      box.style.setProperty('--sepal', (1 - o * .7).toFixed(2));
+      box.classList.toggle('bird-on', o > .62);
     };
-    bloom(.2);
-    let seen = false, since = null;
-    new IntersectionObserver(e => { if (e[0].isIntersecting) seen = true; }).observe(w('rose'));
-    setInterval(() => {
+    bloom(.18);
+    // First sight: the branch draws itself in
+    new IntersectionObserver((e, ob) => { if (e[0].isIntersecting) { box.classList.add('grown'); ob.disconnect(); } }, { threshold: .35 }).observe(box);
+    let since = null;
+    const pinned = new URLSearchParams(location.search).get('bloom');   // ?bloom=1 holds it open, for review
+    if (pinned !== null) { box.classList.add('grown'); bloom(+pinned); }
+    if (pinned === null) setInterval(() => {
       const playing = RH.radio.wantPlay && RH.radio.station === 'rain';
       if (playing && !since) since = Date.now();
       if (!playing) since = null;
-      const target = playing ? Math.min(1, .45 + (Date.now() - since) / 60000 * .6) : (seen ? .42 : .25);
+      const target = playing ? Math.min(1, .5 + (Date.now() - since) / 60000 * .55) : (box.classList.contains('grown') ? .3 : .18);
       if (Math.abs(target - open) > .003) bloom(open + (target - open) * .3);
-    }, 1200);
+    }, 1000);
   })();
 
   // ── Today in Monte Verde, from Open-Meteo ──
