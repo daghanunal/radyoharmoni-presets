@@ -1,0 +1,26 @@
+{
+  "name": "Radyo Harmoni",
+  "short_name": "Radyo Harmoni",
+  "description": "Maharishi Gandharva Veda, 24/7: Radio Paz y Radio Lluvia.",
+  "start_url": "./",
+  "scope": "../",
+  "display": "standalone",
+  "background_color": "#0b135b",
+  "theme_color": "#5d86a8",
+  "icons": [
+    {
+      "src": "../icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "../icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "lang": "es",
+  "dir": "ltr"
+}

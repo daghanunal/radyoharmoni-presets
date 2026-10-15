@@ -5,13 +5,17 @@
  */
 (function () {
   'use strict';
-  const R = RadyoHarmoni, S = R.STATIONS, L = R.Light, $ = s => document.querySelector(s);
-  S.peace.name = 'Peace Radio';
+  const R = RadyoHarmoni, S = R.STATIONS, L = R.Light, T = window.RH_T, $ = s => document.querySelector(s);
+  // The words of the page in its language (the release pages arrive with them already in place)
+  T.apply();
+  if (T.same('brand.mgv')) $('#mgv').lang = 'en';
+  S.peace.name = T('station.peace');
+  S.rain.name = T('station.rain');
   const qs = new URLSearchParams(location.search);
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const radio = new R({
     fadeIn: 4500,
-    artwork: [192, 512].map(n => ({ src: new URL(`icons/icon-${n}.png`, location.href).href, sizes: `${n}x${n}`, type: 'image/png' }))
+    artwork: [192, 512].map(n => ({ src: new URL(`icons/icon-${n}.png`, document.baseURI).href, sizes: `${n}x${n}`, type: 'image/png' }))
   });
   const light = new L();
   const moonNow = R.moon();
@@ -20,11 +24,11 @@
 
   // ── Rain Radio's sky: chosen in "Sky and timer" ───────────────
   const SKIES = [
-    ['day', 'Day', 'linear-gradient(180deg,#bcd6ea,#6e9a6a)', '#3f5c55'],
-    ['sun', 'Sun', 'radial-gradient(circle at 68% 32%,#fffbe8 0 13%,#ffe7a6 22%,rgba(255,231,166,0) 44%),radial-gradient(ellipse at 28% 78%,#fff 0 22%,rgba(255,255,255,0) 46%),linear-gradient(180deg,#8fc1ea,#d6e8f5)', '#3f6787'],
-    ['rain', 'Rain', 'linear-gradient(180deg,#e8eef6,#8ba2bd)', '#4b6078'],
-    ['rainbow', 'Rainbow', 'conic-gradient(#f2a0a0,#f6d28a,#a8d8a0,#8fb9e8,#c3a2e8,#f2a0a0)', '#574f78'],
-    ['night', 'Night', 'linear-gradient(180deg,#141c6e,#0b135b)', '#0b135b']
+    ['day', T('sky.day'), 'linear-gradient(180deg,#bcd6ea,#6e9a6a)', '#3f5c55'],
+    ['sun', T('sky.sun'), 'radial-gradient(circle at 68% 32%,#fffbe8 0 13%,#ffe7a6 22%,rgba(255,231,166,0) 44%),radial-gradient(ellipse at 28% 78%,#fff 0 22%,rgba(255,255,255,0) 46%),linear-gradient(180deg,#8fc1ea,#d6e8f5)', '#3f6787'],
+    ['rain', T('sky.rain'), 'linear-gradient(180deg,#e8eef6,#8ba2bd)', '#4b6078'],
+    ['rainbow', T('sky.rainbow'), 'conic-gradient(#f2a0a0,#f6d28a,#a8d8a0,#8fb9e8,#c3a2e8,#f2a0a0)', '#574f78'],
+    ['night', T('sky.night'), 'linear-gradient(180deg,#141c6e,#0b135b)', '#0b135b']
   ];
   let sky = 'day';
   try { sky = localStorage.getItem('rh-sky') || 'day'; } catch (e) {}
@@ -201,18 +205,19 @@
   }
 
   // ── Words ───────────────────────────────────────────────────
+  // The title rises letter by letter, or word by word in scripts whose letters join (Arabic) or combine (Hindi)
   function letters(el, text, delay, step) {
-    el.innerHTML = [...text].map((ch, i) => ch === ' ' ? ' ' : `<span aria-hidden="true" style="animation-delay:${delay + i * step}ms">${ch}</span>`).join('');
+    el.innerHTML = T.pieces(text).map((ch, i) => /^\s+$/.test(ch) ? ch : `<span aria-hidden="true" style="animation-delay:${delay + i * step}ms">${ch}</span>`).join('');
     el.setAttribute('aria-label', text);
     el.classList.add('ready');
   }
   function setWords(id, delay = 250) {
     letters($('#title'), S[id].name, delay, 70);
-    $('#stno').textContent = id === 'peace' ? 'STATION 01' : 'STATION 02';
-    $('#cap').innerHTML = id === 'peace' ? 'for a continuous<br>harmonizing effect' : 'for balance in nature,<br>and a continuous<br>harmonizing effect';
-    $('#credit').textContent = id === 'peace' ? 'Image: Ayvalık, Türkiye' : 'Image: Monte Verde, Costa Rica';
+    $('#stno').textContent = T(id === 'peace' ? 'station.no1' : 'station.no2');
+    $('#cap').innerHTML = T(id === 'peace' ? 'hero.capPeace' : 'hero.capRain');
+    $('#credit').textContent = T(id === 'peace' ? 'hero.creditPeace' : 'hero.creditRain');
   }
-  letters($('#always'), '24/7', reduce ? 0 : 1500, 160);
+  letters($('#always'), T('hero.always'), reduce ? 0 : 1500, 160);
 
   // ── The opening: the name, then Peace Radio, then the player ──
   let introDone = false;
@@ -236,7 +241,7 @@
     const first = radio.station === 'peace';
     at(250, () => scene.classList.add('i-mgv'));
     if (first) {
-      letters($('#title'), 'Music for Peace', 700, 70);
+      letters($('#title'), T('intro.title'), 700, 70);
       at(3900, () => $('#titleBox').classList.add('out'));
       at(4800, () => { setWords('peace', 0); $('#titleBox').classList.remove('out'); });
       at(5900, () => scene.classList.add('i-st'));
@@ -253,8 +258,9 @@
 
   // ── Stations ────────────────────────────────────────────────
   let swapTimer, shown = null;
+  const playLabel = (playing, id) => T(playing ? 'ctl.pauseStation' : 'ctl.playStation', { station: S[id].name });
   function showStation(id, first) {
-    $('#play').setAttribute('aria-label', (radio.wantPlay ? 'Pause ' : 'Play ') + S[id].name);
+    $('#play').setAttribute('aria-label', playLabel(radio.wantPlay, id));
     document.querySelectorAll('[data-station]').forEach(b => b.setAttribute('aria-pressed', b.dataset.station === id));
     lastChrome = '';
     buildModes();
@@ -270,15 +276,15 @@
   const moreBtn = $('#moreBtn'), panel = $('#panel');
   function buildModes() {
     const rain = radio.station === 'rain';
-    moreBtn.textContent = rain ? 'Sky and timer' : 'Light and timer';
-    $('#modeLabel').textContent = rain ? 'Sky over Monte Verde' : 'Light on the sea';
+    moreBtn.textContent = T(rain ? 'ctl.skyTimer' : 'ctl.lightTimer');
+    $('#modeLabel').textContent = T(rain ? 'ctl.skyOverMV' : 'ctl.lightOnSea');
     const group = $('#modeGroup');
-    group.setAttribute('aria-label', rain ? 'Sky' : 'Light');
+    group.setAttribute('aria-label', T(rain ? 'ctl.sky' : 'ctl.light'));
     if (rain) {
       group.innerHTML = SKIES.map(([m, name, sw]) => `<button data-sky="${m}" aria-pressed="${m === sky}"><i class="swatch" style="background:${sw}"></i>${name}</button>`).join('');
       group.querySelectorAll('[data-sky]').forEach(b => b.addEventListener('click', () => setSky(b.dataset.sky)));
     } else {
-      group.innerHTML = L.CHOICES.map(([m, name]) => `<button data-mood="${m}" aria-pressed="false"><i class="swatch" style="background:${light.swatch(m)}"></i>${name}</button>`).join('');
+      group.innerHTML = L.CHOICES.map(([m]) => `<button data-mood="${m}" aria-pressed="false"><i class="swatch" style="background:${light.swatch(m)}"></i>${T('light.' + m)}</button>`).join('');
       light.bind(group.querySelectorAll('[data-mood]'));
     }
   }
@@ -342,18 +348,18 @@
     document.body.classList.toggle('loading', s.buffering);
     document.body.classList.toggle('muted', s.muted);
     $('#mute').setAttribute('aria-pressed', s.muted);
-    $('#mute').setAttribute('aria-label', s.muted ? 'Unmute' : 'Mute');
-    $('#play').setAttribute('aria-label', (s.wantPlay ? 'Pause ' : 'Play ') + S[s.station].name);
+    $('#mute').setAttribute('aria-label', T(s.muted ? 'ctl.unmute' : 'ctl.mute'));
+    $('#play').setAttribute('aria-label', playLabel(s.wantPlay, s.station));
     $('#now').textContent = s.station === 'peace'
-      ? (t && t.raga ? `Raga ${t.raga}, ${t.artist || ''}${t.instrument ? ', ' + t.instrument.toLowerCase() : ''}` : 'Finding the raga for your hour…')
-      : 'Rain melodies, Amar Nath and Reshma Shrivastava';
+      ? (t && t.raga ? `${T('hero.raga', { raga: t.raga })}, ${t.artist || ''}${t.instrument ? ', ' + t.instrument.toLowerCase() : ''}` : T('hero.finding'))
+      : T('hero.rainNow');
     paintWhen();
     rainSound.update();
   }
   // Under the raga, as on Harmoni: which hour the stream is timed to
   function paintWhen() {
     const p = R.period();
-    $('#when').textContent = radio.station === 'peace' ? `Timed to ${R.timezone()}: ${p.name.toLowerCase()}, ${p.label}` : '';
+    $('#when').textContent = radio.station === 'peace' ? T('hero.timed', { tz: R.timezone(), watch: T(`watch.${p.index}.inline`), hours: p.label }) : '';
   }
   setInterval(paintWhen, 60000);
   radio.on('state', render);
@@ -381,7 +387,7 @@
   function wake() {
     idle.forEach(clearTimeout); idle = [];
     scene.classList.remove('still-1', 'still-2', 'still');
-    if (!introDone || !radio.wantPlay || scrollY > innerHeight * .5 || !panel.hidden) return;
+    if (!introDone || !radio.wantPlay || scrollY > innerHeight * .5 || !panel.hidden || !$('#langList').hidden) return;
     const fast = qs.has('fast') ? .25 : 1;
     idle.push(setTimeout(() => scene.classList.add('still-1'), 9000 * fast));
     idle.push(setTimeout(() => {
@@ -407,7 +413,7 @@
   function syncFS() {
     const on = !!fsElement();
     document.body.classList.toggle('is-fs', on);
-    fsBtn.setAttribute('aria-label', on ? 'Exit full screen' : 'Full screen');
+    fsBtn.setAttribute('aria-label', T(on ? 'ctl.exitFullscreen' : 'ctl.fullscreen'));
     wake();
   }
   if (document.fullscreenEnabled || document.webkitFullscreenEnabled) {
@@ -419,6 +425,16 @@
       if ((e.key === 'f' || e.key === 'F') && !e.metaKey && !e.ctrlKey && !e.altKey && !e.target.closest('input, textarea')) toggleFS();
     });
   }
+
+  // ── Language: the globe at the top corner opens the list, each language in its own words ──
+  const langBtn = $('#langBtn'), langList = $('#langList');
+  $('#langCode').textContent = T.code.toUpperCase();
+  langList.innerHTML = T.langs.map(l => `<li><a href="${T.href(l.code)}" lang="${l.code}" hreflang="${l.code}" dir="${l.dir}"${l.code === T.code ? ' aria-current="true"' : ''}>${l.name}</a></li>`).join('');
+  langList.addEventListener('click', e => { const a = e.target.closest('a'); if (a) { e.preventDefault(); T.choose(a.lang); } });
+  const closeLang = () => { langList.hidden = true; langBtn.setAttribute('aria-expanded', 'false'); };
+  langBtn.addEventListener('click', () => { langList.hidden = !langList.hidden; langBtn.setAttribute('aria-expanded', String(!langList.hidden)); wake(); });
+  document.addEventListener('click', e => { if (!langList.hidden && !e.target.closest('.lang')) closeLang(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !langList.hidden) { closeLang(); langBtn.focus(); } });
 
   window.RH = { radio, light, SKIES, get sky() { return sky; }, setSky };
   runIntro();

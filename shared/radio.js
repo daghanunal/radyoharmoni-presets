@@ -293,7 +293,7 @@
         this.detach();
         this.station = id;
         this.track = null;
-        history.replaceState(null, '', '#' + id);
+        history.replaceState(null, '', location.pathname + location.search + '#' + id);   // the page's own address, whatever <base> says
         this.emit('track', null);
         this.emit('state', this.state());
         this.updateMediaSession();

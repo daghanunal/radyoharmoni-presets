@@ -42,13 +42,14 @@
   const card = document.createElement('div');
   card.className = 'consent';
   card.setAttribute('role', 'dialog');
-  card.setAttribute('aria-label', 'Statistics');
+  const T = window.RH_T;
+  card.setAttribute('aria-label', T('consent.aria'));
   card.innerHTML = `
-    <p><b>May we count your visit?</b> Google Analytics helps us see how many people listen, and from where. No advertising.</p>
+    <p>${T('consent.text')}</p>
     <div class="consent-row">
-      <button class="consent-yes" data-c="granted">Allow</button>
-      <button class="consent-no" data-c="denied">No thanks</button>
-      <a href="privacy-policy/#cookies">Privacy policy</a>
+      <button class="consent-yes" data-c="granted">${T('consent.allow')}</button>
+      <button class="consent-no" data-c="denied">${T('consent.no')}</button>
+      <a href="privacy-policy/#cookies">${T('legal.privacy')}</a>
     </div>`;
   const choose = v => {
     try { localStorage.setItem(KEY, v); } catch (e) {}
