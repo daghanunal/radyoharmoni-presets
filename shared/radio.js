@@ -215,7 +215,7 @@
       if (navigator.mediaDevices && navigator.mediaDevices.addEventListener) navigator.mediaDevices.addEventListener('devicechange', () => { this.deviceChanged = Date.now(); });
       a.addEventListener('pause', () => {
         if (!this.wantPlay || this.detaching) return;
-        if (Date.now() - this.deviceChanged < 2500) { this.wantPlay = false; this.emit('state', this.state()); return; }
+        if (Date.now() - this.deviceChanged < 2500) { this.wantPlay = false; this.syncSession(); this.emit('state', this.state()); return; }
         if (!this.interrupted) { this.interrupted = true; this.pausedAt = Date.now(); }
       });
       a.addEventListener('playing', () => { this.interrupted = false; });
@@ -246,7 +246,7 @@
     }
 
     on(ev, fn) { (this.listeners[ev] ||= []).push(fn); if (ev === 'state') fn(this.state()); return this; }
-    emit(ev, data) { (this.listeners[ev] || []).forEach(fn => fn(data)); }
+    emit(ev, data) { (this.listeners[ev] || []).forEach(fn => { try { fn(data); } catch (e) { console.error(e); } }); }
 
     state() {
       return { station: this.station, playing: this.playing, buffering: this.buffering, muted: this.audio.muted,
@@ -263,18 +263,25 @@
       this.audio.volume = this.canSetVolume ? 0 : 1;
       try {
         await this.audio.play();
+        this.syncSession();
         this.rampTo(this.volume, this.opts.fadeIn || 1200);
       } catch (e) {
         this.wantPlay = false;
         this.buffering = false;
+        this.syncSession();
         this.emit('state', this.state());
       }
     }
 
-    pause() {
+    // From the page the music fades out for a moment; from the lock screen or the notification (now) it stops at once.
+    pause(now) {
       this.wantPlay = false;
+      if (now) {
+        if (this.fadeFinish) this.fadeFinish();
+        this.audio.pause();
+      } else this.rampTo(0, 400, () => { this.audio.pause(); });
+      this.syncSession();
       this.emit('state', this.state());
-      this.rampTo(0, 400, () => { this.audio.pause(); });
     }
 
     toggle() { return this.wantPlay ? this.pause() : this.play(); }
@@ -305,7 +312,7 @@
     setVolume(v) {
       this.volume = Math.max(0, Math.min(1, v));
       localStorage.setItem('rh-volume', String(this.volume));
-      if (this.fade) { cancelAnimationFrame(this.fade); this.fade = null; }
+      if (this.fadeFinish) this.fadeFinish();   // a fade in progress ends now (a pause still pauses)
       if (this.canSetVolume) this.audio.volume = this.volume;
       this.emit('state', this.state());
     }
@@ -328,6 +335,7 @@
           this.timer = null;
           this.wantPlay = false;
           this.audio.pause();
+          this.syncSession();
           if (this.canSetVolume) this.audio.volume = this.volume;
           this.emit('timer', null);
           this.emit('state', this.state());
@@ -441,18 +449,31 @@
       this.audio.load();
     }
 
+    // Fades the volume, then calls done. The fade is drawn with animation frames, which a locked phone or a hidden tab
+    // never runs: there it happens at once, and a timer finishes any fade the frames leave halfway. Otherwise a pause
+    // from the lock screen would turn the button to Play while the sound went on, and a play would stay silent.
     rampTo(target, ms, done) {
       if (this.fade) cancelAnimationFrame(this.fade);
-      if (!this.canSetVolume) { done && done(); return; }
+      clearTimeout(this.fadeEnd);
+      const finish = () => {
+        if (this.fadeFinish !== finish) return;
+        cancelAnimationFrame(this.fade); clearTimeout(this.fadeEnd);
+        this.fade = null; this.fadeFinish = null;
+        if (this.canSetVolume) this.audio.volume = target;
+        done && done();
+      };
+      this.fadeFinish = finish;
+      if (!this.canSetVolume || document.visibilityState !== 'visible') return finish();
       const from = this.audio.volume;
       const t0 = performance.now();
       const step = now => {
         const k = Math.min(1, (now - t0) / ms);
         this.audio.volume = from + (target - from) * (k * k * (3 - 2 * k));
         if (k < 1) this.fade = requestAnimationFrame(step);
-        else { this.fade = null; done && done(); }
+        else finish();
       };
       this.fade = requestAnimationFrame(step);
+      this.fadeEnd = setTimeout(finish, ms + 250);
     }
 
     checkHealth() {
@@ -468,6 +489,7 @@
       this.reconnecting = true;
       setTimeout(async () => {
         this.reconnecting = false;
+        if (!this.wantPlay) return;   // paused in the meantime
         this.detach();
         await this.play();
       }, 3000);
@@ -476,8 +498,14 @@
     initMediaSession() {
       if (!('mediaSession' in navigator)) return;
       navigator.mediaSession.setActionHandler('play', () => this.play());
-      navigator.mediaSession.setActionHandler('pause', () => this.pause());
+      navigator.mediaSession.setActionHandler('pause', () => this.pause(true));
+      try { navigator.mediaSession.setActionHandler('stop', () => this.pause(true)); } catch (e) {}
       this.updateMediaSession();
+    }
+
+    // Tells the lock screen and notification controls whether the radio is playing, so their button is never stale.
+    syncSession() {
+      if ('mediaSession' in navigator) navigator.mediaSession.playbackState = this.wantPlay ? 'playing' : 'paused';
     }
 
     updateMediaSession() {

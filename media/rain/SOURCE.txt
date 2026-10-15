@@ -33,6 +33,16 @@ WHAT WAS DONE
   6. Encoding: rain-loop.mp3 = MP3 112 kbps CBR (LAME), 44.1 kHz stereo, with a
      gapless (LAME/Xing) header; rain-loop.m4a = AAC-LC ~96 kbps (Apple
      AudioToolbox), 44.1 kHz stereo, for Safari.
+  7. 2026-10-15, owner note ("the hard hits of the drops stand out; just a soft
+     rain in the background"): the drop hits taken out, the soft bed kept
+     (tools/rain/soften.py, on the loop before encoding). Three bands (<450 Hz,
+     450-2500 Hz, >2500 Hz, zero-phase, summing to the original); in each, where
+     the 4 ms energy rises above the 350 ms bed (x2.0 / x1.3 / x1.15), it is held
+     down to it; then a gentle 2nd-order low-pass at 3.2 kHz. All circular, so
+     the loop stays seamless. Drop hits (1-8 kHz, >8 dB over the bed): 44 in the
+     loop before, 0 after. Spectral centroid 1259 Hz -> 947 Hz.
+     Level: -27 LUFS (the bed sits where it was; the hits made up the extra dB),
+     true peak about -15 dBTP. Encoded as in step 6.
   Checked after encoding: both files decode to exactly 2,875,392 samples. There is no
   jump in sample values, RMS level or spectrum at the point where the loop
   wraps back to the start.

@@ -22,7 +22,7 @@
   const SKIES = [
     ['day', 'Day', 'linear-gradient(180deg,#bcd6ea,#6e9a6a)', '#3f5c55'],
     ['sun', 'Sun', 'radial-gradient(circle at 68% 32%,#fffbe8 0 13%,#ffe7a6 22%,rgba(255,231,166,0) 44%),radial-gradient(ellipse at 28% 78%,#fff 0 22%,rgba(255,255,255,0) 46%),linear-gradient(180deg,#8fc1ea,#d6e8f5)', '#3f6787'],
-    ['rain', 'Rain', 'linear-gradient(180deg,#eef1f4,#9aa7b3)', '#56616b'],
+    ['rain', 'Rain', 'linear-gradient(180deg,#e8eef6,#8ba2bd)', '#4b6078'],
     ['rainbow', 'Rainbow', 'conic-gradient(#f2a0a0,#f6d28a,#a8d8a0,#8fb9e8,#c3a2e8,#f2a0a0)', '#574f78'],
     ['night', 'Night', 'linear-gradient(180deg,#141c6e,#0b135b)', '#0b135b']
   ];
@@ -43,7 +43,7 @@
   let calm = 0, moonK = grade.dark > .5 ? 1 : 0;
 
   // ── Pictures ─────────────────────────────────────────────────
-  const vid = $('#v-peace'), photo = $('#i-rain');
+  const vid = $('#v-peace'), photo = $('#i-rain'), cycle = $('#v-cycle');
   const playVid = () => { if (reduce) return; const p = vid.play(); if (p) p.catch(() => {}); };
   playVid();
 
@@ -56,7 +56,18 @@
   // ── WebGL ───────────────────────────────────────────────────
   const cv = $('#gl');
   const gl = cv.getContext('webgl', { premultipliedAlpha: false, powerPreference: 'low-power' });
-  let U = {}, useGL = true, lastChrome = '', vidReady = false, photoReady = false, stillReady = false;
+  let U = {}, useGL = true, lastChrome = '', vidReady = false, photoReady = false, stillReady = false, cycleReady = false, cyc = 0;
+
+  // Golden and Rose play over the original Ayvalık film, which turns from blue to gold to rose and back by itself, so the
+  // chosen light keeps moving within its colour: a cool yellow deepening to gold, pink turning to lilac (the owner's
+  // note: one flat colour was not enough). Day and Night keep the blue film, so the day stays blue and the moon path calm.
+  function warmShare() {
+    if (radio.station === 'rain') return 0;
+    const warm = m => (m === 'golden' || m === 'rose' ? 1 : 0);
+    if (light.choice !== 'auto') return warm(light.choice);
+    const m = L.moodAtHour(light.hour());
+    return warm(m.a) * (1 - m.k) + warm(m.b) * m.k;
+  }
   if (!gl) fallback();
   else {
     const sh = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; };
@@ -73,9 +84,9 @@
     const b = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, b);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
     const loc = gl.getAttribLocation(prog, 'a'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
-    ['tex', 'tex2', 'res', 'vres', 'vres2', 'mpos', 't', 'amt', 'expo', 'sat', 'lift', 'grain', 'hz', 'drift', 'dv', 'cz',
+    ['tex', 'tex2', 'tex3', 'cyc', 'wl', 'res', 'vres', 'vres2', 'mpos', 't', 'amt', 'expo', 'sat', 'lift', 'grain', 'hz', 'drift', 'dv', 'cz',
       'calm', 'moonK', 'ph', 'mr', 'hzS', 'clouds', 'rainK', 'bow', 'sunny', 'sunC', 'top', 'mid', 'bot'].forEach(n => U[n] = gl.getUniformLocation(prog, n));
-    const texs = [0, 1].map(i => {
+    const texs = [0, 1, 2].map(i => {
       gl.activeTexture(gl.TEXTURE0 + i);
       const tx = gl.createTexture();
       gl.bindTexture(gl.TEXTURE_2D, tx);
@@ -84,7 +95,7 @@
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
       return tx;
     });
-    gl.uniform1i(U.tex, 0); gl.uniform1i(U.tex2, 1);
+    gl.uniform1i(U.tex, 0); gl.uniform1i(U.tex2, 1); gl.uniform1i(U.tex3, 2);
     const loadPhoto = () => { gl.activeTexture(gl.TEXTURE1); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, photo); photoReady = true; };
     if (photo.complete && photo.naturalWidth) loadPhoto(); else photo.addEventListener('load', loadPhoto, { once: true });
     // Until the video gives a frame (or if it never plays, as in iPhone Low Power Mode), Peace Radio shows the still of the same bay.
@@ -111,9 +122,18 @@
       fx.rain += ((rain && sky === 'rain' ? 1 : 0) - fx.rain) * Math.min(1, dt * .9);
       fx.bow += ((rain && sky === 'rainbow' ? 1 : 0) - fx.bow) * Math.min(1, dt * .5);
       fx.sun += ((rain && sky === 'day' ? 1 : 0) - fx.sun) * Math.min(1, dt * .6);
-      // The video only needs to play while Peace Radio can be seen.
-      if (dv < .999) { if (vid.paused && !reduce) playVid(); if (vid.readyState >= 2) { gl.activeTexture(gl.TEXTURE0); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, vid); vidReady = true; } }
+      // The videos only need to play while Peace Radio can be seen, each only while its share of the picture shows.
+      const warm = warmShare();
+      if (dv < .999 && cyc < .999) { if (vid.paused && !reduce) playVid(); if (vid.readyState >= 2) { gl.activeTexture(gl.TEXTURE0); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, vid); vidReady = true; } }
       else if (!vid.paused) vid.pause();
+      if (dv < .999 && (warm > 0 || cyc > .001) && !reduce) {
+        if (cycle.paused) {
+          if (cyc < .05) cycle.currentTime = 0;   // each time from its blue start: cool first, then the colour deepens
+          const p = cycle.play(); if (p) p.catch(() => {});
+        }
+        if (cycle.readyState >= 2) { gl.activeTexture(gl.TEXTURE2); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, cycle); cycleReady = true; }
+      } else if (!cycle.paused) cycle.pause();
+      cyc += ((cycleReady ? warm : 0) - cyc) * Math.min(1, dt * .6);
       const peaceReady = vidReady || stillReady;
       if (peaceReady || photoReady) {
         const drift = reduce ? 0 : .03 + .015 * Math.sin(now / 1000 / 24);
@@ -131,6 +151,8 @@
         gl.uniform1f(U.moonK, moonK); gl.uniform1f(U.ph, qs.get('moon') === 'full' ? .5 : moonNow.phase);
         gl.uniform2f(U.mpos, .8, portrait ? .86 : .87); gl.uniform1f(U.mr, portrait ? .024 : .033);
         gl.uniform1f(U.hzS, horizonUv(hzNow, drift * (1 - dv)));
+        gl.uniform1f(U.cyc, cycleReady ? cyc : 0);
+        gl.uniform1f(U.wl, reduce ? 0 : 1);
         gl.uniform1f(U.clouds, fx.clouds); gl.uniform1f(U.rainK, fx.rain); gl.uniform1f(U.bow, fx.bow); gl.uniform1f(U.sunny, fx.sun); gl.uniform1f(U.sunC, fx.sunC);
         gl.drawArrays(gl.TRIANGLES, 0, 3);
       }
@@ -275,7 +297,10 @@
   // ── Rain under the music: a recording of light rain on a window pane (CC0, see media/rain/SOURCE.txt), looped ──
   const rainSound = {
     ctx: null, gain: null,
+    // wanted: the listener has Rain Radio on under a rainy sky. audible: and the music itself sounds, so the rain never
+    // outlives a pause, a call or the lock screen's Pause.
     wanted() { return radio.station === 'rain' && sky === 'rain' && radio.wantPlay && !radio.audio.muted; },
+    audible() { return this.wanted() && !radio.audio.paused; },
     build() {
       const AC = window.AudioContext || window.webkitAudioContext;
       if (!AC) return false;
@@ -284,7 +309,7 @@
       const LOOP = 2875392 / 44100;   // the loop's exact length; some decoders keep the MP3's lead-in silence
       const load = url => fetch(url).then(r => { if (!r.ok) throw new Error(r.status); return r.arrayBuffer(); })
         .then(data => new Promise((ok, no) => ctx.decodeAudioData(data, ok, no)));
-      load('media/rain/rain-loop.mp3').catch(() => load('media/rain/rain-loop.m4a')).then(buf => {
+      load('media/rain/rain-loop.mp3?v=2').catch(() => load('media/rain/rain-loop.m4a?v=2')).then(buf => {
         const src = ctx.createBufferSource(); src.buffer = buf; src.loop = true;
         const extra = buf.duration - LOOP;
         if (extra > .002) { src.loopStart = Math.min(extra, 1105 / 44100); src.loopEnd = src.loopStart + LOOP; }
@@ -293,14 +318,19 @@
       return true;
     },
     update() {
-      const on = this.wanted();
-      if (on && !this.ctx && !this.build()) return;
+      const want = this.wanted(), on = this.audible();
+      if (want && !this.ctx && !this.build()) return;   // built within the listener's tap, which phones require
       if (!this.ctx) return;
-      if (on && this.ctx.state === 'suspended') this.ctx.resume();
-      // About 16 dB under the music (the stream runs near -18 LUFS, the loop at -26)
+      if (want && this.ctx.state === 'suspended') this.ctx.resume();
+      // About 17 dB under the music (the stream runs near -18 LUFS, the loop at -27)
       const level = on ? .4 * (radio.canSetVolume ? radio.volume : 1) : 0;
+      const hidden = document.visibilityState !== 'visible';
+      clearTimeout(this.sleep);
       this.gain.gain.cancelScheduledValues(this.ctx.currentTime);
-      this.gain.gain.setTargetAtTime(level, this.ctx.currentTime, on ? 1.2 : .5);
+      // in at a slow breath; out quickly, at once when the phone is locked
+      this.gain.gain.setTargetAtTime(level, this.ctx.currentTime, on ? 1.2 : (hidden ? .02 : .3));
+      // Paused for good: the rain's audio engine rests until it is wanted again
+      if (!want) this.sleep = setTimeout(() => { if (!this.wanted() && this.ctx.state === 'running') this.ctx.suspend(); }, 1500);
     }
   };
 

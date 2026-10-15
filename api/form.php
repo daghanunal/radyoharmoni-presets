@@ -1,6 +1,6 @@
 <?php
 /*
- * Radyo Harmoni forms: contact, photo sharing, subscribe. Replaces the WordPress contact form.
+ * Radyo Harmoni forms: contact, photo sharing, video testimonies, subscribe. Replaces the WordPress contact form.
  * POST JSON { type, ...fields, website (honeypot, must be empty), started (ms), token (reCAPTCHA v3) }.
  * Mail goes to info@radyoharmoni.org through AhaSend (SMTP); subscribers are kept outside the web root.
  * Settings live in rh-config.php one level above the web root (see deploy/rh-config.sample.php), never in this file.
@@ -35,7 +35,7 @@ if (!is_array($in)) reply(400, ['ok' => false, 'error' => 'Bad request']);
 
 $clean = fn($v, $max) => trim(mb_substr(str_replace(["\r", "\0"], '', (string)($v ?? '')), 0, $max));
 $type = $clean($in['type'] ?? '', 20);
-if (!in_array($type, ['contact', 'photo', 'subscribe'], true)) reply(400, ['ok' => false, 'error' => 'Bad request']);
+if (!in_array($type, ['contact', 'photo', 'video', 'subscribe'], true)) reply(400, ['ok' => false, 'error' => 'Bad request']);
 
 // Bots: a hidden field people never fill, and a form sent faster than anyone can type
 $honeypot = $clean($in['website'] ?? '', 200);
@@ -74,8 +74,8 @@ $place = $clean($in['place'] ?? '', 200);
 $link = $clean($in['link'] ?? '', 500);
 $optin = !empty($in['optin']) || $type === 'subscribe';
 if ($type === 'contact' && ($first === '' || $message === '')) reply(400, ['ok' => false, 'error' => 'Please fill in your name and a message.']);
-if ($type === 'photo' && $first === '') reply(400, ['ok' => false, 'error' => 'Please fill in your name.']);
-if ($link !== '' && !preg_match('~^https?://~i', $link)) reply(400, ['ok' => false, 'error' => 'The photo link should start with https://']);
+if (($type === 'photo' || $type === 'video') && $first === '') reply(400, ['ok' => false, 'error' => 'Please fill in your name.']);
+if ($link !== '' && !preg_match('~^https?://~i', $link)) reply(400, ['ok' => false, 'error' => 'The ' . ($type === 'video' ? 'video' : 'photo') . ' link should start with https://']);
 
 // Keep subscribers on the server, outside the web root
 if ($optin) {
@@ -91,11 +91,11 @@ if ($optin) {
 }
 
 $name = trim("$first $last");
-$subjects = ['contact' => 'Contact', 'photo' => 'Photo for the player', 'subscribe' => 'New subscriber'];
+$subjects = ['contact' => 'Contact', 'photo' => 'Photo for the player', 'video' => 'Video testimony', 'subscribe' => 'New subscriber'];
 $subject = 'Radyo Harmoni: ' . $subjects[$type] . ($name !== '' ? " from $name" : '');
 $lines = ["Name: $name", "Email: $email"];
 if ($place !== '') $lines[] = "Place: $place";
-if ($link !== '') $lines[] = "Photos: $link";
+if ($link !== '') $lines[] = ($type === 'video' ? 'Video' : 'Photos') . ": $link";
 if ($type !== 'subscribe') $lines[] = 'Wants updates: ' . ($optin ? 'yes' : 'no');
 if ($message !== '') $lines[] = "\n$message";
 $lines[] = "\n--\nSent from radyoharmoni.org (" . $type . ')';

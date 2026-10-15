@@ -47,14 +47,13 @@
     </div></section>
 
     <section class="row"><div class="cols">
-      <h2>What listeners notice</h2>
+      <div class="side"><p class="kick">Research</p><h2>What listeners notice</h2></div>
       <div class="body">
         <div class="voices">
           <blockquote>I felt deep pulses of blissful energy throughout my body, and behind it all was pure, unmovable silence, eternity.<cite>S.W., Thailand</cite></blockquote>
           <blockquote>A tree blooms for the first time in ten years; workers on site are calmer, clients are happy.<cite>B.C., landscape architect, Türkiye</cite></blockquote>
         </div>
         <div class="sub">
-          <h3>Research</h3>
           <p>At live concerts with more than 1,800 listeners, mood questionnaires showed significant drops in tension and other negative feelings after the ragas, and a rise in positive ones.</p>
           <p class="ref">Travis, Morehead &amp; Parim (2023), <i>International Journal of Psychological Studies</i> 15(1), 8. <a href="https://doi.org/10.5539/ijps.v15n1p8">Read the paper</a></p>
         </div>
@@ -105,8 +104,11 @@
 
     <section class="row"><div class="cols">
       <h2>How it is played</h2>
-      <div class="body ways">
-        <article><h3>For nature</h3><p>Connect a speaker and place it outdoors, and let it play softly, continuously.</p></article>
+      <div class="body">
+        <div class="circle-row">
+          <div class="porthole speaker" data-w="speaker"><svg viewBox="-150 -150 300 300" aria-hidden="true"></svg></div>
+          <article class="how"><h3>For nature</h3><p>Connect a speaker and place it outdoors, and let it play softly, continuously.</p></article>
+        </div>
       </div>
     </div></section>
 
@@ -120,11 +122,10 @@
     </div></section>
 
     <section class="row"><div class="cols">
-      <h2>Why it is played</h2>
+      <div class="side"><p class="kick">Research</p><h2>Why it is played</h2></div>
       <div class="body">
         <blockquote class="q">“Those who listen to it, they’ll have the direct effect of it. But even those who do not listen, the quality of the environment, the quality of the ecology rises in the character of harmony. Harmony. Integration, and that neutralizes negative trends and tendencies in the world.”<cite>Maharishi Mahesh Yogi</cite></blockquote>
         <div class="sub">
-          <h3>Research</h3>
           <p>Mustard and fenugreek plants that heard Raga Bhairav in the morning and Raga Yaman Kalyan in the evening germinated and grew better than plants without music, with more chlorophyll, less of the stress marker hydrogen peroxide, and stronger protective enzymes.</p>
           <p class="ref">Vir, Chauhan, Kumar, Saini &amp; Saini (2026), Impact of Indian classical raga on plant growth and biochemical parameters in Rai and Methi. <i>International Journal of Applied Research</i> 12(5), 281–288. <a href="https://doi.org/10.22271/allresearch.2026.v12.i5c.13644">Read the paper</a></p>
         </div>
@@ -132,7 +133,7 @@
     </div></section>
 
     <section class="row"><div class="cols">
-      <h2>What farmers notice</h2>
+      <div class="side"><p class="kick">Research</p><h2>What farmers notice</h2></div>
       <div class="body carousel">
         <div class="reel-wrap at-start">
           <div class="reel" data-w="reel" tabindex="0" aria-label="Farmer testimony videos">
@@ -145,8 +146,21 @@
           <button data-dir="-1" aria-label="Previous video"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 3 5 8l5 5"/></svg></button>
           <button data-dir="1" aria-label="Next video"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m6 3 5 5-5 5"/></svg></button>
         </div>
+        <div class="invite">
+          <p>Do you play Rain Radio for your fields, your garden or your animals? Share your story on video, and it may be shown here.</p>
+          <button class="btn" data-w="video-open" aria-expanded="false" aria-controls="videoForm">Share your video</button>
+        </div>
+        <form class="form" id="videoForm" data-w="video" hidden>
+          <label>Your name<input name="name" autocomplete="name" required></label>
+          <label>Email<input name="email" type="email" autocomplete="email" required></label>
+          <label>Where do you play it? (farm, garden, orchard, town)<input name="place"></label>
+          <label>Link to your video (Google Drive, Dropbox, YouTube…)<input name="link" type="url" placeholder="https://"></label>
+          <label>What did you notice?<textarea name="message"></textarea></label>
+          <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <p><button class="btn" type="submit">Send</button></p>
+          <p class="note" data-status aria-live="polite"></p>
+        </form>
         <div class="sub">
-          <h3>Research</h3>
           <p>In a 60-day study with sixty dairy cows, the cows that heard music gave significantly more milk each day than cows without it, and those that heard raga music showed lower levels of the stress hormone cortisol.</p>
           <p class="ref">Cao, Zhao, Feng et al. (2025), Effects of Raga music and Chinese five-element music on milk production, antioxidant, neuroendocrine, immune, and welfare indicators in dairy cows. <i>Frontiers in Veterinary Science</i> 12, 1623026. <a href="https://doi.org/10.3389/fvets.2025.1623026">Read the paper</a></p>
         </div>
@@ -157,7 +171,7 @@
     <section class="row moonsec"><div class="cols">
       <h2>Blooming gardens</h2>
       <div class="body">
-        <p>In a study of thirty rose plants, the roses that heard Indian classical music grew the longest stems between their leaves, longer than roses in silence or with rock and pop. Play Rain Radio and the rose here opens with the music.</p>
+        <p>In a study of thirty rose plants, the roses that heard a raga each morning bore more flowers, and larger ones, than roses kept in silence or played rock music. The roses that heard Vedic chanting flowered most of all. Play Rain Radio and the rose here opens with the music.</p>
         <div class="circle-row wide">
           <div class="porthole rose" data-w="rose"><svg viewBox="-150 -150 300 300" aria-hidden="true"></svg></div>
           <p class="ref" style="margin:0">Chivukula &amp; Ramaswamy (2014), Effect of Different Types of Music on Rosa Chinensis Plants. <i>International Journal of Environmental Science and Development</i> 5(5), 431–434. <a href="https://doi.org/10.7763/IJESD.2014.V5.522">Read the paper</a></p>
@@ -535,10 +549,12 @@
       <radialGradient id="gBud" cx=".5" cy=".3" r=".7"><stop offset="0" stop-color="#e58aa6"/><stop offset="1" stop-color="#a83a5e"/></radialGradient>
       <linearGradient id="gBird" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6e5aa8"/><stop offset=".45" stop-color="#3d7a62"/><stop offset="1" stop-color="#2c4a3c"/></linearGradient>
       <filter id="fGrain"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="4"/><feColorMatrix values="0 0 0 0 .45  0 0 0 0 .38  0 0 0 0 .3  0 0 0 .07 0"/><feComposite in2="SourceGraphic" operator="in"/></filter>
+      <radialGradient id="gVeil" cx=".55" cy=".4" r=".62"><stop offset="0" stop-color="#fbf6ea" stop-opacity=".34"/><stop offset=".7" stop-color="#f3ead8" stop-opacity=".12"/><stop offset="1" stop-color="#5f7d4a" stop-opacity=".22"/></radialGradient>
       <clipPath id="cRound"><circle r="150"/></clipPath>
     </defs>
     <g clip-path="url(#cRound)">
-    <circle r="150" fill="url(#gPaper)"/><circle r="150" fill="#000" filter="url(#fGrain)"/>
+    <circle r="150" fill="url(#gPaper)"/><image href="media/garden-rose.jpg" x="-150" y="-150" width="300" height="300" preserveAspectRatio="xMidYMid slice"/>
+    <circle r="150" fill="url(#gVeil)"/><circle r="150" fill="#000" filter="url(#fGrain)"/>
     <g class="branch">`;
     // Stem and side shoots, drawn in on first sight
     const stem = 'M-118,138 C-92,92 -70,58 -46,30 C-22,2 -6,-14 14,-34 C26,-46 34,-56 40,-66';
@@ -611,6 +627,71 @@
     }, 1000);
   })();
 
+  // ── How it is played: a small wooden speaker in the grass of the Monte Verde hills, its sound going out over the
+  //    valley. The waves and notes drift on their own; while Rain Radio plays the cone moves and the waves quicken. ──
+  (function speaker() {
+    const box = w('speaker'), svg = box.querySelector('svg');
+    const INK = 'stroke="#3b2f22" stroke-opacity=".5" stroke-width=".7" stroke-linejoin="round"';
+    let s = `<defs>
+      <linearGradient id="sWood" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#d6a062"/><stop offset=".6" stop-color="#c38a4e"/><stop offset="1" stop-color="#b07940"/></linearGradient>
+      <linearGradient id="sSide" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a26b37"/><stop offset="1" stop-color="#8a582c"/></linearGradient>
+      <radialGradient id="sCone" cx=".45" cy=".4" r=".7"><stop offset="0" stop-color="#f6ecd6"/><stop offset=".7" stop-color="#e6d2a8"/><stop offset="1" stop-color="#cdb07c"/></radialGradient>
+      <radialGradient id="sCap" cx=".4" cy=".35" r=".7"><stop offset="0" stop-color="#e2b979"/><stop offset="1" stop-color="#a8733a"/></radialGradient>
+      <radialGradient id="sVeil" cx=".5" cy=".42" r=".62"><stop offset="0" stop-color="#fbf6ea" stop-opacity=".18"/><stop offset=".75" stop-color="#f3ead8" stop-opacity=".06"/><stop offset="1" stop-color="#4f6f3a" stop-opacity=".24"/></radialGradient>
+      <filter id="sGrain"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="7"/><feColorMatrix values="0 0 0 0 .45  0 0 0 0 .38  0 0 0 0 .3  0 0 0 .07 0"/><feComposite in2="SourceGraphic" operator="in"/></filter>
+      <clipPath id="sRound"><circle r="150"/></clipPath>
+    </defs>
+    <g clip-path="url(#sRound)">
+    <circle r="150" fill="#cfdcb8"/><image href="media/garden-speaker.jpg" x="-150" y="-150" width="300" height="300" preserveAspectRatio="xMidYMid slice"/>
+    <circle r="150" fill="url(#sVeil)"/><circle r="150" fill="#000" filter="url(#sGrain)"/>`;
+    // The sound going out over the valley: arcs from the speaker's side, and a few notes rising
+    const cx = -10, cy = 34;
+    s += '<g class="waves">';
+    [30, 52, 74, 96, 118].forEach((r, i) => {
+      const a = 46 * Math.PI / 180, x1 = cx + r * Math.cos(-a), y1 = cy + r * Math.sin(-a), y2 = cy + r * Math.sin(a);
+      s += `<path class="wave" style="--i:${i}" d="M${x1.toFixed(1)},${y1.toFixed(1)} A${r},${r} 0 0 1 ${x1.toFixed(1)},${y2.toFixed(1)}" fill="none" stroke="#fffaf0" stroke-width="${(2.6 - i * .3).toFixed(1)}" stroke-linecap="round"/>`;
+    });
+    s += '</g>';
+    const note = `<ellipse cx="0" cy="0" rx="4.4" ry="3.1" transform="rotate(-22)" fill="#b0702a" ${INK}/><path d="M3.7,-1.2 L3.7,-21 C6,-17 11,-15.5 10.5,-9.5 C10,-12.5 7.5,-14.5 3.7,-15" fill="#b0702a" ${INK}/>`;
+    const pair = `<ellipse cx="0" cy="0" rx="4.2" ry="3" transform="rotate(-22)" fill="#9c3355" ${INK}/><ellipse cx="13" cy="-3" rx="4.2" ry="3" transform="translate(13,-3) rotate(-22) translate(-13,3)" fill="#9c3355" ${INK}/>
+      <path d="M3.5,-1.2 L3.5,-20 L16.5,-23.5 L16.5,-4.2" fill="none" stroke="#9c3355" stroke-width="1.6"/><path d="M3.5,-20 L16.5,-23.5 L16.5,-20.5 L3.5,-17Z" fill="#9c3355" ${INK}/>`;
+    [[30, -26, note, 0], [66, -62, pair, 1], [96, -8, note, 2]].forEach(([x, y, n, i]) => {
+      s += `<g transform="translate(${x},${y})"><g class="note" style="--i:${i}">${n}</g></g>`;
+    });
+    // The speaker: a wooden box seen a little from the side, with a brass-rimmed tweeter and woofer
+    s += `<ellipse cx="-40" cy="118" rx="120" ry="22" fill="#6f9a52" fill-opacity=".35"/><ellipse cx="-50" cy="102" rx="54" ry="8" fill="#2f4a26" fill-opacity=".26"/>
+      <g class="box">
+      <path d="M-92,-2 L-22,-2 L-8,-13 L-78,-13Z" fill="#dcae74" ${INK}/>
+      <path d="M-22,-2 L-8,-13 L-8,87 L-22,98Z" fill="url(#sSide)" ${INK}/>
+      <rect x="-92" y="-2" width="70" height="100" rx="2" fill="url(#sWood)" ${INK}/>
+      <path d="M-88,8 C-80,30 -86,54 -82,92 M-30,4 C-26,34 -33,60 -28,94 M-72,4 C-70,14 -73,18 -71,24" fill="none" stroke="#8a582c" stroke-opacity=".28" stroke-width=".8"/>
+      ${[[-86, 4], [-28, 4], [-86, 92], [-28, 92]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="1.7" fill="#c9a25a" ${INK}/>`).join('')}
+      <circle cx="-57" cy="22" r="10" fill="#c9a25a" ${INK}/><circle cx="-57" cy="22" r="6.5" fill="url(#sCone)" ${INK}/>
+      <circle cx="-57" cy="64" r="26.5" fill="#c9a25a" ${INK}/><circle cx="-57" cy="64" r="23.5" fill="#e9dcc0" ${INK}/>
+      <g class="cone"><circle cx="-57" cy="64" r="20" fill="url(#sCone)" ${INK}/>
+        <circle cx="-57" cy="64" r="14.5" fill="none" stroke="#bfa06c" stroke-opacity=".5" stroke-width=".6"/>
+        <circle cx="-57" cy="64" r="8" fill="url(#sCap)" ${INK}/></g>
+      </g>`;
+    // Grass and a few small flowers in front of the box
+    const R = (seed => () => (seed = (seed * 16807) % 2147483647) / 2147483647)(5);
+    const greens = ['#5f8f45', '#77a253', '#8fb35f', '#4f7a3a'];
+    s += '<g class="grass">';
+    // a tuft, tallest at the box and thinning out at both ends, its foot lost in the photo's own grass
+    for (let i = 0; i < 40; i++) {
+      const t = i / 39, x = -132 + t * 196 + (R() - .5) * 5, fade = Math.pow(Math.sin(Math.PI * Math.min(1, t * 1.15)), .7);
+      const h = (8 + R() * 20) * (.25 + .75 * fade), lean = (R() - .4) * 12, wd = 1.8 + R() * 1.6, y0 = 114 + R() * 10;
+      s += `<path d="M${(x - wd).toFixed(1)},${y0.toFixed(1)} Q${(x + lean * .4).toFixed(1)},${(y0 - 8 - h * .5).toFixed(1)} ${(x + lean).toFixed(1)},${(y0 - 4 - h).toFixed(1)} Q${(x + lean * .3 + wd * .4).toFixed(1)},${(y0 - 8 - h * .45).toFixed(1)} ${(x + wd).toFixed(1)},${y0.toFixed(1)}Z" fill="${greens[i % 4]}" fill-opacity="${(.55 + .45 * fade).toFixed(2)}" stroke="#2f4a2a" stroke-opacity="${(.12 + .23 * fade).toFixed(2)}" stroke-width=".5"/>`;
+    }
+    [[-104, 92, '#f6ecd6'], [-36, 96, '#f3d27a'], [8, 94, '#f6ecd6']].forEach(([x, y, c]) => {
+      s += `<g transform="translate(${x},${y})"><path d="M0,0 L0,14" stroke="#5f8f45" stroke-width="1"/>${[0, 72, 144, 216, 288].map(a => `<ellipse cx="0" cy="-3.2" rx="1.9" ry="3.2" transform="rotate(${a})" fill="${c}" ${INK}/>`).join('')}<circle r="1.6" fill="#c98b2a"/></g>`;
+    });
+    s += '</g></g>';
+    svg.innerHTML = s;
+    const sync = () => box.classList.toggle('playing', !!(RH.radio.wantPlay && RH.radio.station === 'rain'));
+    RH.radio.on('state', sync); sync();
+    new IntersectionObserver(e => box.classList.toggle('live', e[0].isIntersecting)).observe(box);
+  })();
+
   // ── Today in Monte Verde, from Open-Meteo ──
   (async function weather() {
     const el = w('weather');
@@ -635,6 +716,7 @@
   const THANKS = {
     contact: 'Thank you. Your message is on its way to us.',
     photo: 'Thank you. We will look at your photos with care.',
+    video: 'Thank you. We look forward to watching your story.',
     subscribe: 'Thank you. You are on the list.'
   };
   let captcha = null;
@@ -650,9 +732,9 @@
     return captcha;
   };
   const asMail = (type, d) => {
-    const subject = { contact: 'Contact from radyoharmoni.org', photo: 'Photo for Radyo Harmoni', subscribe: 'Subscribe to Radyo Harmoni' }[type];
+    const subject = { contact: 'Contact from radyoharmoni.org', photo: 'Photo for Radyo Harmoni', video: 'Video testimony for Radyo Harmoni', subscribe: 'Subscribe to Radyo Harmoni' }[type];
     const body = type === 'subscribe' ? `Please add ${d.email} to the Radyo Harmoni mailing list.`
-      : [`Name: ${[d.first_name || d.name, d.last_name].filter(Boolean).join(' ')}`, `Email: ${d.email}`, d.place && `Place: ${d.place}`, d.link && `Photos: ${d.link}`,
+      : [`Name: ${[d.first_name || d.name, d.last_name].filter(Boolean).join(' ')}`, `Email: ${d.email}`, d.place && `Place: ${d.place}`, d.link && `${type === 'video' ? 'Video' : 'Photos'}: ${d.link}`,
          type === 'contact' && `Wants updates: ${d.optin ? 'yes' : 'no'}`, '', d.message || ''].filter(x => x !== false && x !== undefined && x !== null).join('\n');
     return `mailto:${MAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   };
@@ -690,6 +772,7 @@
   wireForm(w('share'), 'photo');
   wireForm(w('contact'), 'contact');
   wireForm(w('subscribe'), 'subscribe');
+  wireForm(w('video'), 'video');
   // The two buttons open one form at a time
   const pairs = [[w('share-open'), w('share')], [w('contact-open'), w('contact')]];
   pairs.forEach(([btn, form]) => btn.addEventListener('click', () => {
@@ -698,4 +781,10 @@
     form.hidden = !open; btn.setAttribute('aria-expanded', String(open));
     if (open) { form.querySelector('input').focus(); loadCaptcha(); }
   }));
+  const videoBtn = w('video-open'), videoForm = w('video');
+  videoBtn.addEventListener('click', () => {
+    const open = videoForm.hidden;
+    videoForm.hidden = !open; videoBtn.setAttribute('aria-expanded', String(open));
+    if (open) { videoForm.querySelector('input').focus(); loadCaptcha(); }
+  });
 })();
