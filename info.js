@@ -106,7 +106,7 @@
       <h2>${T('rain.how.h2')}</h2>
       <div class="body">
         <div class="circle-row">
-          <div class="porthole speaker" data-w="speaker"><svg viewBox="-150 -150 300 300" aria-hidden="true"></svg></div>
+          <div class="porthole speaker" data-w="speaker"><img src="media/speaker-meadow.jpg" alt="" loading="lazy" decoding="async"></div>
           <article class="how"><h3>${T('rain.how.h3')}</h3><p>${T('rain.how.p')}</p></article>
         </div>
       </div>
@@ -173,8 +173,9 @@
       <div class="body">
         <p>${T('rain.garden.p')}</p>
         <div class="circle-row wide">
-          <div class="porthole rose" data-w="rose"><svg viewBox="-150 -150 300 300" aria-hidden="true"></svg></div>
-          <p class="ref" style="margin:0">Chivukula &amp; Ramaswamy (2014), Effect of Different Types of Music on Rosa Chinensis Plants. <i>International Journal of Environmental Science and Development</i> 5(5), 431–434. <a href="https://doi.org/10.7763/IJESD.2014.V5.522">${T('readPaper')}</a></p>
+          <div class="porthole rose" data-w="rose"><video src="media/rose-open.mp4" poster="media/rose-open.jpg" muted playsinline preload="none" disablepictureinpicture aria-hidden="true"></video></div>
+          <div><p class="ref" style="margin:0">Chivukula &amp; Ramaswamy (2014), Effect of Different Types of Music on Rosa Chinensis Plants. <i>International Journal of Environmental Science and Development</i> 5(5), 431–434. <a href="https://doi.org/10.7763/IJESD.2014.V5.522">${T('readPaper')}</a></p>
+          <p class="ref film-credit">Rose: <a href="https://commons.wikimedia.org/wiki/File:Time-lapse_of_opening_red_rose_isolated_on_black_background.Blooming_red_roses_flower_buds.webm">Alex Tr</a>, <a href="https://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>, set over Monte Verde</p></div>
         </div>
       </div>
     </div></section>
@@ -487,200 +488,38 @@
     return api;
   }
 
-  // ── Blooming gardens: a rose branch drawn like an old botanical plate. The branch draws itself in when first seen,
-  //    the rose opens while Rain Radio plays, and a hummingbird comes to it once it is open. ──
+  // ── Blooming gardens: a pink rose filmed as it opens (time-lapse by Alex Tr, CC BY 3.0), set over Monte Verde. It rests
+  //    as a bud, opens slowly while Rain Radio plays, and closes gently again when the music stops. ──
   (function garden() {
-    const box = w('rose'), svg = box.querySelector('svg');
-    const R = (seed => () => (seed = (seed * 16807) % 2147483647) / 2147483647)(11);
-    const f = n => n.toFixed(1);
-    const INK = 'stroke="#3b2f22" stroke-opacity=".5" stroke-width=".6" stroke-linejoin="round"';
-
-    // A serrated, pointed leaflet with its midrib and veins, base at (0,0), pointing up.
-    function leaflet(len, wid) {
-      const pts = [], teeth = 9;
-      for (const side of [1, -1]) {
-        const row = [];
-        for (let i = 0; i <= 36; i++) {
-          const t = i / 36, fr = (t * teeth) % 1;
-          const saw = (fr < .7 ? fr / .7 : (1 - fr) / .3) * .09 * Math.sin(Math.PI * t);
-          const half = wid * Math.pow(Math.sin(Math.PI * Math.min(1, t * 1.02)), .75) * (1 - .18 * t);
-          row.push([side * half * (1 + saw), -len * t]);
-        }
-        pts.push(side > 0 ? row : row.reverse());
-      }
-      const all = pts[0].concat(pts[1]);
-      let d = 'M0,0 ' + all.map(p => 'L' + f(p[0]) + ',' + f(p[1])).join(' ') + 'Z';
-      let veins = `M0,0 L0,${f(-len * .97)}`;
-      for (let i = 1; i <= 5; i++) {
-        const y = -len * i / 6.5, x = wid * .78 * Math.sin(Math.PI * i / 6.5);
-        veins += ` M0,${f(y)} Q${f(x * .5)},${f(y - len * .03)} ${f(x)},${f(y - len * .1)} M0,${f(y)} Q${f(-x * .5)},${f(y - len * .03)} ${f(-x)},${f(y - len * .1)}`;
-      }
-      return `<path d="${d}" fill="url(#gLeaf)" ${INK}/><path d="${veins}" fill="none" stroke="#2f4a2a" stroke-opacity=".35" stroke-width=".5"/>`
-        + `<path d="M0,0 ${all.slice(0, 18).map(p => 'L' + f(p[0] * .55) + ',' + f(p[1])).join(' ')}" fill="none" stroke="#e7f0c8" stroke-opacity=".35" stroke-width=".6"/>`;
-    }
-    // A rose leaf: a stalk with a terminal leaflet and two pairs.
-    function leaf(x, y, ang, size, i) {
-      const L = 46 * size;
-      let g = `<g class="leaf" style="--d:${(.9 + i * .18).toFixed(2)}s" transform="translate(${f(x)},${f(y)}) rotate(${f(ang)})">`;
-      g += `<path d="M0,0 L0,${f(-L)}" stroke="#5b6b2e" stroke-width="1.1" ${'stroke-linecap="round"'}/>`;
-      g += `<g transform="translate(0,${f(-L)})">${leaflet(24 * size, 10 * size)}</g>`;
-      for (const [t, s] of [[.38, .82], [.72, .92]]) for (const side of [-1, 1])
-        g += `<g transform="translate(0,${f(-L * t)}) rotate(${side * 58})">${leaflet(20 * size * s, 8.5 * size * s)}</g>`;
-      return g + '</g>';
-    }
-    // A petal, broad with a soft notch at the rim, base at (0,0).
-    const petal = (l, wd) => `M0,0 C${f(wd * .95)},${f(-l * .12)} ${f(wd * 1.12)},${f(-l * .74)} ${f(wd * .42)},${f(-l * .97)} Q${f(wd * .16)},${f(-l * 1.04)} 0,${f(-l * .95)} Q${f(-wd * .16)},${f(-l * 1.04)} ${f(-wd * .42)},${f(-l * .97)} C${f(-wd * 1.12)},${f(-l * .74)} ${f(-wd * .95)},${f(-l * .12)} 0,0Z`;
-    const RINGS = [{ n: 6, l: 46, w: 30, a: 0 }, { n: 6, l: 39, w: 26, a: 30 }, { n: 5, l: 31, w: 21, a: 12 }, { n: 5, l: 23, w: 16, a: 48 }, { n: 4, l: 15, w: 11, a: 20 }];
-
-    let s = `<defs>
-      <radialGradient id="gPaper" cx=".5" cy=".42" r=".62"><stop offset="0" stop-color="#fbf6ea"/><stop offset=".75" stop-color="#f3ead8"/><stop offset="1" stop-color="#e9dcc3"/></radialGradient>
-      <linearGradient id="gLeaf" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#4f6f37"/><stop offset=".55" stop-color="#6f8f45"/><stop offset="1" stop-color="#9db265"/></linearGradient>
-      <linearGradient id="gStem" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5d4a2c"/><stop offset=".5" stop-color="#8a6c3e"/><stop offset="1" stop-color="#5d4a2c"/></linearGradient>
-      <radialGradient id="gPetal" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="scale(52)"><stop offset="0" stop-color="#9c3355"/><stop offset=".38" stop-color="#cf6487"/><stop offset=".8" stop-color="#eba9bd"/><stop offset="1" stop-color="#f8dbe3"/></radialGradient>
-      <radialGradient id="gBud" cx=".5" cy=".3" r=".7"><stop offset="0" stop-color="#e58aa6"/><stop offset="1" stop-color="#a83a5e"/></radialGradient>
-      <linearGradient id="gBird" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6e5aa8"/><stop offset=".45" stop-color="#3d7a62"/><stop offset="1" stop-color="#2c4a3c"/></linearGradient>
-      <filter id="fGrain"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="4"/><feColorMatrix values="0 0 0 0 .45  0 0 0 0 .38  0 0 0 0 .3  0 0 0 .07 0"/><feComposite in2="SourceGraphic" operator="in"/></filter>
-      <radialGradient id="gVeil" cx=".55" cy=".4" r=".62"><stop offset="0" stop-color="#fbf6ea" stop-opacity=".34"/><stop offset=".7" stop-color="#f3ead8" stop-opacity=".12"/><stop offset="1" stop-color="#5f7d4a" stop-opacity=".22"/></radialGradient>
-      <clipPath id="cRound"><circle r="150"/></clipPath>
-    </defs>
-    <g clip-path="url(#cRound)">
-    <circle r="150" fill="url(#gPaper)"/><image href="media/garden-rose.jpg" x="-150" y="-150" width="300" height="300" preserveAspectRatio="xMidYMid slice"/>
-    <circle r="150" fill="url(#gVeil)"/><circle r="150" fill="#000" filter="url(#fGrain)"/>
-    <g class="branch">`;
-    // Stem and side shoots, drawn in on first sight
-    const stem = 'M-118,138 C-92,92 -70,58 -46,30 C-22,2 -6,-14 14,-34 C26,-46 34,-56 40,-66';
-    const shoot1 = 'M-64,52 C-84,30 -98,8 -104,-22';
-    const shoot2 = 'M-14,-6 C10,-2 38,8 66,6';
-    s += [stem, shoot1, shoot2].map((d, i) => `<path class="stem" pathLength="1" d="${d}" fill="none" stroke="url(#gStem)" stroke-width="${[4.2, 2.6, 2.4][i]}" stroke-linecap="round" style="--d:${(i * .35).toFixed(2)}s"/>`).join('');
-    // Thorns along the stem
-    for (const [x, y, a] of [[-96, 98, -30], [-78, 70, 140], [-56, 42, -40], [-30, 14, 150], [-2, -20, -35], [24, -44, 150]])
-      s += `<path class="thorn" d="M0,0 L2.4,-1.4 L0,-6.5 L-2.4,-1.4Z" transform="translate(${x},${y}) rotate(${a})" fill="#7a4e30" ${INK}/>`;
-    // Leaves
-    [[-82, 80, -58, 1.05], [-58, 46, 62, .95], [-96, -6, -40, .8], [-30, 12, -64, .9], [8, -26, 70, .82], [44, 7, 98, .78]].forEach((l, i) => { s += leaf(l[0], l[1], l[2], l[3], i); });
-    // Two buds on the side shoots
-    const bud = (x, y, ang, sc, d) => `<g class="bud" style="--d:${d}s" transform="translate(${x},${y}) rotate(${ang}) scale(${sc})">
-        <path d="M0,0 C5,-4 7,-12 0,-22 C-7,-12 -5,-4 0,0Z" fill="url(#gBud)" ${INK}/>
-        <path d="M0,-1 C6,-6 9,-12 6,-19 M0,-1 C-6,-6 -9,-12 -6,-19 M0,-1 C3,-8 2,-14 0,-17" fill="none" stroke="#5c7a3a" stroke-width="1.4" stroke-linecap="round"/>
-        <path d="M0,0 C-3,3 -3,6 0,8 C3,6 3,3 0,0Z" fill="#6f8f45" ${INK}/></g>`;
-    s += bud(-104, -24, -12, 1.15, 2.4) + bud(66, 5, 78, 1.0, 2.7);
-    // The rose: sepals, then rings of petals from the outside in, then the tight heart
-    s += `<g class="rose-head" transform="translate(40,-68)"><g class="bloom">`;
-    for (let i = 0; i < 5; i++) s += `<path class="sepal" d="M0,0 C6,-8 6,-22 1,-31 C0,-33 -1,-33 -1,-31 C-6,-22 -6,-8 0,0Z" transform="rotate(${i * 72 + 18})" fill="#5f7d3b" ${INK}/>`;
-    RINGS.forEach((g, ri) => {
-      for (let j = 0; j < g.n; j++) {
-        s += `<path class="petal" data-r="${ri}" data-j="${j}" d="${petal(g.l, g.w)}" fill="url(#gPetal)" stroke="#8a2f4f" stroke-opacity=".45" stroke-width=".6"/>`;
-      }
-    });
-    s += `<g class="heart"><path d="M-6,2 C-8,-6 -2,-11 4,-8 C9,-5 7,2 2,4 C-2,5 -4,1 -1,-2" fill="none" stroke="#7d2444" stroke-width="1.3" stroke-linecap="round"/><circle r="4.6" fill="#a43a5f" fill-opacity=".55"/></g>`;
-    s += `</g></g></g>`;
-    // A hummingbird, after the reel: iridescent green and violet, long bill, violet tail tips
-    s += `<g class="bird"><g class="bird-hover"><g transform="scale(-1 1) rotate(-16)">
-        <g class="wing w2"><path d="M8,-4 C4,-20 -6,-34 -20,-42 C-12,-28 -2,-14 4,-1Z" fill="#9aa7a0" fill-opacity=".55" ${INK}/></g>
-        <path d="M0,3 C-8,6 -15,11 -21,17 C-17,10 -10,4 -1,0Z" fill="#4c3f7a" ${INK}/>
-        <path d="M0,1 C-9,2 -17,4 -25,7 C-17,0 -9,-2 0,-1Z" fill="#6a52a8" ${INK}/>
-        <path d="M-2,0 C4,-8 16,-8 22,-2 C26,2 22,10 12,12 C4,13 -4,8 -2,0Z" fill="url(#gBird)" ${INK}/>
-        <path d="M18,-4 C22,-8 28,-7 29,-2 C29,2 25,4 21,3Z" fill="#3d7a62" ${INK}/>
-        <path d="M28,-3 L52,-6" stroke="#2a221a" stroke-width="1.3" stroke-linecap="round"/>
-        <circle cx="25" cy="-3" r=".9" fill="#1a1410"/>
-        <path d="M18,-1 C21,1 24,1 27,0" stroke="#d84a8a" stroke-width="1.6" fill="none"/>
-        <g class="wing w1"><path d="M10,-4 C8,-24 -2,-40 -16,-48 C-8,-32 2,-16 6,-1Z" fill="#c5d0c8" fill-opacity=".6" ${INK}/></g>
-      </g></g></g>`;
-    s += `</g>`;
-    svg.setAttribute('viewBox', '-150 -150 300 300');
-    svg.innerHTML = s;
-
-    const petals = [...svg.querySelectorAll('.petal')];
-    let open = .18;
-    const bloom = o => {
-      open = o;
-      petals.forEach(p => {
-        const ri = +p.dataset.r, j = +p.dataset.j, g = RINGS[ri];
-        const twist = (1 - o) * (55 + ri * 18);
-        const rot = j * 360 / g.n + g.a + twist;
-        const sc = (.32 + .68 * o) * (1 - ri * .03 * (1 - o)) + (ri >= 3 ? .18 * (1 - o) : 0);
-        p.setAttribute('transform', `rotate(${rot.toFixed(1)}) scale(${sc.toFixed(3)} ${(sc * (.82 + .18 * o)).toFixed(3)})`);
-      });
-      box.style.setProperty('--sepal', (1 - o * .7).toFixed(2));
-      box.classList.toggle('bird-on', o > .62);
-    };
-    bloom(.18);
-    // First sight: the branch draws itself in
-    new IntersectionObserver((e, ob) => { if (e[0].isIntersecting) { box.classList.add('grown'); ob.disconnect(); } }, { threshold: .35 }).observe(box);
-    let since = null;
+    const box = w('rose'), v = box.querySelector('video');
+    const OPEN = .78, BUD = .04;             // the fullest it shows (the last frames run past the circle), and at rest
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
     const pinned = new URLSearchParams(location.search).get('bloom');   // ?bloom=1 holds it open, for review
-    if (pinned !== null) { box.classList.add('grown'); bloom(+pinned); }
-    if (pinned === null) setInterval(() => {
-      const playing = RH.radio.wantPlay && RH.radio.station === 'rain';
-      if (playing && !since) since = Date.now();
-      if (!playing) since = null;
-      const target = playing ? Math.min(1, .5 + (Date.now() - since) / 60000 * .55) : (box.classList.contains('grown') ? .3 : .18);
-      if (Math.abs(target - open) > .003) bloom(open + (target - open) * .3);
-    }, 1000);
-  })();
-
-  // ── How it is played: a small wooden speaker in the grass of the Monte Verde hills, its sound going out over the
-  //    valley. The waves and notes drift on their own; while Rain Radio plays the cone moves and the waves quicken. ──
-  (function speaker() {
-    const box = w('speaker'), svg = box.querySelector('svg');
-    const INK = 'stroke="#3b2f22" stroke-opacity=".5" stroke-width=".7" stroke-linejoin="round"';
-    let s = `<defs>
-      <linearGradient id="sWood" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#d6a062"/><stop offset=".6" stop-color="#c38a4e"/><stop offset="1" stop-color="#b07940"/></linearGradient>
-      <linearGradient id="sSide" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a26b37"/><stop offset="1" stop-color="#8a582c"/></linearGradient>
-      <radialGradient id="sCone" cx=".45" cy=".4" r=".7"><stop offset="0" stop-color="#f6ecd6"/><stop offset=".7" stop-color="#e6d2a8"/><stop offset="1" stop-color="#cdb07c"/></radialGradient>
-      <radialGradient id="sCap" cx=".4" cy=".35" r=".7"><stop offset="0" stop-color="#e2b979"/><stop offset="1" stop-color="#a8733a"/></radialGradient>
-      <radialGradient id="sVeil" cx=".5" cy=".42" r=".62"><stop offset="0" stop-color="#fbf6ea" stop-opacity=".18"/><stop offset=".75" stop-color="#f3ead8" stop-opacity=".06"/><stop offset="1" stop-color="#4f6f3a" stop-opacity=".24"/></radialGradient>
-      <filter id="sGrain"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="7"/><feColorMatrix values="0 0 0 0 .45  0 0 0 0 .38  0 0 0 0 .3  0 0 0 .07 0"/><feComposite in2="SourceGraphic" operator="in"/></filter>
-      <clipPath id="sRound"><circle r="150"/></clipPath>
-    </defs>
-    <g clip-path="url(#sRound)">
-    <circle r="150" fill="#cfdcb8"/><image href="media/garden-speaker.jpg" x="-150" y="-150" width="300" height="300" preserveAspectRatio="xMidYMid slice"/>
-    <circle r="150" fill="url(#sVeil)"/><circle r="150" fill="#000" filter="url(#sGrain)"/>`;
-    // The sound going out over the valley: arcs from the speaker's side, and a few notes rising
-    const cx = -10, cy = 34;
-    s += '<g class="waves">';
-    [30, 52, 74, 96, 118].forEach((r, i) => {
-      const a = 46 * Math.PI / 180, x1 = cx + r * Math.cos(-a), y1 = cy + r * Math.sin(-a), y2 = cy + r * Math.sin(a);
-      s += `<path class="wave" style="--i:${i}" d="M${x1.toFixed(1)},${y1.toFixed(1)} A${r},${r} 0 0 1 ${x1.toFixed(1)},${y2.toFixed(1)}" fill="none" stroke="#fffaf0" stroke-width="${(2.6 - i * .3).toFixed(1)}" stroke-linecap="round"/>`;
-    });
-    s += '</g>';
-    const note = `<ellipse cx="0" cy="0" rx="4.4" ry="3.1" transform="rotate(-22)" fill="#b0702a" ${INK}/><path d="M3.7,-1.2 L3.7,-21 C6,-17 11,-15.5 10.5,-9.5 C10,-12.5 7.5,-14.5 3.7,-15" fill="#b0702a" ${INK}/>`;
-    const pair = `<ellipse cx="0" cy="0" rx="4.2" ry="3" transform="rotate(-22)" fill="#9c3355" ${INK}/><ellipse cx="13" cy="-3" rx="4.2" ry="3" transform="translate(13,-3) rotate(-22) translate(-13,3)" fill="#9c3355" ${INK}/>
-      <path d="M3.5,-1.2 L3.5,-20 L16.5,-23.5 L16.5,-4.2" fill="none" stroke="#9c3355" stroke-width="1.6"/><path d="M3.5,-20 L16.5,-23.5 L16.5,-20.5 L3.5,-17Z" fill="#9c3355" ${INK}/>`;
-    [[30, -26, note, 0], [66, -62, pair, 1], [96, -8, note, 2]].forEach(([x, y, n, i]) => {
-      s += `<g transform="translate(${x},${y})"><g class="note" style="--i:${i}">${n}</g></g>`;
-    });
-    // The speaker: a wooden box seen a little from the side, with a brass-rimmed tweeter and woofer
-    s += `<ellipse cx="-40" cy="118" rx="120" ry="22" fill="#6f9a52" fill-opacity=".35"/><ellipse cx="-50" cy="102" rx="54" ry="8" fill="#2f4a26" fill-opacity=".26"/>
-      <g class="box">
-      <path d="M-92,-2 L-22,-2 L-8,-13 L-78,-13Z" fill="#dcae74" ${INK}/>
-      <path d="M-22,-2 L-8,-13 L-8,87 L-22,98Z" fill="url(#sSide)" ${INK}/>
-      <rect x="-92" y="-2" width="70" height="100" rx="2" fill="url(#sWood)" ${INK}/>
-      <path d="M-88,8 C-80,30 -86,54 -82,92 M-30,4 C-26,34 -33,60 -28,94 M-72,4 C-70,14 -73,18 -71,24" fill="none" stroke="#8a582c" stroke-opacity=".28" stroke-width=".8"/>
-      ${[[-86, 4], [-28, 4], [-86, 92], [-28, 92]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="1.7" fill="#c9a25a" ${INK}/>`).join('')}
-      <circle cx="-57" cy="22" r="10" fill="#c9a25a" ${INK}/><circle cx="-57" cy="22" r="6.5" fill="url(#sCone)" ${INK}/>
-      <circle cx="-57" cy="64" r="26.5" fill="#c9a25a" ${INK}/><circle cx="-57" cy="64" r="23.5" fill="#e9dcc0" ${INK}/>
-      <g class="cone"><circle cx="-57" cy="64" r="20" fill="url(#sCone)" ${INK}/>
-        <circle cx="-57" cy="64" r="14.5" fill="none" stroke="#bfa06c" stroke-opacity=".5" stroke-width=".6"/>
-        <circle cx="-57" cy="64" r="8" fill="url(#sCap)" ${INK}/></g>
-      </g>`;
-    // Grass and a few small flowers in front of the box
-    const R = (seed => () => (seed = (seed * 16807) % 2147483647) / 2147483647)(5);
-    const greens = ['#5f8f45', '#77a253', '#8fb35f', '#4f7a3a'];
-    s += '<g class="grass">';
-    // a tuft, tallest at the box and thinning out at both ends, its foot lost in the photo's own grass
-    for (let i = 0; i < 40; i++) {
-      const t = i / 39, x = -132 + t * 196 + (R() - .5) * 5, fade = Math.pow(Math.sin(Math.PI * Math.min(1, t * 1.15)), .7);
-      const h = (8 + R() * 20) * (.25 + .75 * fade), lean = (R() - .4) * 12, wd = 1.8 + R() * 1.6, y0 = 114 + R() * 10;
-      s += `<path d="M${(x - wd).toFixed(1)},${y0.toFixed(1)} Q${(x + lean * .4).toFixed(1)},${(y0 - 8 - h * .5).toFixed(1)} ${(x + lean).toFixed(1)},${(y0 - 4 - h).toFixed(1)} Q${(x + lean * .3 + wd * .4).toFixed(1)},${(y0 - 8 - h * .45).toFixed(1)} ${(x + wd).toFixed(1)},${y0.toFixed(1)}Z" fill="${greens[i % 4]}" fill-opacity="${(.55 + .45 * fade).toFixed(2)}" stroke="#2f4a2a" stroke-opacity="${(.12 + .23 * fade).toFixed(2)}" stroke-width=".5"/>`;
-    }
-    [[-104, 92, '#f6ecd6'], [-36, 96, '#f3d27a'], [8, 94, '#f6ecd6']].forEach(([x, y, c]) => {
-      s += `<g transform="translate(${x},${y})"><path d="M0,0 L0,14" stroke="#5f8f45" stroke-width="1"/>${[0, 72, 144, 216, 288].map(a => `<ellipse cx="0" cy="-3.2" rx="1.9" ry="3.2" transform="rotate(${a})" fill="${c}" ${INK}/>`).join('')}<circle r="1.6" fill="#c98b2a"/></g>`;
-    });
-    s += '</g></g>';
-    svg.innerHTML = s;
-    const sync = () => box.classList.toggle('playing', !!(RH.radio.wantPlay && RH.radio.station === 'rain'));
-    RH.radio.on('state', sync); sync();
-    new IntersectionObserver(e => box.classList.toggle('live', e[0].isIntersecting)).observe(box);
+    let seen = false, canPlay = true;
+    // Loaded only when the section comes into view
+    new IntersectionObserver((e, ob) => {
+      if (!e[0].isIntersecting) return;
+      ob.disconnect(); seen = true;
+      v.preload = 'auto'; v.load();
+      v.addEventListener('loadedmetadata', () => { v.currentTime = (pinned !== null ? +pinned * OPEN : BUD) * v.duration; }, { once: true });
+    }, { rootMargin: '200px' }).observe(box);
+    let target = BUD;
+    v.addEventListener('timeupdate', () => { if (!v.paused && v.currentTime >= target * v.duration) v.pause(); });
+    setInterval(() => {
+      if (!seen || !v.duration || v.seeking) return;
+      const playing = RH.radio.wantPlay && RH.radio.station === 'rain' && !RH.radio.audio.paused;
+      target = pinned !== null ? +pinned * OPEN : playing ? OPEN : BUD;
+      const want = target * v.duration, now = v.currentTime;
+      if (reduce || pinned !== null) { if (!v.paused) v.pause(); if (Math.abs(want - now) > .05) v.currentTime = want; return; }
+      if (want > now + .04) {
+        // Opening: the film plays forward, slowed (about half a minute to open); where a phone will not play it, by steps
+        if (canPlay && v.paused) { v.playbackRate = .4; const p = v.play(); if (p) p.catch(e => { if (e && e.name === 'NotAllowedError') canPlay = false; }); }   // a pause interrupting play() is not a refusal
+        if (!canPlay) v.currentTime = Math.min(want, now + .05);
+      } else {
+        if (!v.paused) v.pause();
+        if (want < now - .04) v.currentTime = Math.max(want, now - .05);   // closing, gently, by steps
+      }
+    }, 120);
   })();
 
   // ── Today in Monte Verde, from Open-Meteo ──

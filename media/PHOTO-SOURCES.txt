@@ -1,0 +1,16 @@
+Photographs and films in the info sections, their sources and licences
+
+rose-open.mp4 / rose-open.jpg  (Blooming gardens)
+  Film:     "Time-lapse of opening red rose isolated on black background" by Alex Tr
+            https://commons.wikimedia.org/wiki/File:Time-lapse_of_opening_red_rose_isolated_on_black_background.Blooming_red_roses_flower_buds.webm
+  Licence:  CC BY 3.0 (credit on the page, beside the study's citation)
+  Changes:  black background keyed out, cropped square, set over garden-rose.jpg (Monte Verde in a green wash),
+            colour softened; encoded H.264 with short keyframe intervals so it can be stepped back and forth.
+
+speaker-meadow.jpg  (How it is played)  - made by tools/speaker-photo.py
+  Speaker:  "Altec Lansing Bookshelf Speakers" by Ainsley117, CC0
+            https://commons.wikimedia.org/wiki/File:Altec_Lansing_Bookshelf_Speakers.jpg
+  Meadow:   "Flowering grass up close (Unsplash)" by Nanda Green, CC0
+            https://commons.wikimedia.org/wiki/File:Flowering_grass_up_close_(Unsplash).jpg
+  Changes:  the right-hand speaker cut from its studio background and set in the meadow, softened to the
+            meadow's focus, the near grass laid back over its foot, a contact shadow, one gentle grade.

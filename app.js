@@ -9,6 +9,8 @@
   // The words of the page in its language (the release pages arrive with them already in place)
   T.apply();
   if (T.same('brand.mgv')) $('#mgv').lang = 'en';
+  // Some languages put the hours first: Turkish says "7/24 ÇAL"
+  if (T('hero.order') === 'always-play') $('#playrow').classList.add('always-first');
   S.peace.name = T('station.peace');
   S.rain.name = T('station.rain');
   const qs = new URLSearchParams(location.search);
@@ -44,7 +46,7 @@
   let grade = currentTarget();
   let hzNow = radio.station === 'rain' ? .5 : .34;
   let dv = radio.station === 'rain' ? 1 : 0;
-  let calm = 0, moonK = grade.dark > .5 ? 1 : 0;
+  let moonK = grade.dark > .5 ? 1 : 0;
 
   // ── Pictures ─────────────────────────────────────────────────
   const vid = $('#v-peace'), photo = $('#i-rain'), cycle = $('#v-cycle');
@@ -88,8 +90,8 @@
     const b = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, b);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
     const loc = gl.getAttribLocation(prog, 'a'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
-    ['tex', 'tex2', 'tex3', 'cyc', 'wl', 'res', 'vres', 'vres2', 'mpos', 't', 'amt', 'expo', 'sat', 'lift', 'grain', 'hz', 'drift', 'dv', 'cz',
-      'calm', 'moonK', 'ph', 'mr', 'hzS', 'clouds', 'rainK', 'bow', 'sunny', 'sunC', 'top', 'mid', 'bot'].forEach(n => U[n] = gl.getUniformLocation(prog, n));
+    ['tex', 'tex2', 'tex3', 'cyc', 'res', 'vres', 'vres2', 'mpos', 't', 'amt', 'expo', 'sat', 'lift', 'grain', 'hz', 'drift', 'dv', 'cz',
+      'moonK', 'ph', 'mr', 'hzS', 'clouds', 'rainK', 'bow', 'sunny', 'sunC', 'top', 'mid', 'bot'].forEach(n => U[n] = gl.getUniformLocation(prog, n));
     const texs = [0, 1, 2].map(i => {
       gl.activeTexture(gl.TEXTURE0 + i);
       const tx = gl.createTexture();
@@ -118,8 +120,6 @@
       grade = L.ease(grade, currentTarget(), reduce ? 1 : (light.demo ? .2 : .02));
       hzNow += ((rain ? .5 : .34) - hzNow) * (reduce ? 1 : .03);
       dv += ((rain ? 1 : 0) - dv) * (reduce ? 1 : Math.min(1, dt * 2.2));
-      const stillAll = scene.classList.contains('still-2');
-      calm += ((stillAll && !rain ? 1 : 0) - calm) * Math.min(1, dt * .6);
       moonK += ((grade.dark > .5 ? 1 : 0) - moonK) * Math.min(1, dt * .8);
       fx.clouds += ((rain && sky === 'rain' ? .7 : 0) - fx.clouds) * Math.min(1, dt * .7);   // rain comes with a grey sky
       fx.sunC += ((rain && sky === 'sun' ? 1 : 0) - fx.sunC) * Math.min(1, dt * .5);
@@ -151,12 +151,10 @@
         gl.uniform1f(U.lift, grade.lift); gl.uniform1f(U.cz, grade.cz); gl.uniform1f(U.grain, .028); gl.uniform1f(U.hz, hzNow);
         gl.uniform1f(U.drift, drift * (1 - dv));
         gl.uniform3fv(U.top, grade.top); gl.uniform3fv(U.mid, grade.mid); gl.uniform3fv(U.bot, grade.bot);
-        gl.uniform1f(U.calm, reduce ? 0 : calm);
         gl.uniform1f(U.moonK, moonK); gl.uniform1f(U.ph, qs.get('moon') === 'full' ? .5 : moonNow.phase);
         gl.uniform2f(U.mpos, .8, portrait ? .86 : .87); gl.uniform1f(U.mr, portrait ? .024 : .033);
         gl.uniform1f(U.hzS, horizonUv(hzNow, drift * (1 - dv)));
         gl.uniform1f(U.cyc, cycleReady ? cyc : 0);
-        gl.uniform1f(U.wl, reduce ? 0 : 1);
         gl.uniform1f(U.clouds, fx.clouds); gl.uniform1f(U.rainK, fx.rain); gl.uniform1f(U.bow, fx.bow); gl.uniform1f(U.sunny, fx.sun); gl.uniform1f(U.sunC, fx.sunC);
         gl.drawArrays(gl.TRIANGLES, 0, 3);
       }
@@ -194,7 +192,8 @@
     lastChrome = key;
     const root = document.documentElement.style;
     root.setProperty('--mgv', rain ? '#fffdf8' : grade.mgv);
-    root.setProperty('--mgv-shadow', rain ? '0 1px 16px rgba(30,45,60,.45)' : 'none');
+    // Over Monte Verde the cream name needs a shadow to read: a deep sky blue, never black
+    root.setProperty('--mgv-shadow', rain ? '0 1px 14px rgba(24,62,104,.55),0 0 2px rgba(24,62,104,.25)' : 'none');
     // White words on a pale sky (golden, rose, day) get a soft shadow behind them so they stay readable.
     const pale = rain ? (sky === 'day' || sky === 'sun' || sky === 'rainbow') : (grade.top[0] * .299 + grade.top[1] * .587 + grade.top[2] * .114) > .62;
     root.setProperty('--title-shadow', pale ? '0 1px 2px rgba(70,50,40,.16),0 2px 26px rgba(70,45,35,.34)' : '0 2px 40px rgba(0,0,0,.12)');

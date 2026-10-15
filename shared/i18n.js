@@ -70,7 +70,8 @@
   T.date = (d, opts) => d.toLocaleDateString(lang.locale, opts);
   T.code = code;
   T.lang = lang;
-  T.langs = LANGS;
+  // In alphabetical order of their own names, as the lists show them
+  T.langs = LANGS.slice().sort((a, b) => new Intl.Collator('en').compare(a.name, b.name));
   T.paths = paths;
 
   // The address of a language: its own folder on the site, or ?lang= in development. The station (#peace, #rain) and
