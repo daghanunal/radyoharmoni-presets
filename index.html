@@ -616,7 +616,7 @@ footer .wrap{display:grid;grid-template-columns:1fr;gap:36px}
           <div class="porthole" data-w="moon">
             <canvas aria-hidden="true" width="290" height="290"></canvas>
             <img class="flat" src="media/yumurta.jpg" alt="">
-            <svg class="flat-moon" viewBox="0 0 100 100" aria-hidden="true"><circle class="mglow" cx="60" cy="25" r="16" fill="url(#mGlow)" style="opacity: 0.38;"></circle><circle cx="60" cy="25" r="7.5" fill="#33428a" fill-opacity=".55"></circle><path class="mlit" fill="#f4f1e6" d="M60,17.5 A7.5,7.5 0 0 1 60,32.5 A4.92,7.5 0 0 0 60,17.5Z"></path><defs><radialGradient id="mGlow"><stop offset="0" stop-color="#c8d2f2" stop-opacity=".5"></stop><stop offset="1" stop-color="#c8d2f2" stop-opacity="0"></stop></radialGradient></defs></svg>
+            <svg class="flat-moon" viewBox="0 0 100 100" aria-hidden="true"><circle class="mglow" cx="60" cy="25" r="16" fill="url(#mGlow)" style="opacity: 0.38;"></circle><circle cx="60" cy="25" r="7.5" fill="#33428a" fill-opacity=".55"></circle><path class="mlit" fill="#f4f1e6" d="M60,17.5 A7.5,7.5 0 0 1 60,32.5 A4.91,7.5 0 0 0 60,17.5Z"></path><defs><radialGradient id="mGlow"><stop offset="0" stop-color="#c8d2f2" stop-opacity=".5"></stop><stop offset="1" stop-color="#c8d2f2" stop-opacity="0"></stop></radialGradient></defs></svg>
           </div>
           <div>
             <p class="date" data-w="nextfull"></p>
@@ -868,6 +868,8 @@ float hash(vec2 p){ p = fract(p * vec2(123.34, 456.21)); p += dot(p, p + 45.32);
 float noise(vec2 p){ vec2 i = floor(p), f = fract(p); vec2 u = f * f * (3. - 2. * f);
   return mix(mix(hash(i), hash(i + vec2(1, 0)), u.x), mix(hash(i + vec2(0, 1)), hash(i + vec2(1, 1)), u.x), u.y); }
 float fbm(vec2 p){ float v = 0., a = .5; for (int i = 0; i < 4; i++) { v += a * noise(p); p *= 2.03; a *= .5; } return v; }
+// The slope of the noise surface (central differences), for ripples
+vec2 slope(vec2 p){ const vec2 e = vec2(.35, 0.); return vec2(noise(p + e.xy) - noise(p - e.xy), noise(p + e.yx) - noise(p - e.yx)); }
 vec3 softLight(vec3 b, vec3 s) {
   return mix(2. * b * s + b * b * (1. - 2. * s), sqrt(b) * (2. * s - 1.) + 2. * b * (1. - s), step(.5, s));
 }
@@ -882,25 +884,33 @@ vec2 cover(vec2 v, float dr) {
 void main() {
   float ra = res.x / res.y;
   vec2 s1 = cover(vres, drift), s2 = cover(vres2, 0.);
-  // The sea is always a little alive (wl): slow swells roll in, broken up so they never march in lines, and bend the
-  // light a touch. Once every word has faded (calm) the waves grow. Only open water moves: the islands, the boat and the
-  // rocks of the shore, which are not blue in the picture, stay still.
-  float fy = 1. - s1.y, d = fy - hz, shine = 0.;
-  vec2 q1 = s1;
-  float live = wl * .34 + calm * .76;
-  if (live > 0. && d > .006) {
-    float brk = noise(vec2(s1.x * ra * 5. / (d * 2. + .15), .6 / (d + .03) + t * .3));
-    float ph1 = .9 / (d + .03) + t * 1.15 + s1.x * 2. + brk * 2.6;
-    float a = live * .0032 * (d * 2.2 + .15);
-    q1.y += sin(ph1) * a;
-    q1.x += cos(ph1 * .7 + s1.y * 9. + brk * 3.) * a * .5;
-    shine = live * max(0., sin(ph1)) * .035 * smoothstep(.0, .2, d);
+  // The sea as a surface seen in perspective (wl: always a little alive; calm: more once every word has faded).
+  // Two layers of ripples drift at different angles, a slow swell and a finer chop, so the pattern keeps changing rather
+  // than sliding. Their size follows the distance: largest and clearest near the viewer, finer toward the horizon,
+  // where detail too small to draw fades out instead of flickering. Each ripple bends the picture a little and its
+  // slope shades the water lighter or darker. Only open water moves: the islands, the boat and the rocks stay still.
+  float fy = 1. - s1.y, d = fy - hz;
+  vec2 q1 = s1, rip = vec2(0.);
+  float live = wl * (1. + calm * .7);
+  if (live > 0. && d > 0.) {
+    float zz = .05 / (d + .006);                          // distance along the sea
+    vec2 P = vec2((s1.x - .5) * ra * zz, zz);              // the point on the sea
+    float px = res.x / (ra * zz), py = res.y * (d + .006) * (d + .006) / .05;   // pixels per unit of sea, across and in depth
+    float f1 = 30., f2 = 82.;
+    float l1 = smoothstep(3., 9., min(px / f1, py / (f1 * 1.8)));
+    float l2 = smoothstep(3., 9., min(px / f2, py / (f2 * 1.5)));
+    rip = slope(P * vec2(f1, f1 * 1.8) + vec2(t * .05, t * .16)) * l1
+        + slope(P * vec2(f2, f2 * 1.5) + vec2(-t * .12, t * .3) + 7.3) * .55 * l2;
+    float near = smoothstep(0., .04, d);
+    rip *= near * live;
+    q1 += vec2(rip.x, rip.y * .7) * (d + .02) * .045;
   }
   vec2 p0 = vec2(s1.x, 1. - s1.y), p1 = vec2(q1.x, 1. - q1.y);
   vec3 sea0 = texture2D(tex, p0).rgb, seaW = texture2D(tex, p1).rgb;
   if (cyc > .001) { sea0 = mix(sea0, texture2D(tex3, p0).rgb, cyc); seaW = mix(seaW, texture2D(tex3, p1).rgb, cyc); }
-  float open = smoothstep(-.03, .05, sea0.b - sea0.r) * step(.006, d);
-  vec3 c = mix(mix(sea0, seaW + shine, open), texture2D(tex2, vec2(s2.x, 1. - s2.y)).rgb, dv);
+  float open = smoothstep(-.03, .05, sea0.b - sea0.r) * smoothstep(0., .01, d);
+  seaW *= 1. + (rip.y * .9 + rip.x * .25) * .11 * (.55 + .45 * smoothstep(.02, .12, d));   // the slope facing the sky shows lighter (gently far out)
+  vec3 c = mix(mix(sea0, seaW, open), texture2D(tex2, vec2(s2.x, 1. - s2.y)).rgb, dv);
 
   // Rain Radio's sky, chosen in Sky and timer: day, sun through clouds, rain under a grey sky, a rainbow, night.
   float sky = smoothstep(.42, .7, uv.y);
@@ -997,14 +1007,11 @@ void main() {
   o = mix(vec3(lo), o, sat);
   o = o * expo + lift * g;
 
-  // Glitter: the light of the hour caught on the small waves, densest in the bright band under the horizon, and in the
-  // colour of the light (gold at golden hour, rose at dusk, pale by day). At night the moon's own path takes over.
-  if (wl > 0. && d > .006 && dv < .999) {
-    float z = .05 / (d + .004);
-    vec2 wv = vec2((uv.x - .5) * ra * z, z);
-    float sp = noise(wv * vec2(3.2, 9.) + vec2(0., t * .45)) * noise(wv * vec2(7.5, 16.) - vec2(t * .2, t * .65));
-    float glit = smoothstep(.22, .52, sp) * (1. - smoothstep(.0, .32, d)) * open;
-    o += mix(vec3(1., .98, .94), top, .45) * glit * .085 * wl * (1. - dv) * (1. - moonK * .65);
+  // Glitter: where a ripple tilts toward the light it catches it, in the colour of the hour (gold at golden hour, rose at
+  // dusk, pale by day); more often toward the horizon, as on real water. At night the moon's own path takes over.
+  if (wl > 0. && d > 0. && dv < .999) {
+    float glit = smoothstep(.2, .34, rip.y + rip.x * .3) * (.4 + .35 * (1. - smoothstep(0., .35, d))) * open;
+    o += mix(vec3(1., .98, .94), top, .45) * glit * .07 * (1. - dv) * (1. - moonK * .65);
   }
 
   // The moon at night, in tonight's phase, and its path on the water.
