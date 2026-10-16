@@ -1,8 +1,9 @@
 /* Radyo Harmoni service worker: makes the page installable and readable offline.
    Network first, so a new revision always shows; the cache is only the fallback.
    Streams, videos and range requests are never touched. */
-const CACHE = 'rh-ayvalik-v4';
-const SHELL = ['./', './app.js', './info.js', 'shared/radio.js', 'shared/light.js', 'shared/vendor/hls.min.js',
+// The release build puts a hash of its files in the name, so every release installs afresh and clears the old cache
+const CACHE = 'rh-ayvalik-90cefe1977';
+const SHELL = ['./', './app.js', './info.js', 'shared/radio.js', 'shared/light.js', 'shared/i18n.js', './i18n/en.js', 'shared/vendor/hls.min.js',
   'shared/fonts/fonts.css', 'media/ayvalik.jpg', 'media/monteverde-photo.jpg', 'media/yumurta.jpg', './icons/icon-192.png'];
 
 self.addEventListener('install', e => {
@@ -17,5 +18,6 @@ self.addEventListener('fetch', e => {
   e.respondWith(fetch(req).then(res => {
     if (res.ok) { const copy = res.clone(); caches.open(CACHE).then(c => c.put(req, copy)); }
     return res;
-  }).catch(() => caches.match(req, { ignoreSearch: true })));
+  }).catch(async () => (await caches.match(req)) || (await caches.match(req, { ignoreSearch: true }))   // offline: this file, else its last copy
+    || (req.mode === 'navigate' && await caches.match('./')) || Response.error()));
 });

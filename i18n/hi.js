@@ -186,7 +186,7 @@
   "rain.invite.btn": "अपना वीडियो साझा करें",
   "rain.farmers.research": "साठ दुधारू गायों पर 60 दिन के एक अध्ययन में, संगीत सुनने वाली गायों ने बिना संगीत वाली गायों की तुलना में हर दिन उल्लेखनीय रूप से अधिक दूध दिया, और जिन गायों ने राग संगीत सुना, उनमें तनाव हॉर्मोन कॉर्टिसोल का स्तर कम पाया गया।",
   "rain.garden.h2": "खिलते बगीचे",
-  "rain.garden.p": "गुलाब के तीस पौधों पर हुए एक अध्ययन में, जिन गुलाबों ने हर सुबह एक राग सुना, उन पर मौन में रखे गए या पाश्चात्य शास्त्रीय अथवा रॉक संगीत सुनाए गए गुलाबों की तुलना में अधिक फूल आए, और बड़े भी। वर्षा रेडियो चलाएँ, और यहाँ का गुलाब संगीत के साथ खिल उठता है।",
+  "rain.garden.p": "गुलाब के तीस पौधों पर हुए एक अध्ययन में, जिन गुलाबों ने हर सुबह एक राग सुना, उन पर मौन में रखे गए या पाश्चात्य शास्त्रीय अथवा रॉक संगीत सुनाए गए गुलाबों की तुलना में अधिक फूल आए, और बड़े भी।",
   "rain.share.h2": "अपना आकाश साझा करें",
   "rain.share.p": "समुद्र या प्राकृतिक दृश्यों की अपनी तस्वीरें साझा करें, ताकि उन्हें प्लेयर की पृष्ठभूमि में दिखाया जा सके।",
   "share.photo": "तस्वीर साझा करें",
@@ -263,7 +263,7 @@
   "legal.music": "संगीत कॉपीराइट © 2026: Maharishi Vedic University Ltd. और Maharishi Foundation Ltd.; विश्व भर में सर्वाधिकार सुरक्षित।",
   "legal.tm": "Transcendental Meditation, TM-Sidhi, Maharishi, Maharishi Vedic, Vedic Science, Maharishi International University, Maharishi Vāstu, Maharishi Gandharva Veda, Fortune-Creating, Maharishi Sthāpatya Veda, Maharishi AyurVeda तथा इस वेबसाइट पर प्रयुक्त अन्य शब्द संयुक्त राज्य अमेरिका सहित दुनिया के कई देशों में ट्रेडमार्क संरक्षण के अधीन हैं, और अनुमति से प्रयोग किए गए हैं।",
   "legal.recaptcha": "यह साइट reCAPTCHA द्वारा सुरक्षित है, और इस पर Google की <a href=\"https://policies.google.com/privacy\">गोपनीयता नीति</a> और <a href=\"https://policies.google.com/terms\">सेवा की शर्तें</a> लागू होती हैं।",
-  "legal.copy": "कॉपीराइट 2026 © Academy of Arts for Enlightenment",
+  "legal.copy": "कॉपीराइट © 2026 Academy of Arts for Enlightenment",
   "legal.privacy": "गोपनीयता नीति",
   "legal.choices": "गोपनीयता विकल्प",
 

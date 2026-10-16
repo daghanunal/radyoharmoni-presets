@@ -5,7 +5,7 @@
     "Station names: Peace Radio = 平和のラジオ, Rain Radio = 雨のラジオ (short, gentle, natural as a big title). STATION 01/02 = ステーション 01/02. Raga = ラーガ.",
     "Maharishi’s words (peace.why.quote, rain.ancient.*, rain.why.quote, about.*) are my own translations in 「」; please compare with any official Japanese translations.",
     "Academy of Arts for Enlightenment is rendered 悟りのための芸術アカデミー, with the English name in brackets in faq.1.a, keep.p and legal.copy. A reviewer may prefer another rendering or the English name alone.",
-    "Unsure: Türkiye is written トルコ (the official Japanese name); Raga Yaman Kalyan as ラーガ・ヤマン・カリヤーン; Reshma Shrivastava as レーシュマ・シュリーヴァスタヴァ. The watch names (深夜, 夜明け, 朝, 真昼, 午後, 夕暮れ, 宵, 夜) are worth a native look."
+    "Unsure: Türkiye is written トルコ (the official Japanese name); Raga Yaman Kalyan as ラーガ・ヤマン・カリヤーン; Reshma Srivastava as レーシュマ・シュリーヴァスタヴァ. The watch names (深夜, 夜明け, 朝, 真昼, 午後, 夕暮れ, 宵, 夜) are worth a native look."
   ],
   "meta.title": "Radyo Harmoni｜平和のラジオと雨のラジオ｜マハリシ・ガンダルヴァ・ヴェーダ",
   "meta.description": "マハリシ・ガンダルヴァ・ヴェーダのラーガを、あなたの一日の時間に合わせて24/7配信。平和のラジオと雨のラジオ。瞑想と平和と調和のために、無料で。",
@@ -182,7 +182,7 @@
   "rain.invite.btn": "動画を共有する",
   "rain.farmers.research": "乳牛60頭を対象とした60日間の研究で、音楽を聴いた牛は、聴かなかった牛よりも1日あたりの乳量が有意に多く、ラーガ音楽を聴いた牛では、ストレスホルモンであるコルチゾールの値が低くなりました。",
   "rain.garden.h2": "花ひらく庭",
-  "rain.garden.p": "30株のバラを対象とした研究で、毎朝ラーガを聴かせたバラは、静寂の中に置いたバラや、西洋クラシック音楽またはロック音楽を聴かせたバラよりも多くの花を、それもより大きな花を咲かせました。雨のラジオを流すと、ここのバラも音楽とともに花ひらきます。",
+  "rain.garden.p": "30株のバラを対象とした研究で、毎朝ラーガを聴かせたバラは、静寂の中に置いたバラや、西洋クラシック音楽またはロック音楽を聴かせたバラよりも多くの花を、それもより大きな花を咲かせました。",
   "rain.share.h2": "あなたの空を分かち合う",
   "rain.share.p": "海や風景の写真をお寄せください。プレーヤーの背景として紹介させていただくことがあります。",
   "share.photo": "写真を送る",
@@ -259,7 +259,7 @@
   "legal.music": "音楽 Copyright © 2026 Maharishi Vedic University Ltd. および Maharishi Foundation Ltd. 全世界において無断複製・転載を禁じます。",
   "legal.tm": "Transcendental Meditation、TM-Sidhi、Maharishi、Maharishi Vedic、Vedic Science、Maharishi International University、Maharishi Vāstu、Maharishi Gandharva Veda、Fortune-Creating、Maharishi Sthāpatya Veda、Maharishi AyurVeda、および本ウェブサイトで使用されているその他の用語は、米国を含む世界の多くの国で商標保護の対象となっており、許可を得て使用しています。",
   "legal.recaptcha": "このサイトはreCAPTCHAによって保護されており、Googleの<a href=\"https://policies.google.com/privacy\">プライバシーポリシー</a>と<a href=\"https://policies.google.com/terms\">利用規約</a>が適用されます。",
-  "legal.copy": "Copyright 2026 © 悟りのための芸術アカデミー（Academy of Arts for Enlightenment）",
+  "legal.copy": "Copyright © 2026 悟りのための芸術アカデミー（Academy of Arts for Enlightenment）",
   "legal.privacy": "プライバシーポリシー",
   "legal.choices": "プライバシー設定",
 

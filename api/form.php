@@ -1,7 +1,7 @@
 <?php
 /*
  * Radyo Harmoni forms: contact, photo sharing, video testimonies, subscribe. Replaces the WordPress contact form.
- * POST JSON { type, ...fields, website (honeypot, must be empty), started (ms), token (reCAPTCHA v3) }.
+ * POST JSON { type, ...fields, website (honeypot, must be empty), elapsed (ms the form was open), token (reCAPTCHA v3) }.
  * Mail goes to info@radyoharmoni.org through AhaSend (SMTP); subscribers are kept outside the web root.
  * Settings live in rh-config.php one level above the web root (see deploy/rh-config.sample.php), never in this file.
  */
@@ -29,7 +29,7 @@ $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 if ($origin !== '' && !in_array($origin, $cfg['allowed_origins'], true)) reply(403, ['ok' => false, 'error' => 'Forbidden']);
 
 $in_fh = fopen('php://input', 'rb');
-$raw = $in_fh ? (string)stream_get_contents($in_fh, 20000) : '';
+$raw = $in_fh ? (string)stream_get_contents($in_fh, 65536) : '';   // room for 5,000 characters in any script
 $in = json_decode($raw, true);
 if (!is_array($in)) reply(400, ['ok' => false, 'error' => 'Bad request']);
 
@@ -39,13 +39,17 @@ if (!in_array($type, ['contact', 'photo', 'video', 'subscribe'], true)) reply(40
 
 // Bots: a hidden field people never fill, and a form sent faster than anyone can type
 $honeypot = $clean($in['website'] ?? '', 200);
-$started = (int)($in['started'] ?? 0);
-$elapsed = (int)(microtime(true) * 1000) - $started;
-if ($honeypot !== '' || ($type !== 'subscribe' && $elapsed < 3000)) reply(200, ['ok' => true]);   // quietly ignored
+// how long the form was open, measured by the visitor's own browser (its clock may be set to any time)
+$elapsed = isset($in['elapsed']) ? (int)$in['elapsed'] : (int)(microtime(true) * 1000) - (int)($in['started'] ?? 0);
+if ($honeypot !== '' || ($type !== 'subscribe' && $elapsed < 3000)) {
+    error_log('radyoharmoni form: ignored a ' . $type . ($honeypot !== '' ? ' with the hidden field filled' : " sent {$elapsed} ms after opening"));
+    reply(200, ['ok' => true]);   // quietly ignored
+}
 
 // Rate limit: a few messages per address in ten minutes
 $dataDir = rtrim($cfg['data_dir'], '/');
 if (!is_dir($dataDir)) @mkdir($dataDir, 0750, true);
+if (!is_writable($dataDir)) error_log("radyoharmoni form: $dataDir is not writable (no rate limit, subscribers not kept)");
 $ip = $_SERVER['REMOTE_ADDR'] ?? '0';
 $bucket = $dataDir . '/rate-' . hash('sha256', $ip . date('Y-m-d-H') . (int)(date('i') / 10)) . '.txt';
 $count = (int)@file_get_contents($bucket);
@@ -60,7 +64,10 @@ if (!empty($cfg['recaptcha_secret'])) {
     $ctx = stream_context_create(['http' => ['method' => 'POST', 'timeout' => 8, 'header' => 'Content-Type: application/x-www-form-urlencoded',
         'content' => http_build_query(['secret' => $cfg['recaptcha_secret'], 'response' => $token, 'remoteip' => $ip])]]);
     $v = json_decode((string)@file_get_contents('https://www.google.com/recaptcha/api/siteverify', false, $ctx), true);
-    if (!is_array($v) || empty($v['success']) || ($v['score'] ?? 0) < ($cfg['recaptcha_min_score'] ?? 0.5)) {
+    // the token must be for this form, on this site
+    $hosts = array_map(fn($o) => (string)parse_url($o, PHP_URL_HOST), $cfg['allowed_origins']);
+    if (!is_array($v) || empty($v['success']) || ($v['score'] ?? 0) < ($cfg['recaptcha_min_score'] ?? 0.5)
+        || ($v['action'] ?? '') !== $type || !in_array($v['hostname'] ?? '', $hosts, true)) {
         reply(400, ['ok' => false, 'error' => 'We could not confirm you are not a robot. Please try again.']);
     }
 }
@@ -84,7 +91,9 @@ if ($optin) {
     $fh = fopen($csv, 'a');
     if ($fh && flock($fh, LOCK_EX)) {
         if ($new) fputcsv($fh, ['date', 'email', 'first_name', 'last_name', 'source'], ',', '"', '');
-        fputcsv($fh, [gmdate('c'), $email, $first, $last, $type], ',', '"', '');
+        // a cell starting with = + - @ would run as a formula when the list is opened in a spreadsheet
+        $cell = fn(string $v) => preg_match('/^[=+\-@\t\r]/', $v) ? "'" . $v : $v;
+        fputcsv($fh, [gmdate('c'), $cell($email), $cell($first), $cell($last), $type], ',', '"', '');
         flock($fh, LOCK_UN);
     }
     if ($fh) fclose($fh);
@@ -112,19 +121,19 @@ reply(200, ['ok' => true]);
 /* ── Mail: AhaSend over SMTP with STARTTLS, or the server's mail() if no SMTP is configured ── */
 function send_mail(array $cfg, string $to, string $subject, string $body, string $replyTo, string $replyName): void {
     $from = $cfg['from'];
-    $encSubject = '=?UTF-8?B?' . base64_encode($subject) . '?=';
+    $encSubject = mb_encode_mimeheader($subject, 'UTF-8', 'B', "\r\n");
     $replyHeader = $replyName !== '' ? '=?UTF-8?B?' . base64_encode($replyName) . "?= <$replyTo>" : $replyTo;
     $headers = [
         'From: =?UTF-8?B?' . base64_encode('Radyo Harmoni') . "?= <$from>",
         "Reply-To: $replyHeader",
         'MIME-Version: 1.0',
         'Content-Type: text/plain; charset=UTF-8',
-        'Content-Transfer-Encoding: 8bit',
+        'Content-Transfer-Encoding: base64',   // any script, any line length
         'Date: ' . date('r'),
         'Message-ID: <' . bin2hex(random_bytes(12)) . '@radyoharmoni.org>',
     ];
     if (empty($cfg['smtp']['host'])) {
-        if (!mail($to, $encSubject, $body, implode("\r\n", $headers), '-f' . $from)) throw new RuntimeException('mail() failed');
+        if (!mail($to, $encSubject, chunk_split(base64_encode($body)), implode("\r\n", $headers), '-f' . $from)) throw new RuntimeException('mail() failed');
         return;
     }
     $s = $cfg['smtp'];
@@ -157,7 +166,7 @@ function send_mail(array $cfg, string $to, string $subject, string $body, string
     $cmd("RCPT TO:<$to>", 250);
     $cmd('DATA', 354);
     $msg = implode("\r\n", array_merge(["To: $to", "Subject: $encSubject"], $headers)) . "\r\n\r\n"
-         . preg_replace('/^\./m', '..', str_replace("\n", "\r\n", $body));
+         . rtrim(chunk_split(base64_encode($body), 76, "\r\n"));
     $cmd($msg . "\r\n.", 250);
     fwrite($fp, "QUIT\r\n");
     fclose($fp);

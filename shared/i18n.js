@@ -16,7 +16,7 @@
     ['de', 'Deutsch', 'de-DE'], ['fr', 'Français', 'fr-FR'], ['es', 'Español', 'es-ES'], ['pt', 'Português', 'pt-BR'],
     ['ja', '日本語', 'ja-JP'], ['zh', '中文', 'zh-CN'], ['hi', 'हिन्दी', 'hi-IN', 'ltr', 'words'], ['th', 'ไทย', 'th-TH', 'ltr', 'words'],
     ['it', 'Italiano', 'it-IT'], ['fa', 'فارسی', 'fa-IR', 'rtl', 'words'], ['el', 'Ελληνικά', 'el-GR'], ['bg', 'Български', 'bg-BG'],
-    ['ur', 'اردو', 'ur-PK', 'rtl', 'words'], ['bn', 'বাংলা', 'bn-BD', 'ltr', 'words'], ['sw', 'Kiswahili', 'sw-KE']
+    ['ur', 'اردو', 'ur-PK', 'rtl', 'words']
   ].map(([code, name, locale, dir, anim]) => ({ code, name, locale, dir: dir || 'ltr', anim: anim || 'letters' }));
 
   const html = document.documentElement;
@@ -77,7 +77,8 @@
   // The address of a language: its own folder on the site, or ?lang= in development. The station (#peace, #rain) and
   // the review switches in the query (?clean …) come along.
   // A link to a language that can be written into the page: relative to the site root, which is every page's base
-  T.href = target => (paths ? (target === 'en' ? './' : target + '/') : T.url(target));
+  // (English as ./?lang=en, so a link opened in a new tab is not sent on to the browser's own language)
+  T.href = target => (paths ? (target === 'en' ? './?lang=en' : target + '/') : T.url(target));
   T.url = target => {
     if (paths) {
       // every language page has <base href> at the site root, so the root is document.baseURI

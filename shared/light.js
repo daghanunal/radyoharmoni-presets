@@ -109,10 +109,12 @@
     emit() { this.listeners.forEach(fn => fn(this)); }
 
     // Wires a set of [data-mood] buttons: pressed state follows the choice.
+    // The buttons that choose the light; binding a new set (the menu is rebuilt) replaces the old one
     bind(buttons) {
-      const sync = () => buttons.forEach(b => b.setAttribute('aria-pressed', b.dataset.mood === this.choice));
+      this.bound = buttons;
       buttons.forEach(b => b.addEventListener('click', () => this.set(b.dataset.mood)));
-      this.on(sync); sync();
+      if (!this.syncBound) { this.syncBound = () => this.bound.forEach(b => b.setAttribute('aria-pressed', b.dataset.mood === this.choice)); this.on(this.syncBound); }
+      this.syncBound();
     }
 
     swatch(mood) {

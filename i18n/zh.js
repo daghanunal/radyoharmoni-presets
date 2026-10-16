@@ -6,7 +6,7 @@
     "The reader is addressed as 您 throughout, which is respectful and warm. A reviewer may prefer the friendlier 你.",
     "Maharishi’s words (peace.why.quote, rain.ancient.*, rain.why.quote, about.*) are my own translations; please compare with any official Chinese translations.",
     "Academy of Arts for Enlightenment is rendered 开悟艺术学院, with the English name in brackets in faq.1.a, keep.p and legal.copy.",
-    "Unsure: Monte Verde as 蒙特维德; Ayvalık as 艾瓦勒克; Amar Nath and Reshma Shrivastava as 阿马尔·纳特 and 蕾什玛·什里瓦斯塔瓦."
+    "Unsure: Monte Verde as 蒙特维德; Ayvalık as 艾瓦勒克; Amar Nath and Reshma Srivastava as 阿马尔·纳特 and 蕾什玛·什里瓦斯塔瓦."
   ],
   "meta.title": "Radyo Harmoni｜和平电台与雨水电台｜玛赫西乾闼婆吠陀",
   "meta.description": "玛赫西乾闼婆吠陀拉格 24/7 不间断播放，与您一天中的时辰相应。和平电台与雨水电台，免费收听，为了冥想、和平与和谐。",
@@ -183,7 +183,7 @@
   "rain.invite.btn": "分享您的视频",
   "rain.farmers.research": "在一项为期60天、涉及60头奶牛的研究中，听音乐的奶牛每日产奶量显著高于不听音乐的奶牛，而听拉格音乐的奶牛，应激激素皮质醇的水平更低。",
   "rain.garden.h2": "繁花盛开的花园",
-  "rain.garden.p": "在一项以30株玫瑰为对象的研究中，每天早晨聆听一首拉格的玫瑰，比置于寂静中或播放西方古典音乐或摇滚乐的玫瑰开出了更多、也更大的花。播放雨水电台，这里的玫瑰便会随音乐绽放。",
+  "rain.garden.p": "在一项以30株玫瑰为对象的研究中，每天早晨聆听一首拉格的玫瑰，比置于寂静中或播放西方古典音乐或摇滚乐的玫瑰开出了更多、也更大的花。",
   "rain.share.h2": "分享您的天空",
   "rain.share.p": "分享您拍摄的海景或风景照片，有机会成为播放器的背景。",
   "share.photo": "分享照片",
@@ -260,7 +260,7 @@
   "legal.music": "音乐版权 © 2026 Maharishi Vedic University Ltd. 与 Maharishi Foundation Ltd.。保留全球所有权利。",
   "legal.tm": "Transcendental Meditation、TM-Sidhi、Maharishi、Maharishi Vedic、Vedic Science、Maharishi International University、Maharishi Vāstu、Maharishi Gandharva Veda、Fortune-Creating、Maharishi Sthāpatya Veda、Maharishi AyurVeda 以及本网站使用的其他术语，在包括美国在内的全球许多国家受商标保护，经许可使用。",
   "legal.recaptcha": "本网站受 reCAPTCHA 保护，适用 Google <a href=\"https://policies.google.com/privacy\">隐私权政策</a>和<a href=\"https://policies.google.com/terms\">服务条款</a>。",
-  "legal.copy": "版权所有 2026 © 开悟艺术学院（Academy of Arts for Enlightenment）。",
+  "legal.copy": "版权所有 © 2026 开悟艺术学院（Academy of Arts for Enlightenment）。",
   "legal.privacy": "隐私政策",
   "legal.choices": "隐私选项",
 

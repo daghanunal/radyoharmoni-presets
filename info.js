@@ -55,7 +55,7 @@
         </div>
         <div class="sub">
           <p>${T('peace.voices.research')}</p>
-          <p class="ref">Travis, Morehead &amp; Parim (2023), <i>International Journal of Psychological Studies</i> 15(1), 8. <a href="https://doi.org/10.5539/ijps.v15n1p8">${T('readPaper')}</a></p>
+          <p class="ref"><span lang="en">Travis, Morehead &amp; Parim (2023), <i>International Journal of Psychological Studies</i> 15(1), 8.</span> <a href="https://doi.org/10.5539/ijps.v15n1p8">${T('readPaper')}</a></p>
         </div>
       </div>
     </div></section>
@@ -106,7 +106,7 @@
       <h2>${T('rain.how.h2')}</h2>
       <div class="body">
         <div class="circle-row">
-          <div class="porthole speaker" data-w="speaker"><img src="media/speaker-meadow.jpg" alt="" loading="lazy" decoding="async"></div>
+          <div class="porthole speaker" data-w="speaker"><img src="media/speaker-monteverde.jpg" alt="" loading="lazy" decoding="async"></div>
           <article class="how"><h3>${T('rain.how.h3')}</h3><p>${T('rain.how.p')}</p></article>
         </div>
       </div>
@@ -127,7 +127,7 @@
         <blockquote class="q">${T('rain.why.quote')}<cite${T.langAttr('cite.mmy')}>${T('cite.mmy')}</cite></blockquote>
         <div class="sub">
           <p>${T('rain.why.research')}</p>
-          <p class="ref">Vir, Chauhan, Kumar, Saini &amp; Saini (2026), Impact of Indian classical raga on plant growth and biochemical parameters in Rai and Methi. <i>International Journal of Applied Research</i> 12(5), 281–288. <a href="https://doi.org/10.22271/allresearch.2026.v12.i5c.13644">${T('readPaper')}</a></p>
+          <p class="ref"><span lang="en">Vikash, Chauhan, Kumar, Saini &amp; Saini (2026), Impact of Indian classical raga on plant growth and biochemical parameters in Rai and Methi. <i>International Journal of Applied Research</i> 12(5), 281–288.</span> <a href="https://doi.org/10.22271/allresearch.2026.v12.i5c.13644">${T('readPaper')}</a></p>
         </div>
       </div>
     </div></section>
@@ -136,8 +136,8 @@
       <div class="side"><p class="kick">${T('research')}</p><h2>${T('rain.farmers.h2')}</h2></div>
       <div class="body carousel">
         <div class="reel-wrap at-start">
-          <div class="reel" data-w="reel" tabindex="0" aria-label="${T('films.aria')}">
-            ${FILMS.map((f, i) => `<figure><div class="film"><video src="${VID}${f}.mp4" poster="${VID}${f}.jpg" controls playsinline preload="none" aria-label="${T('films.one', { n: i + 1 })}"><track kind="captions" srclang="${T.code}" label="${T.lang.name}" src="${VID}${f}${T.code === 'en' ? '' : '.' + T.code}.vtt" default></video><p class="cue" aria-hidden="true"></p></div></figure>`).join('')}
+          <div class="reel" data-w="reel" tabindex="0" role="region" aria-label="${T('films.aria')}">
+            ${FILMS.map((f, i) => `<figure><div class="film"><video src="${VID}${f}.mp4" data-poster="${VID}${f}.jpg" controls playsinline preload="none" aria-label="${T('films.one', { n: i + 1 })}"><track kind="captions" srclang="${T.code}" label="${T.lang.name}" src="${VID}${f}${T.code === 'en' ? '' : '.' + T.code}.vtt" default></video><p class="cue" aria-hidden="true"></p></div></figure>`).join('')}
           </div>
           <button class="reel-edge prev" data-dir="-1" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 3 5 8l5 5"/></svg></button>
           <button class="reel-edge next" data-dir="1" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m6 3 5 5-5 5"/></svg></button>
@@ -155,14 +155,14 @@
           <label>${T('form.email')}<input name="email" type="email" autocomplete="email" required></label>
           <label>${T('form.wherePlay')}<input name="place"></label>
           <label>${T('form.videoLink')}<input name="link" type="url" placeholder="https://"></label>
-          <label>${T('form.noticed')}<textarea name="message"></textarea></label>
+          <label>${T('form.noticed')}<textarea name="message" maxlength="5000"></textarea></label>
           <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
           <p><button class="btn" type="submit">${T('form.send')}</button></p>
           <p class="note" data-status aria-live="polite"></p>
         </form>
         <div class="sub">
           <p>${T('rain.farmers.research')}</p>
-          <p class="ref">Cao, Zhao, Feng et al. (2025), Effects of Raga music and Chinese five-element music on milk production, antioxidant, neuroendocrine, immune, and welfare indicators in dairy cows. <i>Frontiers in Veterinary Science</i> 12, 1623026. <a href="https://doi.org/10.3389/fvets.2025.1623026">${T('readPaper')}</a></p>
+          <p class="ref"><span lang="en">Cao, Zhao, Feng et al. (2025), Effects of Raga music and Chinese five-element on milk production, antioxidant, neuroendocrine, immune, and welfare indicators in dairy cows. <i>Frontiers in Veterinary Science</i> 12, 1623026.</span> <a href="https://doi.org/10.3389/fvets.2025.1623026">${T('readPaper')}</a></p>
         </div>
       </div>
     </div></section>
@@ -173,9 +173,8 @@
       <div class="body">
         <p>${T('rain.garden.p')}</p>
         <div class="circle-row wide">
-          <div class="porthole rose" data-w="rose"><video src="media/rose-open.mp4" poster="media/rose-open.jpg" muted playsinline preload="none" disablepictureinpicture aria-hidden="true"></video></div>
-          <div><p class="ref" style="margin:0">Chivukula &amp; Ramaswamy (2014), Effect of Different Types of Music on Rosa Chinensis Plants. <i>International Journal of Environmental Science and Development</i> 5(5), 431–434. <a href="https://doi.org/10.7763/IJESD.2014.V5.522">${T('readPaper')}</a></p>
-          <p class="ref film-credit">Rose: <a href="https://commons.wikimedia.org/wiki/File:Time-lapse_of_opening_red_rose_isolated_on_black_background.Blooming_red_roses_flower_buds.webm">Alex Tr</a>, <a href="https://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>, set over Monte Verde</p></div>
+          <div class="porthole rose" data-w="rose"><img src="media/rose-garden.jpg" alt="" loading="lazy" decoding="async"></div>
+          <div><p class="ref" style="margin:0"><span lang="en">Chivukula &amp; Ramaswamy (2014), Effect of Different Types of Music on Rosa Chinensis Plants. <i>International Journal of Environmental Science and Development</i> 5(5), 431–434.</span> <a href="https://doi.org/10.7763/IJESD.2014.V5.522">${T('readPaper')}</a></p></div>
         </div>
       </div>
     </div></section>
@@ -194,7 +193,7 @@
           <label>${T('form.email')}<input name="email" type="email" autocomplete="email" required></label>
           <label>${T('form.whereTaken')}<input name="place"></label>
           <label>${T('form.photoLink')}<input name="link" type="url" placeholder="https://"></label>
-          <label>${T('form.message')}<textarea name="message"></textarea></label>
+          <label>${T('form.message')}<textarea name="message" maxlength="5000"></textarea></label>
           <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
           <p><button class="btn" type="submit">${T('form.send')}</button></p>
           <p class="note" data-status aria-live="polite"></p>
@@ -205,7 +204,7 @@
             <label>${T('form.last')}<input name="last_name" autocomplete="family-name"></label>
           </div>
           <label>${T('form.email')}<input name="email" type="email" autocomplete="email" required></label>
-          <label>${T('form.write')}<textarea name="message" required></textarea></label>
+          <label>${T('form.write')}<textarea name="message" maxlength="5000" required></textarea></label>
           <label class="check"><input type="checkbox" name="optin" value="1"> ${T('form.optin')}</label>
           <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
           <p><button class="btn" type="submit">${T('form.sendMessage')}</button></p>
@@ -258,7 +257,7 @@
         <p>${T('legal.tm')}</p>
         <p>${T('legal.recaptcha')}</p>
         <p>${T('legal.copy')} <a href="privacy-policy/">${T('legal.privacy')}</a> <button class="linkish" data-consent-open>${T('legal.choices')}</button></p>
-        <p class="langs" aria-label="${T('foot.languages')}">${T.langs.map(l => `<a href="${T.href(l.code)}" lang="${l.code}" hreflang="${l.code}" dir="${l.dir}"${l.code === T.code ? ' aria-current="true"' : ''}>${l.name}</a>`).join('')}</p>
+        <p class="langs" role="navigation" aria-label="${T('foot.languages')}">${T.langs.map(l => `<a href="${T.href(l.code)}" lang="${l.code}" hreflang="${l.code}" dir="${l.dir}"${l.code === T.code ? ' aria-current="true"' : ''}>${l.name}</a>`).join('')}</p>
       </div>
     </div>`;
 
@@ -309,7 +308,8 @@
   function showWatch(i) {
     const p = R.period(), x = R.PERIODS[i], isNow = i === p.index;
     cells.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', +b.dataset.i === i));
-    cap.innerHTML = T('band.cap', { now: isNow ? T('band.now') : '', watch: T(`watch.${i}.name`), from: `${R.pad(x.start)}:00`, to: `${R.pad((x.start + 3) % 24)}:00`, character: T(`watch.${i}.character`) });
+    const html = T('band.cap', { now: isNow ? T('band.now') : '', watch: T(`watch.${i}.name`), from: `${R.pad(x.start)}:00`, to: `${R.pad((x.start + 3) % 24)}:00`, character: T(`watch.${i}.character`) });
+    if (cap.innerHTML !== html) cap.innerHTML = html;   // only when it changes: the line is read aloud each time it is written
   }
   cells.querySelectorAll('button').forEach(b => b.addEventListener('click', () => { picked = +b.dataset.i === R.period().index ? null : +b.dataset.i; showWatch(+b.dataset.i); }));
   function paintHours() {
@@ -355,6 +355,21 @@
     v.addEventListener('play', () => { reel.querySelectorAll('video').forEach(o => { if (o !== v) o.pause(); }); v.parentElement.classList.add('playing'); });
     v.addEventListener('pause', () => v.parentElement.classList.remove('playing'));
   });
+  // The posters load when the films come near the screen (on Peace Radio the films are not shown at all)
+  new IntersectionObserver((e, ob) => {
+    if (!e[0].isIntersecting) return;
+    ob.disconnect(); reel.querySelectorAll('video[data-poster]').forEach(v => { v.poster = v.dataset.poster; });
+  }, { rootMargin: '600px' }).observe(reel);
+  // The films and the radio take turns, so two sounds never play at once: a film fades the radio out and, when the film
+  // stops or ends, the radio comes back if it was playing before. Play on the radio stops the film.
+  const films = [...reel.querySelectorAll('video')], filmOn = () => films.some(v => !v.paused);
+  let radioBack = false;
+  films.forEach(v => {
+    v.addEventListener('play', () => { if (RH.radio.wantPlay) { radioBack = true; RH.radio.pause(); } });
+    // a moment's wait: another film starting pauses this one first
+    v.addEventListener('pause', () => setTimeout(() => { if (radioBack && !filmOn()) { radioBack = false; RH.radio.play(); } }, 250));
+  });
+  RH.radio.on('state', s => { if (s.wantPlay && filmOn()) { radioBack = false; films.forEach(v => v.pause()); } });
   // Arrows over the films' edges, shown on hover with a mouse, each hidden at its end of the row
   const reelWrap = reel.parentElement;
   const ends = () => {
@@ -365,7 +380,7 @@
   document.querySelectorAll('.reel-nav button, .reel-edge').forEach(b => b.addEventListener('click', () => {
     const card = reel.querySelector('figure');
     const gap = parseFloat(getComputedStyle(reel).columnGap) || 0;
-    reel.scrollBy({ left: (+b.dataset.dir) * (card.getBoundingClientRect().width + gap), behavior: 'smooth' });
+    reel.scrollBy({ left: (+b.dataset.dir) * (card.getBoundingClientRect().width + gap), behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
   }));
   document.addEventListener('rh:station', () => reel.querySelectorAll('video').forEach(v => v.pause()));
 
@@ -488,40 +503,6 @@
     return api;
   }
 
-  // ── Blooming gardens: a pink rose filmed as it opens (time-lapse by Alex Tr, CC BY 3.0), set over Monte Verde. It rests
-  //    as a bud, opens slowly while Rain Radio plays, and closes gently again when the music stops. ──
-  (function garden() {
-    const box = w('rose'), v = box.querySelector('video');
-    const OPEN = .78, BUD = .04;             // the fullest it shows (the last frames run past the circle), and at rest
-    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const pinned = new URLSearchParams(location.search).get('bloom');   // ?bloom=1 holds it open, for review
-    let seen = false, canPlay = true;
-    // Loaded only when the section comes into view
-    new IntersectionObserver((e, ob) => {
-      if (!e[0].isIntersecting) return;
-      ob.disconnect(); seen = true;
-      v.preload = 'auto'; v.load();
-      v.addEventListener('loadedmetadata', () => { v.currentTime = (pinned !== null ? +pinned * OPEN : BUD) * v.duration; }, { once: true });
-    }, { rootMargin: '200px' }).observe(box);
-    let target = BUD;
-    v.addEventListener('timeupdate', () => { if (!v.paused && v.currentTime >= target * v.duration) v.pause(); });
-    setInterval(() => {
-      if (!seen || !v.duration || v.seeking) return;
-      const playing = RH.radio.wantPlay && RH.radio.station === 'rain' && !RH.radio.audio.paused;
-      target = pinned !== null ? +pinned * OPEN : playing ? OPEN : BUD;
-      const want = target * v.duration, now = v.currentTime;
-      if (reduce || pinned !== null) { if (!v.paused) v.pause(); if (Math.abs(want - now) > .05) v.currentTime = want; return; }
-      if (want > now + .04) {
-        // Opening: the film plays forward, slowed (about half a minute to open); where a phone will not play it, by steps
-        if (canPlay && v.paused) { v.playbackRate = .4; const p = v.play(); if (p) p.catch(e => { if (e && e.name === 'NotAllowedError') canPlay = false; }); }   // a pause interrupting play() is not a refusal
-        if (!canPlay) v.currentTime = Math.min(want, now + .05);
-      } else {
-        if (!v.paused) v.pause();
-        if (want < now - .04) v.currentTime = Math.max(want, now - .05);   // closing, gently, by steps
-      }
-    }, 120);
-  })();
-
   // ── Today in Monte Verde, from Open-Meteo ──
   (async function weather() {
     const el = w('weather');
@@ -551,11 +532,13 @@
     [/could not be sent/, 'form.err.notSent']];
   const serverText = msg => { const m = SERVER.find(([re]) => re.test(msg || '')); return m ? T(m[1]) : T('form.error'); };
   let captcha = null;
+  // Google's own address for reCAPTCHA where google.com is blocked (mainland China); never waits more than a few seconds
+  const within = (p, ms) => Promise.race([p, new Promise(res => setTimeout(() => res(null), ms))]);
   const loadCaptcha = () => {
     if (!PROD) return Promise.resolve(null);
     if (!captcha) captcha = new Promise(res => {
       const sc = document.createElement('script');
-      sc.src = 'https://www.google.com/recaptcha/api.js?render=' + SITE_KEY;
+      sc.src = 'https://www.recaptcha.net/recaptcha/api.js?render=' + SITE_KEY;
       sc.onload = () => window.grecaptcha.ready(() => res(window.grecaptcha));
       sc.onerror = () => res(null);
       document.head.appendChild(sc);
@@ -578,23 +561,28 @@
       const status = form.querySelector('[data-status]'), btn = form.querySelector('[type="submit"]');
       const d = Object.fromEntries(new FormData(form));
       d.optin = !!(form.elements.optin && form.elements.optin.checked);
-      d.type = type; d.started = started;
+      d.type = type; d.elapsed = Date.now() - started;   // how long the form was open (the server's clock may differ)
       btn.disabled = true; status.textContent = T('form.sending');
       try {
-        const g = await loadCaptcha();
-        if (g) d.token = await g.execute(SITE_KEY, { action: type });
+        // On the site, a form goes with its reCAPTCHA token; without one (blocked, too slow) the email app takes over
+        const g = await within(loadCaptcha(), 8000);
+        if (PROD && !g) throw new Error('no reCAPTCHA');
+        if (g) { d.token = await within(g.execute(SITE_KEY, { action: type }), 8000); if (!d.token) throw new Error('no reCAPTCHA token'); }
         const r = await fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(d) });
-        if (!(r.headers.get('content-type') || '').includes('json')) throw new Error('no form service');
+        // no form service here (the preview), not set up yet, or the mail server failed: the email app takes over
+        if (r.status >= 500 || !(r.headers.get('content-type') || '').includes('json')) throw new Error('no form service');
         const j = await r.json();
         if (j.ok) {
-          form.innerHTML = `<p class="thanks">${T('thanks.' + type)}</p>`;
+          form.innerHTML = `<p class="thanks" role="status" tabindex="-1">${T('thanks.' + type)}</p>`;
+          form.querySelector('.thanks').focus();   // focus moves to the thanks, which is read aloud
           document.dispatchEvent(new CustomEvent('rh:form', { detail: type }));
         } else {
           status.textContent = serverText(j.error);
           btn.disabled = false;
         }
       } catch (err) {
-        status.textContent = T('form.opening');
+        // the email app opens; if there is none, the address stays here to write to
+        status.innerHTML = `${T('form.opening')} <a href="mailto:${MAIL}">${MAIL}</a>`;
         btn.disabled = false;
         location.href = asMail(type, d);
       }

@@ -23,6 +23,8 @@
   const moonNow = R.moon();
   const scene = $('#scene'), ui = $('#ui');
   if (!radio.canSetVolume) document.body.classList.add('no-volume');
+  // On a phone the page shows no volume control (the phone's own buttons set it), so the page never holds it low
+  if (matchMedia('(max-width:700px), (orientation:landscape) and (max-height:500px)').matches && radio.volume < .85) radio.setVolume(.85);
 
   // ── Rain Radio's sky: chosen in "Sky and timer" ───────────────
   const SKIES = [
@@ -50,8 +52,19 @@
 
   // ── Pictures ─────────────────────────────────────────────────
   const vid = $('#v-peace'), photo = $('#i-rain'), cycle = $('#v-cycle');
-  const playVid = () => { if (reduce) return; const p = vid.play(); if (p) p.catch(() => {}); };
-  playVid();
+  // The films wait until the page itself has loaded (the still of the bay shows until then); Rain Radio's photo comes
+  // then too, or at once when Rain Radio is the station
+  let filmsOk = document.readyState === 'complete';
+  const playVid = () => { if (reduce || !filmsOk) return; const p = vid.play(); if (p) p.catch(() => {}); };
+  const loadRainPhoto = () => { if (!photo.getAttribute('src')) photo.src = photo.dataset.src; };
+  if (radio.station === 'rain') loadRainPhoto();
+  const afterLoad = () => { filmsOk = true; vid.preload = 'auto'; playVid(); loadRainPhoto(); };
+  if (filmsOk) afterLoad(); else addEventListener('load', afterLoad, { once: true });
+  document.addEventListener('rh:station', loadRainPhoto);
+  // A film is copied to the picture only when its clock reaches a new frame (both films run at 30 frames a second),
+  // not at every refresh of the screen: on a 120 Hz phone it was copied four times over, and while paused not at all
+  const frames = v => { let shown = -1; return () => { const f = Math.floor(v.currentTime * 30); if (f === shown) return false; shown = f; return true; }; };
+  const vidFresh = frames(vid), cycleFresh = frames(cycle);
 
   // Where the horizon sits on screen (0 at the bottom), from where it sits in the frame and how the frame is cropped.
   function horizonUv(hzFrame, drift) {
@@ -62,6 +75,8 @@
   // ── WebGL ───────────────────────────────────────────────────
   const cv = $('#gl');
   const gl = cv.getContext('webgl', { premultipliedAlpha: false, powerPreference: 'low-power' });
+  // If the phone takes the graphics away (low memory, a long time in the background), the film or photo carries on
+  cv.addEventListener('webglcontextlost', e => { e.preventDefault(); fallback(); });
   let U = {}, useGL = true, lastChrome = '', vidReady = false, photoReady = false, stillReady = false, cycleReady = false, cyc = 0;
 
   // Golden and Rose play over the original Ayvalık film, which turns from blue to gold to rose and back by itself, so the
@@ -110,11 +125,15 @@
     still.src = 'media/ayvalik.jpg';
     const size = () => { const s = Math.min(1.5, devicePixelRatio || 1) * (innerWidth < 700 ? .8 : 1); cv.width = cv.clientWidth * s; cv.height = cv.clientHeight * s; gl.viewport(0, 0, cv.width, cv.height); };
     addEventListener('resize', size); size();
-    let visible = true, last = performance.now();
-    new IntersectionObserver(e => { visible = e[0].isIntersecting; if (visible) requestAnimationFrame(loop); }).observe(scene);
+    // One drawing loop at a time: it stops while the picture is scrolled out of view and starts again when it returns
+    let visible = true, last = performance.now(), frame = 0;
+    const start = () => { if (!frame) frame = requestAnimationFrame(loop); };
+    new IntersectionObserver(e => { visible = e[0].isIntersecting; if (visible) start(); }).observe(scene);
 
     function loop(now) {
+      frame = 0;
       if (!visible || !useGL) return;
+      if (now - last < 1000 / 62) { frame = requestAnimationFrame(loop); return; }   // at most 60 pictures a second
       const dt = Math.min(.1, (now - last) / 1000); last = now;
       const rain = radio.station === 'rain';
       grade = L.ease(grade, currentTarget(), reduce ? 1 : (light.demo ? .2 : .02));
@@ -128,14 +147,14 @@
       fx.sun += ((rain && sky === 'day' ? 1 : 0) - fx.sun) * Math.min(1, dt * .6);
       // The videos only need to play while Peace Radio can be seen, each only while its share of the picture shows.
       const warm = warmShare();
-      if (dv < .999 && cyc < .999) { if (vid.paused && !reduce) playVid(); if (vid.readyState >= 2) { gl.activeTexture(gl.TEXTURE0); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, vid); vidReady = true; } }
+      if (dv < .999 && cyc < .999) { if (vid.paused && !reduce) playVid(); if (vid.readyState >= 2 && vidFresh()) { gl.activeTexture(gl.TEXTURE0); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, vid); vidReady = true; } }
       else if (!vid.paused) vid.pause();
-      if (dv < .999 && (warm > 0 || cyc > .001) && !reduce) {
+      if (dv < .999 && (warm > 0 || cyc > .001) && !reduce && filmsOk) {
         if (cycle.paused) {
           if (cyc < .05) cycle.currentTime = 0;   // each time from its blue start: cool first, then the colour deepens
           const p = cycle.play(); if (p) p.catch(() => {});
         }
-        if (cycle.readyState >= 2) { gl.activeTexture(gl.TEXTURE2); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, cycle); cycleReady = true; }
+        if (cycle.readyState >= 2 && cycleFresh()) { gl.activeTexture(gl.TEXTURE2); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, cycle); cycleReady = true; }
       } else if (!cycle.paused) cycle.pause();
       cyc += ((cycleReady ? warm : 0) - cyc) * Math.min(1, dt * .6);
       const peaceReady = vidReady || stillReady;
@@ -159,9 +178,9 @@
         gl.drawArrays(gl.TRIANGLES, 0, 3);
       }
       paintChrome();
-      requestAnimationFrame(loop);
+      frame = requestAnimationFrame(loop);
     }
-    requestAnimationFrame(loop);
+    start();
   }
 
   // Without WebGL: the video or the photo, with a colour wash.
@@ -169,6 +188,7 @@
     if (!useGL) return;
     useGL = false;
     cv.remove();
+    loadRainPhoto();
     [vid, photo].forEach(el => { el.classList.remove('src'); el.classList.add('fallback'); });
     const tick = () => {
       grade = currentTarget();
@@ -349,9 +369,10 @@
     $('#mute').setAttribute('aria-pressed', s.muted);
     $('#mute').setAttribute('aria-label', T(s.muted ? 'ctl.unmute' : 'ctl.mute'));
     $('#play').setAttribute('aria-label', playLabel(s.wantPlay, s.station));
-    $('#now').textContent = s.station === 'peace'
-      ? (t && t.raga ? `${T('hero.raga', { raga: t.raga })}, ${t.artist || ''}${t.instrument ? ', ' + t.instrument.toLowerCase() : ''}` : T('hero.finding'))
+    const nowText = s.station === 'peace'
+      ? (t && t.raga ? [T('hero.raga', { raga: t.raga }), t.artist, t.instrument && t.instrument.toLowerCase()].filter(Boolean).join(', ') : T('hero.finding'))
       : T('hero.rainNow');
+    if ($('#now').textContent !== nowText) $('#now').textContent = nowText;
     paintWhen();
     rainSound.update();
   }
@@ -366,6 +387,8 @@
   radio.on('timer', t => { if (!t) document.querySelectorAll('[data-min]').forEach(b => b.setAttribute('aria-pressed', b.dataset.min === '0')); });
   $('#play').addEventListener('click', () => radio.toggle());
   document.querySelectorAll('[data-station]').forEach(b => b.addEventListener('click', () => radio.select(b.dataset.station)));
+  // #peace or #rain typed into the address, or a link on the page to the other station
+  addEventListener('hashchange', () => { const id = location.hash.slice(1); if (S[id] && id !== radio.station) radio.select(id); });
   document.querySelectorAll('[data-min]').forEach(b => b.addEventListener('click', () => {
     document.querySelectorAll('[data-min]').forEach(x => x.setAttribute('aria-pressed', x === b));
     radio.setTimer(+b.dataset.min);
@@ -400,7 +423,11 @@
   radio.on('state', () => { if (introDone) wake(); });
 
   // ── Installable as an app ───────────────────────────────────
-  if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch(() => {});
+  // the offline copy is set up once the page has loaded, never competing with it
+  if ('serviceWorker' in navigator && location.protocol === 'https:') {
+    const reg = () => navigator.serviceWorker.register('sw.js').catch(() => {});
+    if (document.readyState === 'complete') reg(); else addEventListener('load', reg, { once: true });
+  }
 
   // ── Full screen: the radio alone on the screen. Hidden where the browser cannot do it (iPhone Safari). ──
   const fsBtn = $('#fsBtn');
@@ -428,6 +455,8 @@
   // ── Language: the globe at the top corner opens the list, each language in its own words ──
   const langBtn = $('#langBtn'), langList = $('#langList');
   $('#langCode').textContent = T.code.toUpperCase();
+  // the button's name includes the letters it shows (EN), so speech control can find it by them
+  langBtn.setAttribute('aria-label', `${T('ctl.language')} (${T.code.toUpperCase()})`);
   langList.innerHTML = T.langs.map(l => `<li><a href="${T.href(l.code)}" lang="${l.code}" hreflang="${l.code}" dir="${l.dir}"${l.code === T.code ? ' aria-current="true"' : ''}>${l.name}</a></li>`).join('');
   langList.addEventListener('click', e => { const a = e.target.closest('a'); if (a) { e.preventDefault(); T.choose(a.lang); } });
   const closeLang = () => { langList.hidden = true; langBtn.setAttribute('aria-expanded', 'false'); };

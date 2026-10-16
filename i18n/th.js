@@ -2,12 +2,11 @@
   "_review": ["Raga is written ราก้า (a plain transliteration). ราคะ was avoided: in everyday Thai it reads as lust/passion. Please confirm with a Thai reader.", 
     "Brand: “Maharishi Gandharva Veda” is มหาริชี คันธรรพเวท (Gandharva Veda alone: คันธรรพเวท; Gandharva music: ดนตรีคันธรรพ์). คันธรรพเวท follows the Thai spelling of the upaveda, in line with อายุรเวท for Ayurveda. Some texts write คานธรรพเวท; please confirm with the Maharishi organisation in Thailand.",
     "Maharishi Mahesh Yogi is มหาริชี มเหศ โยคี. The dictionary spelling of the title would be มหาฤๅษี, but มหาริชี is the brand form I have seen; please confirm. Transcendental Meditation in running text is สมาธิทีเอ็ม (Transcendental Meditation). legal.tm keeps every trademark in Latin as asked.",
-    "Raga is written ราก้า, the word Thai writing on Indian music uses (ราก้า and ตาละ). In everyday Buddhist vocabulary ราก้า also means passion or lust. If the reviewer finds that reading too strong, ราก้า or ราค could replace it everywhere.",
     "Station names: Peace Radio = วิทยุสันติภาพ, Rain Radio = วิทยุสายฝน. STATION 01/02 = สถานี 01/02. hero.play = เล่น.",
     "Thai has no full stops, so sentences are separated by spaces, and question marks are left out as Thai usually does. Times in band.cap end with น. (นาฬิกา).",
     "Maharishi’s words (peace.why.quote, rain.ancient.*, rain.why.quote, about.*) are my own translations; please compare with any official Thai translations.",
     "Türkiye is ทูร์เคีย, the spelling the Royal Society and the Thai Foreign Ministry adopted in 2022 (older texts write ตุรกี). Academy of Arts for Enlightenment is สถาบันศิลปะเพื่อการรู้แจ้ง, with the English name in brackets in faq.1.a, keep.p and legal.copy.",
-    "Unsure: Ayvalık as อายวาลึค, Monte Verde as มอนเตเวร์เด, Reshma Shrivastava as เรศมา ศรีวาสตวะ, Raga Bhairav as ราก้าไภรวะ, Raga Yaman Kalyan as ราก้ายมันกัลยาณ."
+    "Unsure: Ayvalık as อายวาลึค, Monte Verde as มอนเตเวร์เด, Reshma Srivastava as เรศมา ศรีวาสตวะ, Raga Bhairav as ราก้าไภรวะ, Raga Yaman Kalyan as ราก้ายมันกัลยาณ."
   ],
   "meta.title": "Radyo Harmoni | วิทยุสันติภาพและวิทยุสายฝน | มหาริชี คันธรรพเวท",
   "meta.description": "ราก้ามหาริชี คันธรรพเวท ออกอากาศ 24/7 ตามช่วงเวลาในวันของคุณ วิทยุสันติภาพและวิทยุสายฝน ฟังฟรี เพื่อสมาธิ สันติภาพ และความกลมกลืน",
@@ -184,7 +183,7 @@
   "rain.invite.btn": "แบ่งปันวิดีโอ",
   "rain.farmers.research": "ในการศึกษานาน 60 วันกับโคนม 60 ตัว โคที่ได้ฟังดนตรีให้น้ำนมต่อวันมากกว่าโคที่ไม่ได้ฟังอย่างมีนัยสำคัญ และโคที่ได้ฟังดนตรีราก้ามีระดับคอร์ติซอลซึ่งเป็นฮอร์โมนความเครียดต่ำกว่า",
   "rain.garden.h2": "สวนที่ผลิบาน",
-  "rain.garden.p": "ในการศึกษากุหลาบ 30 ต้น กุหลาบที่ได้ฟังราก้าหนึ่งบททุกเช้าออกดอกมากกว่า และดอกใหญ่กว่า กุหลาบที่อยู่ในความเงียบหรือที่เปิดเพลงคลาสสิกตะวันตกหรือเพลงร็อกให้ฟัง เปิดวิทยุสายฝน แล้วกุหลาบตรงนี้จะบานไปพร้อมกับเสียงดนตรี",
+  "rain.garden.p": "ในการศึกษากุหลาบ 30 ต้น กุหลาบที่ได้ฟังราก้าหนึ่งบททุกเช้าออกดอกมากกว่า และดอกใหญ่กว่า กุหลาบที่อยู่ในความเงียบหรือที่เปิดเพลงคลาสสิกตะวันตกหรือเพลงร็อกให้ฟัง",
   "rain.share.h2": "แบ่งปันท้องฟ้าของคุณ",
   "rain.share.p": "แบ่งปันภาพทะเลหรือภาพทิวทัศน์ของคุณ เพื่อนำมาใช้เป็นพื้นหลังของเครื่องเล่น",
   "share.photo": "แบ่งปันภาพ",
@@ -261,7 +260,7 @@
   "legal.music": "ลิขสิทธิ์ดนตรี © 2026 Maharishi Vedic University Ltd. และ Maharishi Foundation Ltd. สงวนลิขสิทธิ์ทั่วโลก",
   "legal.tm": "Transcendental Meditation, TM-Sidhi, Maharishi, Maharishi Vedic, Vedic Science, Maharishi International University, Maharishi Vāstu, Maharishi Gandharva Veda, Fortune-Creating, Maharishi Sthāpatya Veda, Maharishi AyurVeda และคำอื่น ๆ ที่ใช้ในเว็บไซต์นี้ ได้รับความคุ้มครองทางเครื่องหมายการค้าในหลายประเทศทั่วโลก รวมถึงสหรัฐอเมริกา และใช้โดยได้รับอนุญาต",
   "legal.recaptcha": "เว็บไซต์นี้ได้รับการปกป้องโดย reCAPTCHA และอยู่ภายใต้<a href=\"https://policies.google.com/privacy\">นโยบายความเป็นส่วนตัว</a>และ<a href=\"https://policies.google.com/terms\">ข้อกำหนดในการให้บริการ</a>ของ Google",
-  "legal.copy": "ลิขสิทธิ์ 2026 © สถาบันศิลปะเพื่อการรู้แจ้ง (Academy of Arts for Enlightenment)",
+  "legal.copy": "ลิขสิทธิ์ © 2026 สถาบันศิลปะเพื่อการรู้แจ้ง (Academy of Arts for Enlightenment)",
   "legal.privacy": "นโยบายความเป็นส่วนตัว",
   "legal.choices": "ตัวเลือกความเป็นส่วนตัว",
 

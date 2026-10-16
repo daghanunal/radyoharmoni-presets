@@ -24,7 +24,7 @@
       blurb: 'Gandharva Veda ragas that follow the hours of your day',
       hls: true,
       musicians: ['Devabrata Chaudhuri, sitar', 'Anant Lal, shehnai', 'Hari Prasad Chaurasia, flute',
-        'Amar Nath, flute', 'Shiv Kumar Sharma, santoor', 'Tanima Thakur, vocal', 'Reshma Shrivastava, sitar'],
+        'Amar Nath, flute', 'Shiv Kumar Sharma, santoor', 'Tanima Thakur, vocal', 'Reshma Srivastava, sitar'],
       video: 'https://radyoharmoni.org/wp-content/uploads/2026/03/Carousel_1_small.m4v',
       place: 'Ayvalık, Türkiye'
     },
@@ -34,7 +34,7 @@
       blurb: 'Ragas for rainfall, played without pause',
       hls: false,
       url: 'https://stream.radyoharmoni.org/listen/rain_radio/radio.mp3',
-      musicians: ['Amar Nath, flute', 'Reshma Shrivastava, sitar'],
+      musicians: ['Amar Nath, flute', 'Reshma Srivastava, sitar'],
       video: 'https://radyoharmoni.org/wp-content/uploads/2026/03/Carousel_2_small.m4v',
       place: 'Monteverde, Costa Rica'
     }
@@ -110,7 +110,7 @@
     }
     // "Hari Prasad Chaurasia (Bansuri) & Faiyaz Khan (Tabla)" already names the instruments.
     if (artist && /\(/.test(artist)) {
-      artist = artist.replace(/\s*\(([^)]+)\)/g, (_, i) => ', ' + i.toLowerCase()).replace(/\s*&\s*/g, ', with ');
+      artist = artist.replace(/\s*\(([^)]+)\)/g, (_, i) => ', ' + i.toLowerCase()).replace(/\s*&\s*/g, ' & ');   // no English words: it is shown in every language
       instrument = null;
     }
     return {
@@ -187,7 +187,8 @@
       this.playing = false;
       this.buffering = false;
       this.wantPlay = false;
-      this.volume = parseFloat(localStorage.getItem('rh-volume') || '0.85');
+      this.volume = 0.85;
+      try { const v = parseFloat(localStorage.getItem('rh-volume')); if (v >= 0 && v <= 1) this.volume = v; } catch (e) {}   // storage may be blocked
       this.track = null;
       this.hls = null;
       this.timer = null;
@@ -201,6 +202,8 @@
         this.emit('state', this.state());
       }));
       a.addEventListener('error', () => this.reconnectSoon());
+      // The stream server closed the connection (a restart, an update): the buffer plays out, then the sound ends
+      a.addEventListener('ended', () => this.reconnectSoon());
       this.health = setInterval(() => this.checkHealth(), 20000);
       this.initMediaSession();
       this.watchInterruptions();
@@ -214,7 +217,7 @@
       this.interrupted = false; this.deviceChanged = 0;
       if (navigator.mediaDevices && navigator.mediaDevices.addEventListener) navigator.mediaDevices.addEventListener('devicechange', () => { this.deviceChanged = Date.now(); });
       a.addEventListener('pause', () => {
-        if (!this.wantPlay || this.detaching) return;
+        if (!this.wantPlay || this.detaching || a.ended) return;
         if (Date.now() - this.deviceChanged < 2500) { this.wantPlay = false; this.syncSession(); this.emit('state', this.state()); return; }
         if (!this.interrupted) { this.interrupted = true; this.pausedAt = Date.now(); }
       });
@@ -245,7 +248,7 @@
       return t.volume === 0.5;
     }
 
-    on(ev, fn) { (this.listeners[ev] ||= []).push(fn); if (ev === 'state') fn(this.state()); return this; }
+    on(ev, fn) { (this.listeners[ev] = this.listeners[ev] || []).push(fn); if (ev === 'state') fn(this.state()); return this; }
     emit(ev, data) { (this.listeners[ev] || []).forEach(fn => { try { fn(data); } catch (e) { console.error(e); } }); }
 
     state() {
@@ -253,19 +256,29 @@
                volume: this.volume, track: this.track, wantPlay: this.wantPlay };
     }
 
+    // Each play has its own number: a pause, or another play, while the stream is still loading makes an earlier play
+    // step aside, so a quick Play, Pause on a slow network never ends with sound under a Play button.
     async play(stationId) {
       if (stationId && stationId !== this.station) return this.select(stationId, true);
+      const gen = this.gen = (this.gen || 0) + 1;
+      const current = () => gen === this.gen && this.wantPlay;
       this.wantPlay = true;
       this.buffering = true;
       this.emit('state', this.state());
-      if (!this.audio.src && !this.hls) await this.attach();
+      if (!this.audio.src && !this.hls) {
+        if (!this.attaching) this.attaching = this.attach().finally(() => { this.attaching = null; });
+        await this.attaching;
+      }
+      if (!current()) return;
       this.ensureGraph();
       this.audio.volume = this.canSetVolume ? 0 : 1;
       try {
         await this.audio.play();
+        if (!current()) { if (!this.wantPlay) this.audio.pause(); return; }
         this.syncSession();
         this.rampTo(this.volume, this.opts.fadeIn || 1200);
       } catch (e) {
+        if (gen !== this.gen) return;
         this.wantPlay = false;
         this.buffering = false;
         this.syncSession();
@@ -288,6 +301,8 @@
 
     async select(id, autoplay) {
       if (!STATIONS[id]) return;
+      // The station already chosen: nothing to tear down (a tap on it would only rebuffer the stream)
+      if (id === this.station) { if (autoplay && !this.wantPlay) await this.play(); return; }
       const resume = autoplay ?? this.wantPlay;
       const swap = async () => {
         this.detach();
@@ -311,7 +326,7 @@
 
     setVolume(v) {
       this.volume = Math.max(0, Math.min(1, v));
-      localStorage.setItem('rh-volume', String(this.volume));
+      try { localStorage.setItem('rh-volume', String(this.volume)); } catch (e) {}
       if (this.fadeFinish) this.fadeFinish();   // a fade in progress ends now (a pause still pauses)
       if (this.canSetVolume) this.audio.volume = this.volume;
       this.emit('state', this.state());
@@ -383,7 +398,7 @@
     }
 
     async attach() {
-      const st = STATIONS[this.station];
+      const id = this.station, st = STATIONS[id];
       if (!st.hls) { this.audio.src = st.url; return; }
       const url = timeshiftUrl();
       if (this.nativeHls) {
@@ -395,7 +410,9 @@
         return;
       }
       const Hls = await loadHls();
+      if (this.station !== id) return;   // another station was chosen while hls.js loaded
       if (!Hls.isSupported()) { this.audio.src = url; return; }
+      if (this.hls) this.hls.destroy();
       this.hls = new Hls({ lowLatencyMode: false, maxBufferLength: 60 });
       this.hls.on(Hls.Events.FRAG_PARSING_METADATA, (_, data) => {
         for (const s of data.samples || []) {
@@ -442,6 +459,7 @@
     detach() {
       // our own pause, not an interruption (the pause event arrives a moment later)
       this.detaching = true; clearTimeout(this.detachDone);
+      this.attaching = null;
       this.detachDone = setTimeout(() => { this.detaching = false; }, 300);
       if (this.hls) { this.hls.destroy(); this.hls = null; }
       this.audio.pause();
