@@ -10,7 +10,10 @@
   T.apply();
   if (T.same('brand.mgv')) $('#mgv').lang = 'en';
   // Some languages put the hours first: Turkish says "7/24 ÇAL"
-  if (T('hero.order') === 'always-play') $('#playrow').classList.add('always-first');
+  // Turkish reads "kesintisiz bir uyum etkisi için ▶ 7/24 ÇALIN": the purpose first, then the hours, then the word
+  const order = T('hero.order');
+  if (/always-play$/.test(order)) $('#playrow').classList.add('always-first');
+  if (/^cap-/.test(order)) $('#playrow').classList.add('cap-first');
   S.peace.name = T('station.peace');
   S.rain.name = T('station.rain');
   const qs = new URLSearchParams(location.search);
@@ -30,7 +33,7 @@
   const SKIES = [
     ['day', T('sky.day'), 'linear-gradient(180deg,#bcd6ea,#6e9a6a)', '#3f5c55'],
     ['sun', T('sky.sun'), 'radial-gradient(circle at 68% 32%,#fffbe8 0 13%,#ffe7a6 22%,rgba(255,231,166,0) 44%),radial-gradient(ellipse at 28% 78%,#fff 0 22%,rgba(255,255,255,0) 46%),linear-gradient(180deg,#8fc1ea,#d6e8f5)', '#3f6787'],
-    ['rain', T('sky.rain'), 'linear-gradient(180deg,#e8eef6,#8ba2bd)', '#4b6078'],
+    ['rain', T('sky.rain'), 'linear-gradient(180deg,#e8eef6,#8ba2bd)', '#35638B'],
     ['rainbow', T('sky.rainbow'), 'conic-gradient(#f2a0a0,#f6d28a,#a8d8a0,#8fb9e8,#c3a2e8,#f2a0a0)', '#574f78'],
     ['night', T('sky.night'), 'linear-gradient(180deg,#141c6e,#0b135b)', '#0b135b']
   ];
@@ -140,7 +143,7 @@
       hzNow += ((rain ? .5 : .34) - hzNow) * (reduce ? 1 : .03);
       dv += ((rain ? 1 : 0) - dv) * (reduce ? 1 : Math.min(1, dt * 2.2));
       moonK += ((grade.dark > .5 ? 1 : 0) - moonK) * Math.min(1, dt * .8);
-      fx.clouds += ((rain && sky === 'rain' ? .7 : 0) - fx.clouds) * Math.min(1, dt * .7);   // rain comes with a grey sky
+      fx.clouds += ((rain && sky === 'rain' ? .5 : 0) - fx.clouds) * Math.min(1, dt * .7);   // rain comes with a grey-blue sky
       fx.sunC += ((rain && sky === 'sun' ? 1 : 0) - fx.sunC) * Math.min(1, dt * .5);
       fx.rain += ((rain && sky === 'rain' ? 1 : 0) - fx.rain) * Math.min(1, dt * .9);
       fx.bow += ((rain && sky === 'rainbow' ? 1 : 0) - fx.bow) * Math.min(1, dt * .5);
@@ -207,13 +210,18 @@
     const rain = radio.station === 'rain';
     const panel = rain ? SKIES.find(s => s[0] === sky)[3]
       : L.css(grade.top.map((v, i) => (v * (1 - grade.dark) + grade.bot[i] * grade.dark) * (.5 + .22 * grade.dark)));
-    const key = grade.mgv + L.css(grade.top) + panel + rain + sky;
+    // Language and Donate keep Peace Radio's colour for the hour on both stations (the owner's note)
+    const corner = rain ? light.target().mgv : grade.mgv;
+    const key = grade.mgv + L.css(grade.top) + panel + rain + sky + corner;
     if (key === lastChrome) return;
     lastChrome = key;
     const root = document.documentElement.style;
-    root.setProperty('--mgv', rain ? '#fffdf8' : grade.mgv);
+    // The name keeps Peace Radio's colour on Rain Radio, so changing station never shades it; only under the
+    // grey-blue rain sky does it turn cream. No shadow (the owner's note: it darkened the name in the change).
+    root.setProperty('--mgv', rain && sky === 'rain' ? '#fffdf8' : grade.mgv);
+    root.setProperty('--corner', corner);
     // Over Monte Verde the cream name needs a shadow to read: a deep sky blue, never black
-    root.setProperty('--mgv-shadow', rain ? '0 1px 14px rgba(24,62,104,.55),0 0 2px rgba(24,62,104,.25)' : 'none');
+    root.setProperty('--mgv-shadow', 'none');
     // White words on a pale sky (golden, rose, day) get a soft shadow behind them so they stay readable.
     const pale = rain ? (sky === 'day' || sky === 'sun' || sky === 'rainbow') : (grade.top[0] * .299 + grade.top[1] * .587 + grade.top[2] * .114) > .62;
     root.setProperty('--title-shadow', pale ? '0 1px 2px rgba(70,50,40,.16),0 2px 26px rgba(70,45,35,.34)' : '0 2px 40px rgba(0,0,0,.12)');
@@ -348,7 +356,7 @@
       if (!this.ctx) return;
       if (want && this.ctx.state === 'suspended') this.ctx.resume();
       // About 17 dB under the music (the stream runs near -18 LUFS, the loop at -27)
-      const level = on ? .4 * (radio.canSetVolume ? radio.volume : 1) : 0;
+      const level = on ? .4 * (radio.canSetVolume ? radio.volume * radio.duck : 1) : 0;
       const hidden = document.visibilityState !== 'visible';
       clearTimeout(this.sleep);
       this.gain.gain.cancelScheduledValues(this.ctx.currentTime);
@@ -399,6 +407,19 @@
   vol.addEventListener('input', () => { radio.setVolume(+vol.value); fill(); if (radio.audio.muted && +vol.value > 0) radio.setMuted(false); rainSound.update(); });
   $('#mute').addEventListener('click', () => radio.setMuted(!radio.audio.muted));
 
+  // ── Reading further down the page, the music steps back, and comes forward again on the way up (the owner's
+  //    note). Down to 40% a screen below the picture; it never touches the listener's own volume. ──
+  let duckNow = 1, ducking = false;
+  const duckTarget = () => 1 - .6 * Math.min(1, Math.max(0, scrollY / innerHeight));
+  const duckTick = () => {
+    const t = duckTarget();
+    duckNow += (t - duckNow) * .12;
+    if (Math.abs(t - duckNow) < .003) { duckNow = t; ducking = false; radio.setDuck(t); rainSound.update(); return; }
+    radio.setDuck(duckNow);
+    requestAnimationFrame(duckTick);
+  };
+  addEventListener('scroll', () => { if (!ducking) { ducking = true; requestAnimationFrame(duckTick); } }, { passive: true });
+
   // ── The arrow at the foot of the picture leads to the sections below ──
   $('#down').addEventListener('click', () => $('#info').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' }));
   const scrolled = () => document.body.classList.toggle('scrolled', scrollY > 40);
@@ -409,9 +430,15 @@
   function wake() {
     idle.forEach(clearTimeout); idle = [];
     scene.classList.remove('still-1', 'still-2', 'still');
-    if (!introDone || !radio.wantPlay || scrollY > innerHeight * .5 || !panel.hidden || !$('#langList').hidden) return;
+    if (!introDone || !radio.wantPlay || scrollY > innerHeight * .5) return;
     const fast = qs.has('fast') ? .25 : 1;
-    idle.push(setTimeout(() => scene.classList.add('still-1'), 9000 * fast));
+    // An open menu (Light and timer, the languages) closes with the controls when nothing has moved for a while
+    const closeMenus = () => {
+      if (panel.contains(document.activeElement) || $('#langList').contains(document.activeElement)) document.activeElement.blur();
+      if (!panel.hidden) { panel.hidden = true; moreBtn.setAttribute('aria-expanded', false); }
+      if (!$('#langList').hidden) { $('#langList').hidden = true; $('#langBtn').setAttribute('aria-expanded', 'false'); }
+    };
+    idle.push(setTimeout(() => { closeMenus(); scene.classList.add('still-1'); }, 9000 * fast));
     idle.push(setTimeout(() => {
       scene.classList.add('still-2', 'still');
       let seen = true;

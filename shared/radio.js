@@ -188,6 +188,7 @@
       this.buffering = false;
       this.wantPlay = false;
       this.volume = 0.85;
+      this.duck = 1;   // a page may let the music step back (scrolling away from the player); never stored
       try { const v = parseFloat(localStorage.getItem('rh-volume')); if (v >= 0 && v <= 1) this.volume = v; } catch (e) {}   // storage may be blocked
       this.track = null;
       this.hls = null;
@@ -276,7 +277,7 @@
         await this.audio.play();
         if (!current()) { if (!this.wantPlay) this.audio.pause(); return; }
         this.syncSession();
-        this.rampTo(this.volume, this.opts.fadeIn || 1200);
+        this.rampTo(() => this.heard(), this.opts.fadeIn || 1200);
       } catch (e) {
         if (gen !== this.gen) return;
         this.wantPlay = false;
@@ -328,8 +329,19 @@
       this.volume = Math.max(0, Math.min(1, v));
       try { localStorage.setItem('rh-volume', String(this.volume)); } catch (e) {}
       if (this.fadeFinish) this.fadeFinish();   // a fade in progress ends now (a pause still pauses)
-      if (this.canSetVolume) this.audio.volume = this.volume;
+      if (this.canSetVolume) this.audio.volume = this.heard();
       this.emit('state', this.state());
+    }
+
+    // What the listener hears: their own volume, times how far the page has let the music step back
+    heard() { return this.volume * this.duck; }
+
+    setDuck(k) {
+      k = Math.max(0, Math.min(1, k));
+      if (Math.abs(k - this.duck) < .002) return;
+      this.duck = k;
+      const timerFading = this.timer && this.timer.endAt - Date.now() <= 30000;
+      if (this.canSetVolume && !this.fade && !this.audio.paused && this.wantPlay && !timerFading) this.audio.volume = this.heard();
     }
 
     // Meditation timer: the music fades over the final 30 seconds, then rests.
@@ -343,7 +355,7 @@
         const remaining = Math.max(0, endAt - Date.now());
         this.emit('timer', { remaining, total, minutes });
         if (remaining <= 30000 && remaining > 0 && this.canSetVolume && !this.audio.paused) {
-          this.audio.volume = this.volume * (remaining / 30000);
+          this.audio.volume = this.heard() * (remaining / 30000);
         }
         if (remaining === 0) {
           clearInterval(this.timerTick);
@@ -351,7 +363,7 @@
           this.wantPlay = false;
           this.audio.pause();
           this.syncSession();
-          if (this.canSetVolume) this.audio.volume = this.volume;
+          if (this.canSetVolume) this.audio.volume = this.heard();
           this.emit('timer', null);
           this.emit('state', this.state());
         }
@@ -471,13 +483,14 @@
     // never runs: there it happens at once, and a timer finishes any fade the frames leave halfway. Otherwise a pause
     // from the lock screen would turn the button to Play while the sound went on, and a play would stay silent.
     rampTo(target, ms, done) {
+      const aim = typeof target === 'function' ? target : () => target;
       if (this.fade) cancelAnimationFrame(this.fade);
       clearTimeout(this.fadeEnd);
       const finish = () => {
         if (this.fadeFinish !== finish) return;
         cancelAnimationFrame(this.fade); clearTimeout(this.fadeEnd);
         this.fade = null; this.fadeFinish = null;
-        if (this.canSetVolume) this.audio.volume = target;
+        if (this.canSetVolume) this.audio.volume = aim();
         done && done();
       };
       this.fadeFinish = finish;
@@ -486,7 +499,7 @@
       const t0 = performance.now();
       const step = now => {
         const k = Math.min(1, (now - t0) / ms);
-        this.audio.volume = from + (target - from) * (k * k * (3 - 2 * k));
+        this.audio.volume = from + (aim() - from) * (k * k * (3 - 2 * k));
         if (k < 1) this.fade = requestAnimationFrame(step);
         else finish();
       };

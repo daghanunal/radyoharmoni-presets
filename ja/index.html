@@ -85,13 +85,13 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   background:radial-gradient(ellipse 60% 42% at 50% 64%,rgba(20,24,30,.16),transparent 70%)}
 .fallback-tint{position:absolute;inset:0;z-index:-1;mix-blend-mode:color;opacity:0;transition:opacity 4s,background 4s;pointer-events:none}
 
-.ui{position:absolute;inset:0;display:grid;grid-template-rows:auto 1fr auto;padding:clamp(40px,7vh,80px) clamp(18px,4vw,56px) 26px}
-.mgv,.title,.st,.playrow,.bar,.lang{transition:opacity 1.6s ease}
+.ui{position:absolute;inset:0;display:grid;grid-template-rows:auto 1fr auto;padding:clamp(40px,7vh,80px) clamp(18px,4vw,56px) 38px}
+.mgv,.title,.st,.playrow,.bar,.lang,.give{transition:opacity 1.6s ease}
 .still{cursor:none}
 
 /* As on Harmoni: one line of spaced capitals in Cormorant, a touch smaller. The colour follows the light:
    Canva's taupe on pale skies, cream at night and over Monte Verde. */
-.mgv{text-align:center;font:600 clamp(14px,1.45vw,18px)/1.3 var(--serif);letter-spacing:.32em;text-transform:uppercase;color:var(--mgv,var(--taupe));text-shadow:var(--mgv-shadow,none);padding-inline-start:.32em;transition:color 4s,opacity 1.6s ease}
+.mgv{text-align:center;font:600 clamp(16px,1.6vw,20px)/1.3 var(--serif);letter-spacing:.32em;text-transform:uppercase;color:var(--mgv,var(--taupe));text-shadow:var(--mgv-shadow,none);padding-inline-start:.32em;transition:color 4s,opacity 1.6s ease}
 
 .center{align-self:center;justify-self:center;display:grid;justify-items:center;margin-top:8vh}
 .title{display:inline-grid;justify-items:end}
@@ -112,6 +112,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .word{font:600 clamp(24px,2.4vw,40px)/1 var(--play);letter-spacing:.14em;color:var(--cream)}
 /* Where the language says the hours first (Turkish: 7/24 ÇAL) */
 .always-first .always{order:1}.always-first .word{order:2}.always-first .cap{order:3}.always-first .now,.always-first .when,.always-first noscript{order:4}
+/* …and where the purpose comes first, the line stands before the button (above the row on a phone) */
+.cap-first .cap{order:-1;margin-left:0;margin-right:clamp(10px,1.6vw,30px)}
 .word,.always,.cap,.title .st{text-shadow:0 1px 18px rgba(50,40,60,.28)}
 .always{font:italic 400 clamp(48px,4.8vw,76px)/1 var(--serif);color:var(--cream);letter-spacing:-.01em;white-space:nowrap}
 .always span{display:inline-block;opacity:0;animation:rise 1.4s ease forwards}
@@ -122,7 +124,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .on .when{opacity:.88}
 
 /* Opening: the name first, then Peace Radio, then the player. */
-.intro .mgv,.intro .st,.intro .playrow,.intro .bar,.intro .lang{opacity:0;pointer-events:none}
+.intro .mgv,.intro .st,.intro .playrow,.intro .bar,.intro .lang,.intro .give{opacity:0;pointer-events:none}
 .intro.i-mgv .mgv{opacity:1}
 .intro.i-st .st{opacity:1}
 .title.out{opacity:0;transition:opacity .8s ease}
@@ -132,7 +134,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .swapping .title,.swapping .cap,.swapping .credit{opacity:0;transition:opacity .55s ease}
 
 /* Stillness, in two steps: first the player and its controls, then every word. */
-.still-1 .playrow,.still-1 .bar,.still-1 .lang{opacity:0;pointer-events:none}
+.still-1 .playrow,.still-1 .bar,.still-1 .lang,.still-1 .give{opacity:0;pointer-events:none}
 .still-2 .mgv,.still-2 .title,.still-2 .st{opacity:0}
 .still-1 .playrow,.still-1 .bar,.still-2 .mgv,.still-2 .title{transition-duration:2.4s}
 
@@ -189,8 +191,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .panel .group.col{flex-direction:column;align-items:stretch}
 .panel .group.col button{text-align:start;padding:7px 10px}
 /* A faint arrow at the foot of the picture: there is more below. Gone once the page is scrolled, or when the words fade. */
-.down{position:absolute;left:50%;bottom:2px;width:48px;height:24px;margin-left:-24px;display:grid;place-items:center;color:var(--white);opacity:.55;filter:drop-shadow(0 1px 6px rgba(40,30,20,.35));transition:opacity .9s ease}
-.down svg{width:24px;height:12px;animation:nudge 2.8s ease-in-out infinite}
+.down{position:absolute;left:50%;bottom:4px;width:60px;height:32px;margin-left:-30px;display:grid;place-items:center;color:var(--white);opacity:.92;filter:drop-shadow(0 1px 2px rgba(20,16,10,.55)) drop-shadow(0 0 10px rgba(20,16,10,.3));transition:opacity .9s ease}
+.down svg{width:30px;height:15px;animation:nudge 2.8s ease-in-out infinite}
 .down:hover{opacity:1}
 @keyframes nudge{0%,100%{transform:none}50%{transform:translateY(5px)}}
 .intro .down,.still-1 .down,.scrolled .down{opacity:0;pointer-events:none}
@@ -199,13 +201,19 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 
 /* Language: a small globe at the top corner of the picture, its list in the same glass as the menu */
 .lang{position:absolute;top:clamp(26px,calc(7vh - 14px),66px);inset-inline-end:clamp(18px,4vw,56px);z-index:6}
-.lang-btn{display:flex;align-items:center;gap:7px;padding:7px 12px;border-radius:999px;font:400 12.5px/1 var(--sans);letter-spacing:.12em;color:var(--mgv,var(--white));opacity:.82;text-shadow:var(--mgv-shadow,0 1px 10px rgba(30,40,50,.35));transition:opacity .2s,background .2s}
+.lang-btn{display:flex;align-items:center;gap:7px;padding:7px 12px;border-radius:999px;font:400 12.5px/1 var(--sans);letter-spacing:.12em;color:var(--corner,var(--white));opacity:.82;transition:opacity .2s,background .2s}
 .lang-btn:hover,.lang-btn[aria-expanded="true"]{opacity:1;background:rgba(255,253,248,.18)}
 .lang-btn svg{width:16px;height:16px;filter:drop-shadow(0 1px 6px rgba(30,40,50,.3))}
 .lang-btn::after{content:"";position:absolute;inset:-6px}
 .lang-list{position:absolute;top:calc(100% + 10px);inset-inline-end:0;width:min(340px,calc(100vw - 28px));list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:2px 6px;padding:12px;border-radius:22px;
   background:var(--panel);backdrop-filter:blur(18px) saturate(1.2);-webkit-backdrop-filter:blur(18px) saturate(1.2);border:1px solid rgba(255,253,248,.22);transition:background 1.2s}
 .lang-list[hidden]{display:none}
+/* Donate, as quiet as the language button and opposite it: both take Peace Radio's colour for the hour, and fade with the controls */
+.give{position:absolute;top:clamp(26px,calc(7vh - 14px),66px);inset-inline-start:clamp(18px,4vw,56px);z-index:6;display:flex;align-items:center;gap:7px;padding:7px 12px;border-radius:999px;
+  font:400 12.5px/1 var(--sans);letter-spacing:.08em;color:var(--corner,var(--white));opacity:.82;text-decoration:none;transition:opacity .2s,background .2s}
+.give:hover{opacity:1;background:rgba(255,253,248,.18)}
+.give svg{width:15px;height:15px;filter:drop-shadow(0 1px 6px rgba(30,40,50,.3))}
+.give::after{content:"";position:absolute;inset:-6px}
 .lang-list a{display:block;text-align:match-parent;padding:8px 12px;border-radius:999px;color:var(--white);text-decoration:none;font:400 15px/1.3 var(--sans);opacity:.85}
 .lang-list a:hover{opacity:1;background:rgba(255,253,248,.16)}
 .lang-list a[aria-current="true"]{opacity:1;background:rgba(255,253,248,.24)}
@@ -236,6 +244,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .after{background:linear-gradient(180deg,color-mix(in srgb,var(--mood-a) 26%,#f7f2ea) 0%,#f7f2ea 560px,#f7f2ea calc(100% - 1100px),#efe1d6 100%);transition:background 4s}
 .info-set{display:none}
 .info-set.on{display:block;animation:settle .9s ease both}
+/* What a listener can do, the same on both stations, follows the station's own sections, after the same rule line */
+.info-common > .row:first-child{padding-top:0}
+.info-common > .row:first-child > .cols{border-top:1px solid rgba(127,117,98,.22);padding-top:clamp(80px,10vw,140px)}
 @keyframes settle{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 .wrap{max-width:1180px;margin:0 auto}
 .row{padding:clamp(80px,10vw,140px) clamp(20px,5vw,48px)}
@@ -386,7 +397,7 @@ footer :is(.about-body p, .about .cols p){text-align:justify;-webkit-hyphens:aut
 .inline-form{max-width:520px}
 .inline-form input{flex:1 1 220px;font:400 16px/1.4 var(--sans);color:var(--ink);background:#fffdf8;border:1px solid #a08e70;border-radius:999px;padding:14px 20px}
 
-footer{background:linear-gradient(180deg,#fcab7f 30%,#ce8b35 100%);color:#4a2e12;padding:60px clamp(20px,5vw,48px) 90px}
+footer{background:linear-gradient(180deg,#fcab7f 30%,#ce8b35 100%);color:#2e1a07;padding:60px clamp(20px,5vw,48px) 90px}
 footer .wrap{display:grid;grid-template-columns:1fr;gap:36px}
 .foot-row{display:grid;grid-template-columns:1fr 1fr;gap:28px 60px;align-items:start}
 .foot-row .about-rh{grid-column:1;grid-row:1}
@@ -399,7 +410,7 @@ footer .wrap{display:grid;grid-template-columns:1fr;gap:36px}
 .friends{text-align:end}
 .friends > p{max-width:none}
 .friends p{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:6px 26px}
-.friends a{font:italic 400 19px/1.4 var(--serif);text-decoration-color:rgba(74,46,18,.4);text-underline-offset:4px}
+.friends a{font:italic 400 19px/1.4 var(--serif);color:inherit;text-decoration-color:rgba(46,26,7,.45);text-underline-offset:4px}
 .about{grid-column:1/-1}
 .about summary{list-style:none;cursor:pointer;display:inline-flex;align-items:center;gap:12px;font:italic 400 clamp(24px,2.4vw,30px)/1.2 var(--serif)}
 .about summary::-webkit-details-marker{display:none}
@@ -411,6 +422,14 @@ footer .wrap{display:grid;grid-template-columns:1fr;gap:36px}
 .about .cols p + p{margin-top:10px}
 .legal{grid-column:1/-1;font-size:12px;line-height:1.6;border-top:1px solid rgba(74,46,18,.25);padding-top:22px}
 .legal p+p{margin-top:8px}
+footer a{color:inherit}
+/* rows 34-35: one colour for every word in the footer, set a step heavier so it reads on the orange */
+footer :is(p,li,a,.foot-h){color:inherit;font-weight:400}
+footer .langs a{opacity:1}
+footer .langs a[aria-current="true"]{text-decoration:underline;text-underline-offset:3px}
+.foot-note{font-size:12.5px;line-height:1.6;margin-top:12px}
+.skies[hidden]{display:none}
+.garden-voice{margin-top:38px}
 
 @media (max-width:900px){
   .cols,footer .wrap,.about .cols,.foot-row{grid-template-columns:1fr}
@@ -423,7 +442,7 @@ footer .wrap{display:grid;grid-template-columns:1fr;gap:36px}
 }
 @media (max-width:700px){
   .ui{padding-top:54px;padding-bottom:calc(14px + env(safe-area-inset-bottom))}
-  .mgv{letter-spacing:.26em;padding-left:.26em;font-size:13px}
+  .mgv{letter-spacing:.26em;padding-left:.26em;font-size:min(15px,4vw)}
   .title h1{font-size:clamp(46px,13vw,64px)}
   .word{font-size:26px}
   .always{font-size:52px}
@@ -433,6 +452,7 @@ footer .wrap{display:grid;grid-template-columns:1fr;gap:36px}
   .playrow{grid-template-columns:1fr auto auto auto 1fr;gap:12px 14px;margin-top:26px}
   .disc{grid-column:2}
   .cap{grid-column:1/-1;justify-self:center;text-align:center;margin:6px 0 0;font-size:14px;letter-spacing:.1em}
+  .cap-first .cap{margin:0 0 4px}
   .now{font-size:18px;text-align:center;margin-top:10px}
   .when{font-size:12px;margin-top:-4px}
   .bar{flex-direction:column;align-items:center;text-align:center;gap:10px;letter-spacing:.1em}
@@ -441,6 +461,7 @@ footer .wrap{display:grid;grid-template-columns:1fr;gap:36px}
   .credit{order:2;opacity:.62;font-size:11px;margin-top:4px}
   .down{left:auto;right:6px;bottom:max(4px,env(safe-area-inset-bottom));margin-left:0}
   .lang{top:max(10px,env(safe-area-inset-top));inset-inline-end:10px}
+  .give{top:max(10px,env(safe-area-inset-top));inset-inline-start:10px;padding:8px 10px;font-size:11.5px}
   .lang-btn{padding:8px 10px;font-size:11.5px}
   /* The title stands just below Yumurta island's waterline (30% down the picture), whatever lines follow it */
   .center{align-self:start;margin-top:calc(max(100svh,560px) * .3 - 3.9vw - 50px)}
@@ -475,7 +496,7 @@ footer .wrap{display:grid;grid-template-columns:1fr;gap:36px}
 @media (orientation:landscape) and (max-height:500px){
   .scene{min-height:0}
   .ui{padding:14px clamp(18px,4vw,40px) 10px}
-  .mgv{font-size:11px}
+  .mgv{font-size:13px}
   .center{align-self:start;margin-top:calc(44svh - 36px)}
   .title h1{font-size:38px}
   .title .st{font-size:11px}
@@ -546,6 +567,7 @@ footer .wrap{display:grid;grid-template-columns:1fr;gap:36px}
 
   <div class="ui" id="ui">
     <p class="mgv" id="mgv" data-t="brand.mgv">マハリシ・ガンダルヴァ・ヴェーダ</p>
+    <a class="give" id="give" href="#keep"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true"><path d="M12 19.5s-7.5-4.6-7.5-10A4.2 4.2 0 0 1 12 7.3a4.2 4.2 0 0 1 7.5 2.2c0 5.4-7.5 10-7.5 10z"/></svg><span data-t="keep.donate">寄付する</span></a>
     <div class="lang" id="lang">
       <button class="lang-btn" id="langBtn" aria-expanded="false" aria-controls="langList" aria-label="言語" data-t-aria="ctl.language"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.4 2.3 3.6 5.1 3.6 8.5s-1.2 6.2-3.6 8.5c-2.4-2.3-3.6-5.1-3.6-8.5S9.6 5.8 12 3.5z"/></svg><span id="langCode">EN</span></button>
       <ul class="lang-list" id="langList" hidden></ul>
@@ -604,19 +626,19 @@ footer .wrap{display:grid;grid-template-columns:1fr;gap:36px}
         </button>
       </div>
     </div>
-    <button class="down" id="down" aria-label="下の続きを読む" data-t-aria="ctl.down"><svg viewBox="0 0 24 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 2l9 8 9-8"/></svg></button>
+    <button class="down" id="down" aria-label="下の続きを読む" data-t-aria="ctl.down"><svg viewBox="0 0 24 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 2l9 8 9-8"/></svg></button>
   </div>
   <p class="hint" id="hint" data-t="hint.still">目を休められるよう、文字はしばらくすると消えます。動かすかタップすると、また表示されます。</p>
 </header>
 
 <main class="after" id="info"><div class="info-set on" data-set="peace">
     <section class="row"><div class="cols">
-      <h2>海があなたの時を刻む</h2>
+      <h2>自然の循環を映して</h2>
       <div class="body">
         <p>ガンダルヴァ・ヴェーダは、一日のそれぞれの時間に固有のラーガを与えています。平和のラジオは、あなたの今の時間のラーガを流します。アイヴァルクの海の光も、それとともに移ろいます。</p>
         <div class="dayband" data-w="dayband" style="--grad-h: linear-gradient(90deg,rgb(74,82,144) 0.00%,rgb(74,82,144) 2.08%,rgb(74,82,144) 4.17%,rgb(74,82,144) 6.25%,rgb(74,82,144) 8.33%,rgb(74,82,144) 10.42%,rgb(74,82,144) 12.50%,rgb(74,82,144) 14.58%,rgb(156,131,172) 16.67%,rgb(238,179,199) 18.75%,rgb(238,184,175) 20.83%,rgb(239,190,144) 22.92%,rgb(230,193,156) 25.00%,rgb(204,200,193) 27.08%,rgb(183,206,223) 29.17%,rgb(180,207,227) 31.25%,rgb(180,207,227) 33.33%,rgb(180,207,227) 35.42%,rgb(180,207,227) 37.50%,rgb(180,207,227) 39.58%,rgb(180,207,227) 41.67%,rgb(180,207,227) 43.75%,rgb(180,207,227) 45.83%,rgb(180,207,227) 47.92%,rgb(180,207,227) 50.00%,rgb(180,207,227) 52.08%,rgb(180,207,227) 54.17%,rgb(180,207,227) 56.25%,rgb(180,207,227) 58.33%,rgb(180,207,227) 60.42%,rgb(182,206,224) 62.50%,rgb(200,201,199) 64.58%,rgb(224,194,165) 66.67%,rgb(238,190,144) 68.75%,rgb(239,188,154) 70.83%,rgb(238,182,183) 72.92%,rgb(238,179,199) 75.00%,rgb(184,147,181) 77.08%,rgb(96,95,151) 79.17%,rgb(74,82,144) 81.25%,rgb(74,82,144) 83.33%,rgb(74,82,144) 85.42%,rgb(74,82,144) 87.50%,rgb(74,82,144) 89.58%,rgb(74,82,144) 91.67%,rgb(74,82,144) 93.75%,rgb(74,82,144) 95.83%,rgb(74,82,144) 97.92%,rgb(74,82,144) 100.00%); --grad-v: linear-gradient(180deg,rgb(74,82,144) 0.00%,rgb(74,82,144) 2.08%,rgb(74,82,144) 4.17%,rgb(74,82,144) 6.25%,rgb(74,82,144) 8.33%,rgb(74,82,144) 10.42%,rgb(74,82,144) 12.50%,rgb(74,82,144) 14.58%,rgb(156,131,172) 16.67%,rgb(238,179,199) 18.75%,rgb(238,184,175) 20.83%,rgb(239,190,144) 22.92%,rgb(230,193,156) 25.00%,rgb(204,200,193) 27.08%,rgb(183,206,223) 29.17%,rgb(180,207,227) 31.25%,rgb(180,207,227) 33.33%,rgb(180,207,227) 35.42%,rgb(180,207,227) 37.50%,rgb(180,207,227) 39.58%,rgb(180,207,227) 41.67%,rgb(180,207,227) 43.75%,rgb(180,207,227) 45.83%,rgb(180,207,227) 47.92%,rgb(180,207,227) 50.00%,rgb(180,207,227) 52.08%,rgb(180,207,227) 54.17%,rgb(180,207,227) 56.25%,rgb(180,207,227) 58.33%,rgb(180,207,227) 60.42%,rgb(182,206,224) 62.50%,rgb(200,201,199) 64.58%,rgb(224,194,165) 66.67%,rgb(238,190,144) 68.75%,rgb(239,188,154) 70.83%,rgb(238,182,183) 72.92%,rgb(238,179,199) 75.00%,rgb(184,147,181) 77.08%,rgb(96,95,151) 79.17%,rgb(74,82,144) 81.25%,rgb(74,82,144) 83.33%,rgb(74,82,144) 85.42%,rgb(74,82,144) 87.50%,rgb(74,82,144) 89.58%,rgb(74,82,144) 91.67%,rgb(74,82,144) 93.75%,rgb(74,82,144) 95.83%,rgb(74,82,144) 97.92%,rgb(74,82,144) 100.00%);">
           <div class="ribbon" aria-hidden="true"><i class="mark"></i></div>
-          <ol class="cells" aria-label="一日の八つの時間帯"><li><button data-i="0" aria-pressed="false"><b>深夜</b><small>01–04</small></button></li><li><button data-i="1" aria-pressed="false"><b>夜明け</b><small>04–07</small></button></li><li><button data-i="2" aria-pressed="false"><b>朝</b><small>07–10</small></button></li><li><button data-i="3" aria-pressed="false"><b>真昼</b><small>10–13</small></button></li><li><button data-i="4" aria-pressed="false"><b>午後</b><small>13–16</small></button></li><li><button data-i="5" aria-pressed="true"><b>夕暮れ</b><small>16–19</small></button></li><li><button data-i="6" aria-pressed="false"><b>宵</b><small>19–22</small></button></li><li><button data-i="7" aria-pressed="false"><b>夜</b><small>22–01</small></button></li></ol>
+          <ol class="cells" aria-label="一日の八つの時間帯"><li><button data-i="0" aria-pressed="false"><b>深夜</b><small>01–04</small></button></li><li><button data-i="1" aria-pressed="false"><b>夜明け</b><small>04–07</small></button></li><li><button data-i="2" aria-pressed="false"><b>朝</b><small>07–10</small></button></li><li><button data-i="3" aria-pressed="false"><b>真昼</b><small>10–13</small></button></li><li><button data-i="4" aria-pressed="true"><b>午後</b><small>13–16</small></button></li><li><button data-i="5" aria-pressed="false"><b>夕暮れ</b><small>16–19</small></button></li><li><button data-i="6" aria-pressed="false"><b>宵</b><small>19–22</small></button></li><li><button data-i="7" aria-pressed="false"><b>夜</b><small>22–01</small></button></li></ol>
         </div>
         <p class="band-cap" data-w="band-cap" aria-live="polite"></p>
       </div>
@@ -625,16 +647,15 @@ footer .wrap{display:grid;grid-template-columns:1fr;gap:36px}
     <section class="row"><div class="cols">
       <h2>聴き方</h2>
       <div class="body ways">
-        <article><h3>自分のために</h3><p>楽な姿勢で座り、目を閉じてください。一つのラーガを、始まりから最後の音まで聴き通しましょう。</p></article>
-        <article><h3>まわりの空間のために</h3><p>家庭や職場、教室や待合室で、一日中静かに流しておきましょう。</p></article>
+        <article><h3>自分のために</h3><p>楽な姿勢で座り、目を閉じてください。ラーガを始まりから最後の音まで味わいましょう。</p></article>
+        <article><h3>まわりの環境のために</h3><p>一日を通して、静かに、絶え間なく流しておきましょう――家で、職場で、庭で……</p></article>
       </div>
     </div></section>
 
     <section class="row"><div class="cols">
-      <h2>時の流れと調和する音楽</h2>
+      <h2>自然と調和する音楽</h2>
       <div class="body">
-        <p>ガンダルヴァ・ヴェーダでは、一日を3時間ずつ八つの時間帯に分け、それぞれに固有のラーガがあります。ラジオはあなたのタイムゾーンを読み取るので、聴こえてくるラーガは、あなたが今生きている時間のものです。</p>
-        <p class="nowline" data-w="nowline"></p>
+        <p>ガンダルヴァ・ヴェーダは、昼と夜を通して八つの時間帯を認めており、それぞれが異なる自然の法則に対応しています。このラジオはあなたのタイムゾーンを読み取り、その時間にふさわしいラーガを流します。こうして、一日のその時間の自然の法則が生き生きと目覚めるのです。</p>
       </div>
     </div></section>
 
@@ -646,54 +667,23 @@ footer .wrap{display:grid;grid-template-columns:1fr;gap:36px}
     </div></section>
 
     <section class="row"><div class="cols">
-      <div class="side"><p class="kick">研究</p><h2>リスナーが感じたこと</h2></div>
+      <div class="side"><p class="kick">研究</p><h2>リスナーの声</h2></div>
       <div class="body">
         <div class="voices">
           <blockquote>体じゅうに、至福のエネルギーが深く脈打つのを感じました。そしてそのすべての背後には、純粋で揺るぎない静寂、永遠がありました。<cite>S.W.、タイ</cite></blockquote>
-          <blockquote>10年ぶりに木が花を咲かせました。現場の作業員たちは落ち着き、お客様も喜んでいます。<cite>B.C.、ランドスケープアーキテクト、トルコ</cite></blockquote>
+          <blockquote>とてもリラックスし、リフレッシュして、浄化されたように感じました。思わず笑みがこぼれるような幸福の波を感じました。優しさと愛の波を感じました。<cite>T.L.、アメリカ</cite></blockquote>
         </div>
         <div class="sub">
           <p>1,800人を超える聴衆が参加したライブコンサートで、気分に関する質問票により、ラーガを聴いた後に緊張その他の否定的な感情が有意に低下し、肯定的な感情が高まったことが示されました。</p>
           <p class="ref"><span lang="en">Travis, Morehead &amp; Parim (2023), <i>International Journal of Psychological Studies</i> 15(1), 8.</span> <a href="https://doi.org/10.5539/ijps.v15n1p8">論文を読む</a></p>
         </div>
       </div>
-    </div></section>
-
-    <section class="row moonsec" id="concerts"><div class="cols">
-      <h2>満月のコンサート</h2>
-      <div class="body">
-        <p>毎月、満月の夜に、ガンダルヴァ・ヴェーダの音楽家たちが世界中の聴衆に向けてライブ演奏を行います。</p>
-        <div class="circle-row">
-          <div class="porthole" data-w="moon">
-            <canvas aria-hidden="true" width="290" height="290"></canvas>
-            <img class="flat" src="media/yumurta.jpg" alt="">
-            <svg class="flat-moon" viewBox="0 0 100 100" aria-hidden="true"><circle class="mglow" cx="60" cy="25" r="16" fill="url(#mGlow)" style="opacity: 0.46;"></circle><circle cx="60" cy="25" r="7.5" fill="#33428a" fill-opacity=".55"></circle><path class="mlit" fill="#f4f1e6" d="M60,17.5 A7.5,7.5 0 0 1 60,32.5 A3.26,7.5 0 0 0 60,17.5Z"></path><defs><radialGradient id="mGlow"><stop offset="0" stop-color="#c8d2f2" stop-opacity=".5"></stop><stop offset="1" stop-color="#c8d2f2" stop-opacity="0"></stop></radialGradient></defs></svg>
-          </div>
-          <div>
-            <p class="date" data-w="nextfull"></p>
-            <p class="days" data-w="moondays"></p>
-            <div class="moonsel" role="group" aria-label="表示する月">
-              <button data-m="full" aria-pressed="true">コンサートの夜</button>
-              <button data-m="now" aria-pressed="false">今夜</button>
-            </div>
-            <a class="btn" href="https://artsforenlightenment.org/">コンサートに申し込む</a>
-          </div>
-        </div>
-      </div>
-    </div></section>
-
-    <section class="row"><div class="cols">
-      <h2>音楽を流し続けるために</h2>
-      <div class="body">
-        <p>RadyoHarmoniは無料で、広告もありません。悟りのための芸術アカデミー（Academy of Arts for Enlightenment）が提供しています。</p>
-        <p class="actions"><a class="btn" href="https://www.paypal.com/donate/?hosted_button_id=8PV97C4VSV5R8">寄付する</a><a class="btn ghost" href="https://artsforenlightenment.org/">アカデミーについて</a></p>
-      </div>
     </div></section></div><div class="info-set" data-set="rain">
     <section class="row"><div class="cols">
-      <h2>空が自然の時を刻む</h2>
+      <h2>自然のリズムに調律された旋律</h2>
       <div class="body">
-        <p>ガンダルヴァ・ヴェーダは調和をもたらします。雨のラジオは、自然のバランスのためのラーガを流します。モンテベルデの空も、それとともに移ろいます。</p>
-        <div class="skies" data-w="skies" role="group" aria-label="モンテベルデの空"><button data-sky-pick="day" aria-pressed="true"><i style="background:linear-gradient(180deg,#bcd6ea,#6e9a6a)"></i><b>昼</b><small>澄んだ光</small></button><button data-sky-pick="sun" aria-pressed="false"><i style="background:radial-gradient(circle at 68% 32%,#fffbe8 0 13%,#ffe7a6 22%,rgba(255,231,166,0) 44%),radial-gradient(ellipse at 28% 78%,#fff 0 22%,rgba(255,255,255,0) 46%),linear-gradient(180deg,#8fc1ea,#d6e8f5)"></i><b>日差し</b><small>雲間から</small></button><button data-sky-pick="rain" aria-pressed="false"><i style="background:linear-gradient(180deg,#e8eef6,#8ba2bd)"></i><b>雨</b><small>雨音とともに</small></button><button data-sky-pick="rainbow" aria-pressed="false"><i style="background:conic-gradient(#f2a0a0,#f6d28a,#a8d8a0,#8fb9e8,#c3a2e8,#f2a0a0)"></i><b>虹</b><small>雨上がり</small></button><button data-sky-pick="night" aria-pressed="false"><i style="background:linear-gradient(180deg,#141c6e,#0b135b)"></i><b>夜</b><small>夜の青</small></button></div>
+        <p>ガンダルヴァ・ヴェーダの雨のラーガは、自然の中の涼やかでみずみずしい、雨にまつわる性質を活性化し、バランスと調和をもたらします。</p>
+        <div class="skies" data-w="skies" role="group" aria-label="モンテベルデの空" hidden=""><button data-sky-pick="day" aria-pressed="true"><i style="background:linear-gradient(180deg,#bcd6ea,#6e9a6a)"></i><b>昼</b><small>澄んだ光</small></button><button data-sky-pick="sun" aria-pressed="false"><i style="background:radial-gradient(circle at 68% 32%,#fffbe8 0 13%,#ffe7a6 22%,rgba(255,231,166,0) 44%),radial-gradient(ellipse at 28% 78%,#fff 0 22%,rgba(255,255,255,0) 46%),linear-gradient(180deg,#8fc1ea,#d6e8f5)"></i><b>日差し</b><small>雲間から</small></button><button data-sky-pick="rain" aria-pressed="false"><i style="background:linear-gradient(180deg,#e8eef6,#8ba2bd)"></i><b>雨</b><small>雨音とともに</small></button><button data-sky-pick="rainbow" aria-pressed="false"><i style="background:conic-gradient(#f2a0a0,#f6d28a,#a8d8a0,#8fb9e8,#c3a2e8,#f2a0a0)"></i><b>虹</b><small>雨上がり</small></button><button data-sky-pick="night" aria-pressed="false"><i style="background:linear-gradient(180deg,#141c6e,#0b135b)"></i><b>夜</b><small>夜の青</small></button></div>
       </div>
     </div></section>
 
@@ -702,7 +692,7 @@ footer .wrap{display:grid;grid-template-columns:1fr;gap:36px}
       <div class="body">
         <div class="circle-row">
           <div class="porthole speaker" data-w="speaker"><img src="media/speaker-monteverde.jpg" alt="" loading="lazy" decoding="async"></div>
-          <article class="how"><h3>自然のために</h3><p>スピーカーをつないで屋外に置き、静かに、絶え間なく流してください。</p></article>
+          <div class="how ways"><article><h3>自分のために</h3><p>楽な姿勢で座り、目を閉じてください。ラーガを始まりから最後の音まで味わえば、すがすがしい効果が得られます。</p></article><article><h3>まわりの環境のために</h3><p>スピーカーをつないで、ラーガを静かに、絶え間なく流してください。</p></article></div>
         </div>
       </div>
     </div></section>
@@ -728,7 +718,7 @@ footer .wrap{display:grid;grid-template-columns:1fr;gap:36px}
     </div></section>
 
     <section class="row"><div class="cols">
-      <div class="side"><p class="kick">研究</p><h2>農家の方々が感じたこと</h2></div>
+      <div class="side"><p class="kick">研究</p><h2>農家の方々の声</h2></div>
       <div class="body carousel">
         <div class="reel-wrap at-start at-end">
           <div class="reel" data-w="reel" tabindex="0" role="region" aria-label="農家の方々の証言動画">
@@ -756,7 +746,7 @@ footer .wrap{display:grid;grid-template-columns:1fr;gap:36px}
           <p class="note" data-status="" aria-live="polite"></p>
         </form>
         <div class="sub">
-          <p>乳牛60頭を対象とした60日間の研究で、音楽を聴いた牛は、聴かなかった牛よりも1日あたりの乳量が有意に多く、ラーガ音楽を聴いた牛では、ストレスホルモンであるコルチゾールの値が低くなりました。</p>
+          <p>乳牛60頭を対象とした60日間の研究で、ラーガ音楽を聴かせた牛は、音楽なしの牛よりも1日あたりの乳量が有意に多く、ストレスホルモンであるコルチゾールの値も低くなりました。</p>
           <p class="ref"><span lang="en">Cao, Zhao, Feng et al. (2025), Effects of Raga music and Chinese five-element on milk production, antioxidant, neuroendocrine, immune, and welfare indicators in dairy cows. <i>Frontiers in Veterinary Science</i> 12, 1623026.</span> <a href="https://doi.org/10.3389/fvets.2025.1623026">論文を読む</a></p>
         </div>
       </div>
@@ -766,10 +756,33 @@ footer .wrap{display:grid;grid-template-columns:1fr;gap:36px}
     <section class="row moonsec"><div class="cols">
       <h2>花ひらく庭</h2>
       <div class="body">
-        <p>30株のバラを対象とした研究で、毎朝ラーガを聴かせたバラは、静寂の中に置いたバラや、西洋クラシック音楽またはロック音楽を聴かせたバラよりも多くの花を、それもより大きな花を咲かせました。</p>
+        <p>30株のバラを対象とした研究で、毎朝ラーガを聴かせたバラは、音楽なしのバラや、西洋クラシック音楽またはロック音楽を聴かせたバラよりも、多くの、そしてより大きな花を咲かせました。</p>
         <div class="circle-row wide">
           <div class="porthole rose" data-w="rose"><img src="media/rose-garden.jpg" alt="" loading="lazy" decoding="async"></div>
           <div><p class="ref" style="margin:0"><span lang="en">Chivukula &amp; Ramaswamy (2014), Effect of Different Types of Music on Rosa Chinensis Plants. <i>International Journal of Environmental Science and Development</i> 5(5), 431–434.</span> <a href="https://doi.org/10.7763/IJESD.2014.V5.522">論文を読む</a></p></div>
+        </div>
+        <div class="voices garden-voice"><blockquote>10年ぶりに木が花を咲かせました。現場の作業員たちは落ち着き、お客様も喜んでいます。<cite>B.C.、ランドスケープアーキテクト、トルコ</cite></blockquote></div>
+      </div>
+    </div></section></div><div class="info-common">
+    <section class="row moonsec" id="concerts"><div class="cols">
+      <h2>満月のコンサート</h2>
+      <div class="body">
+        <p>毎月、満月の夜に、ガンダルヴァ・ヴェーダの音楽家たちが世界中の聴衆に向けてライブ演奏を行います。</p>
+        <div class="circle-row">
+          <div class="porthole" data-w="moon">
+            <canvas aria-hidden="true" width="290" height="290"></canvas>
+            <img class="flat" src="media/yumurta.jpg" alt="">
+            <svg class="flat-moon" viewBox="0 0 100 100" aria-hidden="true"><circle class="mglow" cx="60" cy="25" r="16" fill="url(#mGlow)" style="opacity: 0.68;"></circle><circle cx="60" cy="25" r="7.5" fill="#33428a" fill-opacity=".55"></circle><path class="mlit" fill="#f4f1e6" d="M60,17.5 A7.5,7.5 0 0 1 60,32.5 A1.11,7.5 0 0 1 60,17.5Z"></path><defs><radialGradient id="mGlow"><stop offset="0" stop-color="#c8d2f2" stop-opacity=".5"></stop><stop offset="1" stop-color="#c8d2f2" stop-opacity="0"></stop></radialGradient></defs></svg>
+          </div>
+          <div>
+            <p class="date" data-w="nextfull"></p>
+            <p class="days" data-w="moondays"></p>
+            <div class="moonsel" role="group" aria-label="表示する月">
+              <button data-m="full" aria-pressed="true">コンサートの夜</button>
+              <button data-m="now" aria-pressed="false">今夜</button>
+            </div>
+            <a class="btn" href="https://artsforenlightenment.org/">コンサートに申し込む</a>
+          </div>
         </div>
       </div>
     </div></section>
@@ -777,8 +790,8 @@ footer .wrap{display:grid;grid-template-columns:1fr;gap:36px}
     <section class="row"><div class="cols">
       <h2>あなたの空を分かち合う</h2>
       <div class="body">
-        <p>海や風景の写真をお寄せください。プレーヤーの背景として紹介させていただくことがあります。</p>
-        <p class="weather" data-w="weather"></p>
+        <p>ガンダルヴァ・ヴェーダ音楽を聴いたあなた自身の体験や、まわりの環境で気づいた変化をお聞かせください。海や風景の写真もお寄せください。プレーヤーの背景として紹介させていただくことがあります。</p>
+        <p class="weather" data-w="weather" hidden=""></p>
         <p class="actions">
           <button class="btn" data-w="share-open" aria-expanded="false" aria-controls="shareForm">写真を送る</button>
           <button class="btn ghost" data-w="contact-open" aria-expanded="false" aria-controls="contactForm">お問い合わせ</button>
@@ -809,10 +822,18 @@ footer .wrap{display:grid;grid-template-columns:1fr;gap:36px}
     </div></section>
 
     <section class="row"><div class="cols">
-      <h2>お便りを受け取る</h2>
+      <h2>お便りでつながる</h2>
       <div class="body">
-        <p>新しいラーガ、満月のライブコンサート、リスナーから届いた写真を、年に数回お届けします。</p>
+        <p>新しいラーガ、リスナーの体験談、リスナーから届いた写真を、年に数回お届けします。</p>
         <form class="inline-form" data-w="subscribe"><input name="email" type="email" placeholder="メールアドレス" aria-label="メールアドレス" autocomplete="email" required=""><input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"><button class="btn" type="submit">登録する</button><p class="note" data-status="" aria-live="polite"></p></form>
+      </div>
+    </div></section>
+
+    <section class="row" id="keep"><div class="cols">
+      <h2>音楽を流し続けるために</h2>
+      <div class="body">
+        <p>RadyoHarmoniは無料で、広告もありません。悟りのための芸術アカデミー（Academy of Arts for Enlightenment）が提供しています。</p>
+        <p class="actions"><a class="btn" href="https://www.paypal.com/donate/?hosted_button_id=8PV97C4VSV5R8">寄付する</a><a class="btn ghost" href="https://artsforenlightenment.org/">アカデミーについて</a></p>
       </div>
     </div></section></div></main>
 <footer id="foot">
@@ -820,11 +841,11 @@ footer .wrap{display:grid;grid-template-columns:1fr;gap:36px}
       <div class="foot-row">
         <details class="about about-rh">
           <summary>Radyo Harmoniについて</summary>
-          <div class="about-body"><p>RadyoHarmoniは無料のオンラインラジオ局で、ガンダルヴァ・ヴェーダの旋律を24/7、途切れることなく配信しています。まわりに平和と調和のオーラを生み出すために、音楽を絶え間なく流しておくことをおすすめします。</p></div>
+          <div class="about-body"><p>RadyoHarmoniは、ガンダルヴァ・ヴェーダの旋律を24/7配信している無料のオンラインラジオ局です。音楽をご自身で楽しむのはもちろん、静かに絶え間なく流しておくこともおすすめします。自然のバランスと世界の平和が、ますます高まっていきます。</p></div>
         </details>
         <div class="foot-col friends">
-          <h3 class="foot-h">Radyo Harmoniの関連団体</h3>
-          <p><a href="https://tm-women.org/">TM-women.org</a><a href="https://apps.apple.com/app/id977489377">Veda App</a></p>
+          <h3 class="foot-h">ガンダルヴァ・ヴェーダ音楽とマハリシ・ヴェーダ科学について、さらに詳しく：</h3>
+          <p><a href="https://apps.apple.com/app/id977489377">Veda App</a><a href="https://www.tm.org/">TM.org</a><a href="https://tm-women.org/">TM-Women.org</a></p>
         </div>
         
     <details class="about about-mgv">
@@ -832,15 +853,16 @@ footer .wrap{display:grid;grid-template-columns:1fr;gap:36px}
       <div class="cols">
         <div><h4>マハリシ・ガンダルヴァ・ヴェーダとは？</h4>
           <p>ガンダルヴァ・ヴェーダは、地上の天国を享受していた古代インドのヴェーダ文明の古典音楽です。</p>
-          <p>ガンダルヴァ・ヴェーダ音楽は自然の永遠の音楽であり、自然のリズムと旋律を音楽として表現したものです。ガンダルヴァのラーガは、純粋で秩序ある音の流れを映し出し、ストレスや不調和を中和して、生命を自然の法則と調和した状態へと穏やかに回復させます。</p>
+          <p>ガンダルヴァ音楽は、純粋で秩序ある音の流れを映し出し、ストレスや不調和を中和して、生命を自然の法則と調和した状態へと穏やかに回復させます。</p>
           <p>超越瞑想（TM）プログラムの創始者マハリシ・マヘーシュ・ヨーギーは、ガンダルヴァ・ヴェーダをその源であるヴェーダ（ヴェーダ科学、全知識の科学）に再び結びつけることで、その純粋な姿のままに復興させました。</p></div>
         <div><h4>自然のリズムと調和する音楽</h4>
           <p>ガンダルヴァ・ヴェーダの旋律は、昼と夜を通して移り変わる、自然のリズムと周波数を表現しています。</p>
-          <p>さまざまなガンダルヴァのラーガは、これらの周波数をとらえて増幅し、人の生命への恩恵を最大限に高めます。RadyoHarmoniは、移り変わる自然の価値と調和させて、ガンダルヴァのラーガを純粋な形でお届けします。</p>
-          <p>マハリシ・ガンダルヴァ・ヴェーダ音楽を24/7、絶え間なく流して、世界平和の創造に貢献しましょう。聴けば一人ひとりがその恩恵を味わえますが、誰も聴いていないときでも、その恩恵は環境に広がり、世界全体にバランスと平和と調和を生み出します。</p></div>
+          <p>さまざまなガンダルヴァのラーガ（マカーム）は、これらの周波数をとらえて増幅し、人の生命への恩恵を最大限に高めます。RadyoHarmoniは、移り変わる自然の価値と調和させて、ガンダルヴァのラーガ（マカーム）を純粋な形でお届けします。</p>
+          <p>マハリシ・ガンダルヴァ・ヴェーダ音楽を24/7、絶え間なく流して、世界平和の創造に貢献しましょう！</p></div>
         <div><h4>生命への恩恵：至福。平和。調和。</h4>
           <p>ガンダルヴァ・ヴェーダの旋律を聴く人々は、人生に至福、落ち着き、平和、幸福感が増したと語っています。</p>
-          <p>研究によれば、ガンダルヴァ・ヴェーダ音楽は、否定的な感情の有意な減少と、肯定的な感情の増加をもたらします。マハリシの「世界平和のための音楽祭」（1986年）によれば、ガンダルヴァ音楽が世界中で広く演奏されたとき、社会の否定的な傾向は目に見えて減少し、肯定的で平和な流れに取って代わられました。</p></div>
+          <p>研究によれば、ガンダルヴァ・ヴェーダ音楽は、否定的な感情の有意な減少と、肯定的な感情の増加をもたらします。*マハリシの「世界平和のための音楽祭」（1986年）によれば、ガンダルヴァ音楽が世界中で広く演奏されたとき、社会の否定的な傾向は目に見えて減少し、肯定的で平和な流れに取って代わられました。</p>
+          <p class="foot-note"><span lang="en" dir="ltr">* Travis, Morehead &amp; Parim (2023), <i>International Journal of Psychological Studies</i> 15(1), 8.</span> <a href="https://doi.org/10.5539/ijps.v15n1p8">論文を読む</a></p></div>
       </div>
     </details>
       </div>
@@ -950,14 +972,14 @@ void main() {
     float rr = 0.;
     for (int i = 0; i < 3; i++) {
       float fi = float(i);
-      vec2 g = vec2(uv.x * ra * (70. + fi * 45.) + uv.y * (9. + fi * 3.), uv.y * (2.2 + fi * .8) + t * (.95 + fi * .35));
+      vec2 g = vec2(uv.x * ra * (120. + fi * 70.) + uv.y * (7. + fi * 2.), uv.y * (3.2 + fi * 1.1) + t * (.55 + fi * .2));
       float h = hash(vec2(floor(g.x), fi));
       float yy = fract(g.y + h * 7.), lx = fract(g.x);
-      rr += step(.62, h) * smoothstep(0., .04, yy) * smoothstep(.24, .04, yy) * smoothstep(0., .25, lx) * smoothstep(.5, .25, lx) * (.45 + fi * .25);
+      rr += step(.7, h) * smoothstep(0., .03, yy) * smoothstep(.13, .03, yy) * smoothstep(0., .3, lx) * smoothstep(.55, .3, lx) * (.4 + fi * .2);
     }
-    c = mix(c, c * vec3(.74, .84, .97), rainK * .4);
-    c = mix(c, vec3(.68, .76, .88), rainK * .14 * sky);
-    c += vec3(.8, .87, .96) * rr * rainK * .32;
+    c = mix(c, c * vec3(.7, .86, 1.02), rainK * .42);
+    c = mix(c, vec3(.208, .388, .545), rainK * .16);
+    c += vec3(.82, .9, .98) * rr * rainK * .17;
   }
   if (bow > .001) {
     // A little right of centre, its size following the width so the whole arch fits phones too
@@ -1006,13 +1028,13 @@ void main() {
   gl_FragColor = vec4(clamp(o, 0., 1.), 1.);
 }
 </script>
-<script src="i18n/en.js?v=b665df53"></script>
-<script src="i18n/ja.js?v=138f1b0a"></script>
+<script src="i18n/en.js?v=7a75cb7c"></script>
+<script src="i18n/ja.js?v=7b0cbee5"></script>
 <script src="shared/i18n.js?v=95093879"></script>
-<script src="shared/radio.js?v=3a1f1d85"></script>
+<script src="shared/radio.js?v=7aa80d03"></script>
 <script src="shared/light.js?v=9bf551bd"></script>
-<script src="app.js?v=e4613a77"></script>
-<script src="info.js?v=4deeb619"></script>
+<script src="app.js?v=68ef167b"></script>
+<script src="info.js?v=abedd1bd"></script>
 <script src="analytics.js?v=2657696a"></script>
 </body>
 </html>

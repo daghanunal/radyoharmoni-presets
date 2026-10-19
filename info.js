@@ -35,7 +35,6 @@
       <h2>${T('peace.hours.h2')}</h2>
       <div class="body">
         <p>${T('peace.hours.p')}</p>
-        <p class="nowline" data-w="nowline"></p>
       </div>
     </div></section>
 
@@ -58,37 +57,6 @@
           <p class="ref"><span lang="en">Travis, Morehead &amp; Parim (2023), <i>International Journal of Psychological Studies</i> 15(1), 8.</span> <a href="https://doi.org/10.5539/ijps.v15n1p8">${T('readPaper')}</a></p>
         </div>
       </div>
-    </div></section>
-
-    <section class="row moonsec" id="concerts"><div class="cols">
-      <h2>${T('peace.moon.h2')}</h2>
-      <div class="body">
-        <p>${T('peace.moon.p')}</p>
-        <div class="circle-row">
-          <div class="porthole" data-w="moon">
-            <canvas aria-hidden="true"></canvas>
-            <img class="flat" src="media/yumurta.jpg" alt="">
-            <svg class="flat-moon" viewBox="0 0 100 100" aria-hidden="true"><circle class="mglow" cx="60" cy="25" r="16" fill="url(#mGlow)"/><circle cx="60" cy="25" r="7.5" fill="#33428a" fill-opacity=".55"/><path class="mlit" fill="#f4f1e6"/><defs><radialGradient id="mGlow"><stop offset="0" stop-color="#c8d2f2" stop-opacity=".5"/><stop offset="1" stop-color="#c8d2f2" stop-opacity="0"/></radialGradient></defs></svg>
-          </div>
-          <div>
-            <p class="date" data-w="nextfull"></p>
-            <p class="days" data-w="moondays"></p>
-            <div class="moonsel" role="group" aria-label="${T('moon.shown')}">
-              <button data-m="full" aria-pressed="true">${T('moon.concert')}</button>
-              <button data-m="now" aria-pressed="false">${T('moon.tonight')}</button>
-            </div>
-            <a class="btn" href="https://artsforenlightenment.org/">${T('moon.register')}</a>
-          </div>
-        </div>
-      </div>
-    </div></section>
-
-    <section class="row"><div class="cols">
-      <h2>${T('keep.h2')}</h2>
-      <div class="body">
-        <p>${T('keep.p')}</p>
-        <p class="actions"><a class="btn" href="https://www.paypal.com/donate/?hosted_button_id=8PV97C4VSV5R8">${T('keep.donate')}</a><a class="btn ghost" href="https://artsforenlightenment.org/">${T('keep.academy')}</a></p>
-      </div>
     </div></section>`;
 
   // ── Rain Radio ──────────────────────────────────────────────
@@ -98,7 +66,7 @@
       <h2>${T('rain.sky.h2')}</h2>
       <div class="body">
         <p>${T('rain.sky.p')}</p>
-        <div class="skies" data-w="skies" role="group" aria-label="${T('ctl.skyOverMV')}"></div>
+        <div class="skies" data-w="skies" role="group" aria-label="${T('ctl.skyOverMV')}" hidden></div>
       </div>
     </div></section>
 
@@ -107,7 +75,7 @@
       <div class="body">
         <div class="circle-row">
           <div class="porthole speaker" data-w="speaker"><img src="media/speaker-monteverde.jpg" alt="" loading="lazy" decoding="async"></div>
-          <article class="how"><h3>${T('rain.how.h3')}</h3><p>${T('rain.how.p')}</p></article>
+          <div class="how ways"><article><h3>${T('peace.listen.selfH')}</h3><p>${T('rain.how.selfP')}</p></article><article><h3>${T('peace.listen.aroundH')}</h3><p>${T('rain.how.envP')}</p></article></div>
         </div>
       </div>
     </div></section>
@@ -176,6 +144,32 @@
           <div class="porthole rose" data-w="rose"><img src="media/rose-garden.jpg" alt="" loading="lazy" decoding="async"></div>
           <div><p class="ref" style="margin:0"><span lang="en">Chivukula &amp; Ramaswamy (2014), Effect of Different Types of Music on Rosa Chinensis Plants. <i>International Journal of Environmental Science and Development</i> 5(5), 431–434.</span> <a href="https://doi.org/10.7763/IJESD.2014.V5.522">${T('readPaper')}</a></p></div>
         </div>
+        <div class="voices garden-voice"><blockquote>${T('rain.garden.voice')}<cite>${T('rain.garden.voice.cite')}</cite></blockquote></div>
+      </div>
+    </div></section>`;
+
+  // ── On both stations: what a listener can do (concerts, share a photo, write, subscribe, give) ──
+  const COMMON = `
+    <section class="row moonsec" id="concerts"><div class="cols">
+      <h2>${T('peace.moon.h2')}</h2>
+      <div class="body">
+        <p>${T('peace.moon.p')}</p>
+        <div class="circle-row">
+          <div class="porthole" data-w="moon">
+            <canvas aria-hidden="true"></canvas>
+            <img class="flat" src="media/yumurta.jpg" alt="">
+            <svg class="flat-moon" viewBox="0 0 100 100" aria-hidden="true"><circle class="mglow" cx="60" cy="25" r="16" fill="url(#mGlow)"/><circle cx="60" cy="25" r="7.5" fill="#33428a" fill-opacity=".55"/><path class="mlit" fill="#f4f1e6"/><defs><radialGradient id="mGlow"><stop offset="0" stop-color="#c8d2f2" stop-opacity=".5"/><stop offset="1" stop-color="#c8d2f2" stop-opacity="0"/></radialGradient></defs></svg>
+          </div>
+          <div>
+            <p class="date" data-w="nextfull"></p>
+            <p class="days" data-w="moondays"></p>
+            <div class="moonsel" role="group" aria-label="${T('moon.shown')}">
+              <button data-m="full" aria-pressed="true">${T('moon.concert')}</button>
+              <button data-m="now" aria-pressed="false">${T('moon.tonight')}</button>
+            </div>
+            <a class="btn" href="https://artsforenlightenment.org/">${T('moon.register')}</a>
+          </div>
+        </div>
       </div>
     </div></section>
 
@@ -219,6 +213,14 @@
         <p>${T('rain.tune.p')}</p>
         <form class="inline-form" data-w="subscribe"><input name="email" type="email" placeholder="${T('form.yourEmail')}" aria-label="${T('form.yourEmail')}" autocomplete="email" required><input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"><button class="btn" type="submit">${T('form.subscribe')}</button><p class="note" data-status aria-live="polite"></p></form>
       </div>
+    </div></section>
+
+    <section class="row" id="keep"><div class="cols">
+      <h2>${T('keep.h2')}</h2>
+      <div class="body">
+        <p>${T('keep.p')}</p>
+        <p class="actions"><a class="btn" href="https://www.paypal.com/donate/?hosted_button_id=8PV97C4VSV5R8">${T('keep.donate')}</a><a class="btn ghost" href="https://artsforenlightenment.org/">${T('keep.academy')}</a></p>
+      </div>
     </div></section>`;
 
   // ── Footer: About Radyo Harmoni and About Maharishi Gandharva Veda (both fold open), affiliates, the legal lines ──
@@ -236,7 +238,8 @@
           <p>${T('about.2.p3')}</p></div>
         <div><h4>${T('about.3.h')}</h4>
           <p>${T('about.3.p1')}</p>
-          <p>${T('about.3.p2')}</p></div>
+          <p>${T('about.3.p2')}</p>
+          <p class="foot-note"><span lang="en" dir="ltr">* Travis, Morehead &amp; Parim (2023), <i>International Journal of Psychological Studies</i> 15(1), 8.</span> <a href="https://doi.org/10.5539/ijps.v15n1p8">${T('readPaper')}</a></p></div>
       </div>
     </details>`;
   const FOOT = `
@@ -248,7 +251,7 @@
         </details>
         <div class="foot-col friends">
           <h3 class="foot-h">${T('foot.affiliates')}</h3>
-          <p><a href="https://tm-women.org/">TM-women.org</a><a href="https://apps.apple.com/app/id977489377">Veda App</a></p>
+          <p><a href="https://apps.apple.com/app/id977489377">Veda App</a><a href="https://www.tm.org/">TM.org</a><a href="https://tm-women.org/">TM-Women.org</a></p>
         </div>
         ${ABOUT}
       </div>
@@ -263,7 +266,7 @@
 
   // The release build bakes these sections into the HTML (for search engines and AI agents that do not run scripts);
   // here they are only built when they are not already there.
-  if (!$('#info').querySelector('.info-set')) $('#info').innerHTML = `<div class="info-set" data-set="peace">${PEACE}</div><div class="info-set" data-set="rain">${RAIN}</div>`;
+  if (!$('#info').querySelector('.info-set')) $('#info').innerHTML = `<div class="info-set" data-set="peace">${PEACE}</div><div class="info-set" data-set="rain">${RAIN}</div><div class="info-common">${COMMON}</div>`;
   if (!$('#foot').children.length) $('#foot').innerHTML = FOOT;
   document.querySelectorAll('#foot .langs a').forEach(a => a.addEventListener('click', e => { e.preventDefault(); T.choose(a.lang); }));
   $('[data-w="nextfull"]').textContent = dateLong(moonNow.nextFull);
@@ -273,8 +276,14 @@
 
   function showSet(id) {
     document.querySelectorAll('.info-set').forEach(el => el.classList.toggle('on', el.dataset.set === id));
+    w('weather').hidden = id !== 'rain';   // today's weather at Monte Verde belongs with Rain Radio
   }
   showSet(RH.radio.station);
+  // The heart over the picture leads down to Donate (the station stays in the address)
+  $('#give').addEventListener('click', e => {
+    e.preventDefault();
+    $('#keep').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  });
   document.addEventListener('rh:station', e => showSet(e.detail));
 
   // A long quote shown short, with a button for the whole of it
@@ -308,7 +317,7 @@
   function showWatch(i) {
     const p = R.period(), x = R.PERIODS[i], isNow = i === p.index;
     cells.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', +b.dataset.i === i));
-    const html = T('band.cap', { now: isNow ? T('band.now') : '', watch: T(`watch.${i}.name`), from: `${R.pad(x.start)}:00`, to: `${R.pad((x.start + 3) % 24)}:00`, character: T(`watch.${i}.character`) });
+    const html = T('band.cap', { now: isNow ? T('band.now') : '', watch: T(`watch.${i}.name`), watchInline: T(`watch.${i}.inline`), from: `${R.pad(x.start)}:00`, to: `${R.pad((x.start + 3) % 24)}:00`, character: T(`watch.${i}.character`) });
     if (cap.innerHTML !== html) cap.innerHTML = html;   // only when it changes: the line is read aloud each time it is written
   }
   cells.querySelectorAll('button').forEach(b => b.addEventListener('click', () => { picked = +b.dataset.i === R.period().index ? null : +b.dataset.i; showWatch(+b.dataset.i); }));
@@ -412,7 +421,7 @@
       glow.style.opacity = (.25 + .75 * (1 - c) / 2).toFixed(2);
     };
     const step = now => {
-      const k = Math.min(1, (now - t0) / 2600);
+      const k = Math.min(1, (now - t0) / 5200);
       phase = from + (target - from) * (k * k * (3 - 2 * k)); draw();
       if (k < 1) requestAnimationFrame(step);
     };
@@ -480,7 +489,7 @@
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-    let ready = false, visible = false, phase = moonNow.phase, target = .5, from = phase, t0 = 0, dur = 2600;
+    let ready = false, visible = false, phase = moonNow.phase, target = .5, from = phase, t0 = 0, dur = 5200;
     const img = new Image();
     img.onload = () => { gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, img); ready = true; if (visible) requestAnimationFrame(loop); };
     img.src = 'media/yumurta.jpg';
