@@ -16,7 +16,7 @@ films/farmer-1/2/3/5.mp4 and .jpg  (What the farmers say)
             (see tools/films/README.txt). Subtitles: films/farmer-N.<language>.vtt.
 
 rain/rain-loop.mp3 / .m4a  (the rain under Rain Radio's rainy sky)
-  Source:   "RAIN on glass window.wav" by nicoproson, Freesound, CC0 (see rain/SOURCE.txt).
+  Source:   the sound of the rain video on page 5 of the owner's Canva design (2026-10-19), looped (see rain/SOURCE.txt).
 
 rose-garden.jpg  (Blooming gardens)
   Picture:  pink climbing roses against a summer sky, chosen and provided by the owner's team (2026-10-16), cut from
@@ -27,3 +27,17 @@ speaker-monteverde.jpg  (How it is played)
   Picture:  made by the Radyo Harmoni team with an image generator (October 2026): a small speaker in the grass
             on a hilltop, with Monte Verde's hills and clouds behind it (as in Rain Radio's picture).
   Changes:  resized to 640 px for the page (the circle is at most 320 px wide).
+
+From the owner's Canva design "Background Editing Request" (revision list v3, 2026-10-19). The owner composed these
+pages in Canva from their own pictures and Canva's library; they were taken from the shared design with the text
+hidden, at twice the screen size, and cropped. Canva library elements are used under Canva's content licence through
+the owner's design. Keep the design link with the site: https://canva.link/xa25oxe8d8i9ctm
+moon.png  (the moon in the picture at night and in Full moon concerts; page 1)
+  The full moon element of the design (200 px, transparent), drawn by the page in the night's phase.
+concert-isles.webp  (Full moon concerts, the islands under the night sky; page 1)
+  The lower band of page 1: the Ayvalık islands under the night blue. The sky above is drawn by the page (CSS),
+  in the colours sampled from page 1.
+rain-how.webp  (How it is played, Rain Radio; page 2)
+  The strip along the foot of page 2: the cow, the bushes, the sound waves and the speaker; the top faded out.
+garden.webp  (Blooming gardens; page 3)
+  The lower part of page 3: flowering trees, the butterfly, the sun and the sea; the top faded out.

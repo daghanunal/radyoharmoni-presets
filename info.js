@@ -73,12 +73,10 @@
     <section class="row"><div class="cols">
       <h2>${T('rain.how.h2')}</h2>
       <div class="body">
-        <div class="circle-row">
-          <div class="porthole speaker" data-w="speaker"><img src="media/speaker-monteverde.jpg" alt="" loading="lazy" decoding="async"></div>
-          <div class="how ways"><article><h3>${T('peace.listen.selfH')}</h3><p>${T('rain.how.selfP')}</p></article><article><h3>${T('peace.listen.aroundH')}</h3><p>${T('rain.how.envP')}</p></article></div>
-        </div>
+        <div class="ways"><article><h3>${T('peace.listen.selfH')}</h3><p>${T('rain.how.selfP')}</p></article><article><h3>${T('peace.listen.aroundH')}</h3><p>${T('rain.how.envP')}</p></article></div>
       </div>
-    </div></section>
+    </div>
+    <img class="strip" src="media/rain-how.webp" alt="" loading="lazy" decoding="async"></section>
 
     <section class="row"><div class="cols">
       <h2>${T('rain.ancient.h2')}</h2>
@@ -140,26 +138,20 @@
       <h2>${T('rain.garden.h2')}</h2>
       <div class="body">
         <p>${T('rain.garden.p')}</p>
-        <div class="circle-row wide">
-          <div class="porthole rose" data-w="rose"><img src="media/rose-garden.jpg" alt="" loading="lazy" decoding="async"></div>
-          <div><p class="ref" style="margin:0"><span lang="en">Chivukula &amp; Ramaswamy (2014), Effect of Different Types of Music on Rosa Chinensis Plants. <i>International Journal of Environmental Science and Development</i> 5(5), 431–434.</span> <a href="https://doi.org/10.7763/IJESD.2014.V5.522">${T('readPaper')}</a></p></div>
-        </div>
+        <p class="ref"><span lang="en">Chivukula &amp; Ramaswamy (2014), Effect of Different Types of Music on Rosa Chinensis Plants. <i>International Journal of Environmental Science and Development</i> 5(5), 431–434.</span> <a href="https://doi.org/10.7763/IJESD.2014.V5.522">${T('readPaper')}</a></p>
         <div class="voices garden-voice"><blockquote>${T('rain.garden.voice')}<cite>${T('rain.garden.voice.cite')}</cite></blockquote></div>
       </div>
-    </div></section>`;
+    </div>
+    <img class="strip" src="media/garden.webp" alt="" loading="lazy" decoding="async"></section>`;
 
   // ── On both stations: what a listener can do (concerts, share a photo, write, subscribe, give) ──
   const COMMON = `
-    <section class="row moonsec" id="concerts"><div class="cols">
+    <section class="row moonsec moonband" id="concerts"><div class="cols">
       <h2>${T('peace.moon.h2')}</h2>
       <div class="body">
         <p>${T('peace.moon.p')}</p>
         <div class="circle-row">
-          <div class="porthole" data-w="moon">
-            <canvas aria-hidden="true"></canvas>
-            <img class="flat" src="media/yumurta.jpg" alt="">
-            <svg class="flat-moon" viewBox="0 0 100 100" aria-hidden="true"><circle class="mglow" cx="60" cy="25" r="16" fill="url(#mGlow)"/><circle cx="60" cy="25" r="7.5" fill="#33428a" fill-opacity=".55"/><path class="mlit" fill="#f4f1e6"/><defs><radialGradient id="mGlow"><stop offset="0" stop-color="#c8d2f2" stop-opacity=".5"/><stop offset="1" stop-color="#c8d2f2" stop-opacity="0"/></radialGradient></defs></svg>
-          </div>
+          <div class="moon-photo" data-w="moon"><canvas aria-hidden="true"></canvas></div>
           <div>
             <p class="date" data-w="nextfull"></p>
             <p class="days" data-w="moondays"></p>
@@ -393,124 +385,22 @@
   }));
   document.addEventListener('rh:station', () => reel.querySelectorAll('video').forEach(v => v.pause()));
 
-  // ── Full moon over Yumurta island, with the little boat in front ──
+  // ── Full moon concerts ──
   const moonBox = w('moon');
   w('moondays').textContent = (() => {
     const d = Math.max(0, Math.round(moonNow.daysToFull));
     return d === 0 ? T('moon.isTonight') : T.plural('moon.days', d, { lit: Math.round(moonNow.illumination * 100).toLocaleString(T.lang.locale) });
   })();
-  // The moon is painted by WebGL; a drawn moon over the photo stands in where WebGL is missing or lost, so the
-  // buttons always change something.
-  const flat = flatMoon(moonBox);
-  const yumurta = islandMoon(moonBox);
-  const moonTo = p => { flat.to(p); if (yumurta) yumurta.to(p); };
+  // The owner's full moon, in the concert night's phase or tonight's
+  const moon = RH.photoMoon(moonBox.querySelector('canvas'));
+  moon.set(moonNow.phase);
+  const moonTo = p => moon.to(p);
   // Seen for the first time, tonight's moon grows to the concert's full moon.
   new IntersectionObserver((e, ob) => { if (e[0].isIntersecting) { ob.disconnect(); if (document.querySelector('.moonsel [data-m="full"]').getAttribute('aria-pressed') === 'true') moonTo(.5); } }).observe(moonBox);
   document.querySelectorAll('.moonsel button').forEach(b => b.addEventListener('click', () => {
     document.querySelectorAll('.moonsel button').forEach(x => x.setAttribute('aria-pressed', x === b));
     moonTo(b.dataset.m === 'full' ? .5 : moonNow.phase);
   }));
-
-  function flatMoon(box) {
-    const lit = box.querySelector('.mlit'), glow = box.querySelector('.mglow'), R = 7.5;
-    let phase = moonNow.phase, from = phase, target = phase, t0 = 0;
-    // The lit part: the limb on the sunward side, closed by the terminator, an ellipse as wide as |cos| of the phase
-    const draw = () => {
-      const c = Math.cos(phase * 2 * Math.PI), waxing = phase % 1 < .5, rx = Math.abs(c) * R;
-      lit.setAttribute('d', `M60,${25 - R} A${R},${R} 0 0 ${waxing ? 1 : 0} 60,${25 + R} A${rx.toFixed(2)},${R} 0 0 ${waxing === c > 0 ? 0 : 1} 60,${25 - R}Z`);
-      glow.style.opacity = (.25 + .75 * (1 - c) / 2).toFixed(2);
-    };
-    const step = now => {
-      const k = Math.min(1, (now - t0) / 5200);
-      phase = from + (target - from) * (k * k * (3 - 2 * k)); draw();
-      if (k < 1) requestAnimationFrame(step);
-    };
-    draw();
-    return { to(p) { from = phase; target = p; t0 = performance.now(); requestAnimationFrame(step); } };
-  }
-
-  function islandMoon(box) {
-    const cv = box.querySelector('canvas');
-    const gl = cv.getContext('webgl', { powerPreference: 'low-power' });
-    if (!gl) { box.classList.add('no-gl'); return null; }
-    const FS = `
-      #ifdef GL_FRAGMENT_PRECISION_HIGH
-      precision highp float;
-      #else
-      precision mediump float;
-      #endif
-      uniform sampler2D img; uniform float t, ph;
-      varying vec2 uv;
-      float hash(vec2 p){ p = fract(p * vec2(123.34, 456.21)); p += dot(p, p + 45.32); return fract(p.x * p.y); }
-      float noise(vec2 p){ vec2 i = floor(p), f = fract(p); vec2 u = f * f * (3. - 2. * f);
-        return mix(mix(hash(i), hash(i + vec2(1, 0)), u.x), mix(hash(i + vec2(0, 1)), hash(i + vec2(1, 1)), u.x), u.y); }
-      void main() {
-        vec2 st = vec2(uv.x, 1. - uv.y);
-        float hz = .535, d = st.y - hz;
-        if (d > 0.) { float p = .55 / (d + .02) + t * 1.1 + st.x * 3.; st.y += sin(p) * .0016 * (d * 3. + .2); st.x += cos(p * .8) * .0008; }
-        vec3 c = texture2D(img, st).rgb;
-        float l = dot(c, vec3(.299, .587, .114));
-        vec3 o = mix(vec3(.012, .02, .11), vec3(.15, .19, .52), smoothstep(.22, .95, l));
-        vec2 mp = vec2(.6, .25);
-        float illum = (1. - cos(ph * 6.2831853)) * .5;
-        vec2 q = (st - mp) / .075;
-        float md = length(q);
-        o += vec3(.7, .76, .95) * (.05 + illum * .22) * exp(-md * .9);
-        if (md < 1.05) {
-          float z = sqrt(max(0., 1. - dot(q, q))), th = ph * 6.2831853;
-          float lit = smoothstep(-.06, .08, dot(vec3(q.x, -q.y, z), vec3(sin(th), 0., -cos(th))));
-          float mt = .94 + .06 * noise(q * 2.4 + 7.);
-          o = mix(o, mix(o * .8 + vec3(.04, .05, .12), vec3(.97, .96, .9) * mt, lit), smoothstep(1.02, .96, md));
-        }
-        if (d > 0.) {
-          float wdt = .012 + d * .2, path = exp(-pow((st.x - mp.x) / wdt, 2.));
-          // glints are wider than tall, and grow toward the viewer, like a real moon path
-          float g = smoothstep(.5, .82, noise(vec2(st.x * 26. / (d * 2.4 + .3), 7. / (d + .03) - t * 1.4)));
-          // Only open water shines: the island and the boat (the dark pixels of the photo) stay dark,
-          // and the path begins just below the island's waterline.
-          float water = smoothstep(.36, .52, l) * smoothstep(.0, .022, d);
-          o += vec3(.86, .89, .97) * path * (.05 + g * 1.1) * illum * .55 * water;
-        }
-        o *= 1. - .25 * pow(length(uv - .5) * 1.3, 2.);
-        gl_FragColor = vec4(o, 1.);
-      }`;
-    const sh = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; };
-    const prog = gl.createProgram();
-    gl.attachShader(prog, sh(gl.VERTEX_SHADER, 'attribute vec2 a;varying vec2 uv;void main(){uv=a*.5+.5;gl_Position=vec4(a,0.,1.);}'));
-    gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, FS));
-    gl.linkProgram(prog);
-    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) { box.classList.add('no-gl'); return null; }
-    gl.useProgram(prog);
-    const b = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, b);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
-    const loc = gl.getAttribLocation(prog, 'a'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
-    const U = { t: gl.getUniformLocation(prog, 't'), ph: gl.getUniformLocation(prog, 'ph') };
-    const tex = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, tex);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-    let ready = false, visible = false, phase = moonNow.phase, target = .5, from = phase, t0 = 0, dur = 5200;
-    const img = new Image();
-    img.onload = () => { gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, img); ready = true; if (visible) requestAnimationFrame(loop); };
-    img.src = 'media/yumurta.jpg';
-    const size = () => { const s = Math.min(2, devicePixelRatio || 1); cv.width = cv.clientWidth * s; cv.height = cv.clientHeight * s; gl.viewport(0, 0, cv.width, cv.height); };
-    addEventListener('resize', size); size();
-    // Phones drop WebGL contexts under memory pressure: then the drawn moon takes over
-    cv.addEventListener('webglcontextlost', e => { e.preventDefault(); ready = false; box.classList.add('no-gl'); });
-    new IntersectionObserver(e => {
-      visible = e[0].isIntersecting;
-      if (visible) { size(); requestAnimationFrame(loop); }
-    }).observe(box);
-    function loop(now) {
-      if (!visible || !ready) return;
-      if (t0) { const k = Math.min(1, (now - t0) / dur); phase = from + (target - from) * (k * k * (3 - 2 * k)); if (k >= 1) t0 = 0; }
-      gl.uniform1f(U.t, now / 1000); gl.uniform1f(U.ph, phase);
-      gl.drawArrays(gl.TRIANGLES, 0, 3);
-      requestAnimationFrame(loop);
-    }
-    const api = { to(p) { from = phase; target = p; t0 = performance.now(); } };
-    return api;
-  }
 
   // ── Today in Monte Verde, from Open-Meteo ──
   (async function weather() {

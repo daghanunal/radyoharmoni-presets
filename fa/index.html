@@ -253,6 +253,23 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .row + .row > .cols{border-top:1px solid rgba(127,117,98,.22)}
 .row + .row{padding-top:0}
 .row + .row > .cols{padding-top:clamp(80px,10vw,140px)}
+/* The owner's Canva moon: on the picture at night, and in Full moon concerts (revision v3, rows 2, 8, 53) */
+.moon-photo{position:relative}
+.moon-photo canvas{position:relative;display:block;width:100%;height:100%}
+.moon-photo::before{content:"";position:absolute;inset:-48%;border-radius:50%;background:radial-gradient(closest-side,rgba(255,248,232,.52),rgba(255,248,232,.15) 55%,rgba(255,248,232,0));opacity:var(--glow,1);pointer-events:none}
+.hero-moon{position:absolute;left:80%;top:13%;width:clamp(44px,7.2vh,86px);aspect-ratio:1;transform:translate(-50%,-50%);z-index:-2;opacity:0;pointer-events:none}
+@media (orientation:portrait){.hero-moon{top:14%;width:clamp(34px,5.4vh,58px)}}
+/* Full moon concerts as on the owner's Canva page 1: the cream page turning to the night sky, islands at the foot */
+.moonband{background:url(media/concert-isles.webp) center bottom/100% auto no-repeat,linear-gradient(180deg,#eee4d6 0,#eee4d6 40px,#d7d0ce 110px,#b5b5c4 170px,#989dba 230px,#7681af 300px,#5a6ba9 370px,#3c54a0 440px,#1f3c97 520px,#12318f 600px,#12318f 100%)}
+.row + .row.moonband > .cols{border-top-color:transparent;padding-top:clamp(190px,18vw,240px)}
+.after .moonband :is(h2,.body > p,.date,.days){color:#fffaf0}
+.moonband .moonsel{color:rgba(255,250,240,.85)}
+.moonband .moonsel button[aria-pressed="true"]{background:#fffaf2;border-color:#fffaf2;color:#3b3428}
+.moonband .circle-row{grid-template-columns:minmax(120px,.8fr) 1.2fr}
+.moonband .moon-photo{width:clamp(96px,9vw,128px);aspect-ratio:1;justify-self:center}
+/* A picture across the foot of a section, edge to edge (Canva pages 2 and 3) */
+.strip{display:block;width:calc(100% + 2 * clamp(20px,5vw,48px));max-width:none;height:auto;margin:clamp(36px,5vw,64px) calc(-1 * clamp(20px,5vw,48px)) calc(-1 * clamp(80px,10vw,140px))}
+@media (max-width:700px){.moonband .circle-row{grid-template-columns:1fr}.moonband .moon-photo{width:110px;margin:8px auto 4px}}
 .cols{display:grid;grid-template-columns:minmax(220px,1fr) 2fr;gap:clamp(24px,5vw,80px);max-width:1180px;margin:0 auto}
 h2{font:italic 400 clamp(40px,4.8vw,64px)/1.04 var(--serif);color:var(--ink)}
 /* "Research" as a small word above the heading, on the left (as the owner liked it on the night page) */
@@ -563,6 +580,7 @@ footer .langs a[aria-current="true"]{text-decoration:underline;text-underline-of
   <video class="src" id="v-cycle" src="media/ayvalik.mp4" muted loop playsinline preload="none"></video>
   <img class="src" id="i-rain" data-src="media/monteverde-photo.jpg" alt="" decoding="async">
   <canvas id="gl" aria-hidden="true"></canvas>
+  <div class="hero-moon moon-photo" id="heroMoonBox" aria-hidden="true"><canvas id="heroMoon"></canvas></div>
   <div class="fallback-tint" id="tint"></div>
 
   <div class="ui" id="ui">
@@ -690,12 +708,10 @@ footer .langs a[aria-current="true"]{text-decoration:underline;text-underline-of
     <section class="row"><div class="cols">
       <h2>چگونه پخش می‌شود</h2>
       <div class="body">
-        <div class="circle-row">
-          <div class="porthole speaker" data-w="speaker"><img src="media/speaker-monteverde.jpg" alt="" loading="lazy" decoding="async"></div>
-          <div class="how ways"><article><h3>برای خودتان</h3><p>راحت و با چشمان بسته بنشینید. برای اثری طراوت‌بخش، از راگ، از آغاز تا واپسین نتش، لذت ببرید.</p></article><article><h3>برای محیطتان</h3><p>بلندگویی وصل کنید و بگذارید راگ آرام و پیوسته پخش شود.</p></article></div>
-        </div>
+        <div class="ways"><article><h3>برای خودتان</h3><p>راحت و با چشمان بسته بنشینید. برای اثری طراوت‌بخش، از راگ، از آغاز تا واپسین نتش، لذت ببرید.</p></article><article><h3>برای محیطتان</h3><p>بلندگویی وصل کنید و بگذارید راگ آرام و پیوسته پخش شود.</p></article></div>
       </div>
-    </div></section>
+    </div>
+    <img class="strip" src="media/rain-how.webp" alt="" loading="lazy" decoding="async"></section>
 
     <section class="row"><div class="cols">
       <h2>به دیرینگی زمان</h2>
@@ -746,7 +762,7 @@ footer .langs a[aria-current="true"]{text-decoration:underline;text-underline-of
           <p class="note" data-status="" aria-live="polite"></p>
         </form>
         <div class="sub">
-          <p>در پژوهشی ۶۰ روزه روی شصت گاو شیری، گاوهایی که موسیقی راگ می‌شنیدند در مقایسه با گاوهای بی‌موسیقی هر روز به‌طور معناداری شیر بیشتری دادند و سطح هورمون تنش، کورتیزول، در آن‌ها پایین‌تر بود.</p>
+          <p>در پژوهشی ۶۰ روزه روی شصت گاو شیری، گاوهایی که در معرض موسیقی گاندهاروا ودا قرار داشتند نسبت به گاوهای گروه مقایسه هر روز به‌طور معناداری شیر بیشتری دادند و سطح هورمون تنش، کورتیزول، در آن‌ها پایین‌تر بود.</p>
           <p class="ref"><span lang="en">Cao, Zhao, Feng et al. (2025), Effects of Raga music and Chinese five-element on milk production, antioxidant, neuroendocrine, immune, and welfare indicators in dairy cows. <i>Frontiers in Veterinary Science</i> 12, 1623026.</span> <a href="https://doi.org/10.3389/fvets.2025.1623026">خواندن مقاله</a></p>
         </div>
       </div>
@@ -756,24 +772,18 @@ footer .langs a[aria-current="true"]{text-decoration:underline;text-underline-of
     <section class="row moonsec"><div class="cols">
       <h2>باغ‌های پرشکوفه</h2>
       <div class="body">
-        <p>در پژوهشی روی سی بوتهٔ گل سرخ، بوته‌هایی که هر صبح یک راگ می‌شنیدند گل‌های بیشتر و درشت‌تری دادند تا بوته‌های بی‌موسیقی یا بوته‌هایی که برایشان موسیقی کلاسیک غربی یا راک پخش می‌شد.</p>
-        <div class="circle-row wide">
-          <div class="porthole rose" data-w="rose"><img src="media/rose-garden.jpg" alt="" loading="lazy" decoding="async"></div>
-          <div><p class="ref" style="margin:0"><span lang="en">Chivukula &amp; Ramaswamy (2014), Effect of Different Types of Music on Rosa Chinensis Plants. <i>International Journal of Environmental Science and Development</i> 5(5), 431–434.</span> <a href="https://doi.org/10.7763/IJESD.2014.V5.522">خواندن مقاله</a></p></div>
-        </div>
+        <p>در پژوهشی روی سی بوتهٔ گل سرخ، بوته‌هایی که هر صبح در معرض نغمه‌های گاندهاروا ودا قرار می‌گرفتند گل‌های بیشتر و درشت‌تری دادند تا بوته‌هایی که هیچ مداخله‌ای روی آن‌ها انجام نشده بود یا بوته‌هایی که در معرض موسیقی کلاسیک غربی یا راک قرار می‌گرفتند.</p>
+        <p class="ref"><span lang="en">Chivukula &amp; Ramaswamy (2014), Effect of Different Types of Music on Rosa Chinensis Plants. <i>International Journal of Environmental Science and Development</i> 5(5), 431–434.</span> <a href="https://doi.org/10.7763/IJESD.2014.V5.522">خواندن مقاله</a></p>
         <div class="voices garden-voice"><blockquote>درختی پس از ده سال برای نخستین بار گل می‌دهد؛ کارگرانِ محل آرام‌ترند، مشتری‌ها راضی‌اند.<cite>B.C.، معمار منظر، ترکیه</cite></blockquote></div>
       </div>
-    </div></section></div><div class="info-common">
-    <section class="row moonsec" id="concerts"><div class="cols">
+    </div>
+    <img class="strip" src="media/garden.webp" alt="" loading="lazy" decoding="async"></section></div><div class="info-common">
+    <section class="row moonsec moonband" id="concerts"><div class="cols">
       <h2>کنسرت‌های ماه کامل</h2>
       <div class="body">
         <p>هر ماه، در شامگاه ماه کامل، نوازندگان گاندهاروا ودا برای مخاطبانی از سراسر جهان زنده می‌نوازند.</p>
         <div class="circle-row">
-          <div class="porthole" data-w="moon">
-            <canvas aria-hidden="true" width="290" height="290"></canvas>
-            <img class="flat" src="media/yumurta.jpg" alt="">
-            <svg class="flat-moon" viewBox="0 0 100 100" aria-hidden="true"><circle class="mglow" cx="60" cy="25" r="16" fill="url(#mGlow)" style="opacity: 0.68;"></circle><circle cx="60" cy="25" r="7.5" fill="#33428a" fill-opacity=".55"></circle><path class="mlit" fill="#f4f1e6" d="M60,17.5 A7.5,7.5 0 0 1 60,32.5 A1.11,7.5 0 0 1 60,17.5Z"></path><defs><radialGradient id="mGlow"><stop offset="0" stop-color="#c8d2f2" stop-opacity=".5"></stop><stop offset="1" stop-color="#c8d2f2" stop-opacity="0"></stop></radialGradient></defs></svg>
-          </div>
+          <div class="moon-photo" data-w="moon" style="--glow: 0.576;"><canvas aria-hidden="true" height="128" width="128"></canvas></div>
           <div>
             <p class="date" data-w="nextfull"></p>
             <p class="days" data-w="moondays"></p>
@@ -1028,13 +1038,13 @@ void main() {
   gl_FragColor = vec4(clamp(o, 0., 1.), 1.);
 }
 </script>
-<script src="i18n/en.js?v=7a75cb7c"></script>
-<script src="i18n/fa.js?v=117b9f34"></script>
+<script src="i18n/en.js?v=e39fd6b7"></script>
+<script src="i18n/fa.js?v=377ad829"></script>
 <script src="shared/i18n.js?v=95093879"></script>
 <script src="shared/radio.js?v=7aa80d03"></script>
 <script src="shared/light.js?v=9bf551bd"></script>
-<script src="app.js?v=68ef167b"></script>
-<script src="info.js?v=abedd1bd"></script>
+<script src="app.js?v=1691466d"></script>
+<script src="info.js?v=52a40770"></script>
 <script src="analytics.js?v=2657696a"></script>
 </body>
 </html>

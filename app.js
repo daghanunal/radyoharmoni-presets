@@ -24,6 +24,52 @@
   });
   const light = new L();
   const moonNow = R.moon();
+
+  // ── The moon: the full moon of the owner's Canva design, lit for a phase (0 new, .5 full) on the side the sun
+  //    lights, the rest in earthshine. set(p) shows a phase at once; to(p) moves there over five seconds. ──
+  function photoMoon(cv, { dur = 5200 } = {}) {
+    const img = new Image(), ctx = cv.getContext('2d');
+    const mask = document.createElement('canvas'), mx = mask.getContext('2d');
+    const shade = document.createElement('canvas'), sx = shade.getContext('2d');
+    let phase = .5, from = .5, target = .5, t0 = 0, raf = 0;
+    const draw = () => {
+      const W = Math.max(2, Math.round(cv.clientWidth * Math.min(2, devicePixelRatio || 1)));
+      if (cv.width !== W) cv.width = cv.height = mask.width = mask.height = shade.width = shade.height = W;
+      ctx.clearRect(0, 0, W, W);
+      const c = Math.cos(phase * 2 * Math.PI), waxing = phase % 1 < .5, R = W * .5;
+      cv.parentElement.style.setProperty('--glow', ((1 - c) / 2).toFixed(3));
+      if (!img.naturalWidth) return;
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.drawImage(img, 0, 0, W, W);
+      // the lit part: the limb on the sunward side, closed by the terminator, an ellipse |cos| of the phase wide
+      mx.clearRect(0, 0, W, W);
+      mx.filter = `blur(${(W * .014).toFixed(1)}px)`;
+      mx.beginPath();
+      mx.arc(R, R, R * 1.04, -Math.PI / 2, Math.PI / 2, !waxing);
+      mx.ellipse(R, R, Math.abs(c) * R * 1.04, R * 1.04, 0, Math.PI / 2, -Math.PI / 2, waxing === c > 0);
+      mx.fill();
+      // the unlit part fades into the sky behind it, keeping a trace of earthshine
+      sx.globalCompositeOperation = 'source-over';
+      sx.clearRect(0, 0, W, W);
+      sx.fillStyle = 'rgba(0,0,0,.9)';
+      sx.fillRect(0, 0, W, W);
+      sx.globalCompositeOperation = 'destination-out';
+      sx.drawImage(mask, 0, 0);
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.drawImage(shade, 0, 0);
+    };
+    const step = now => {
+      const k = Math.min(1, (now - t0) / dur);
+      phase = from + (target - from) * (k * k * (3 - 2 * k)); draw();
+      raf = k < 1 ? requestAnimationFrame(step) : 0;
+    };
+    img.onload = draw; img.src = 'media/moon.png';
+    addEventListener('resize', draw);
+    return {
+      set(p) { cancelAnimationFrame(raf); raf = 0; phase = target = p; draw(); },
+      to(p) { if (reduce) return this.set(p); from = phase; target = p; t0 = performance.now(); if (!raf) raf = requestAnimationFrame(step); }
+    };
+  }
   const scene = $('#scene'), ui = $('#ui');
   if (!radio.canSetVolume) document.body.classList.add('no-volume');
   // On a phone the page shows no volume control (the phone's own buttons set it), so the page never holds it low
@@ -74,6 +120,11 @@
     const ra = innerWidth / innerHeight, va = 16 / 9;
     return .5 - (hzFrame - .5) * (ra > va ? ra / va : 1) * (1 + drift);
   }
+
+  // ── The moon at night over the picture, in tonight's phase (the owner's Canva moon) ──
+  const heroMoonBox = $('#heroMoonBox');
+  let heroMoonShown = 0;
+  photoMoon($('#heroMoon')).set(qs.get('moon') === 'full' ? .5 : moonNow.phase);
 
   // ── WebGL ───────────────────────────────────────────────────
   const cv = $('#gl');
@@ -173,7 +224,9 @@
         gl.uniform1f(U.lift, grade.lift); gl.uniform1f(U.cz, grade.cz); gl.uniform1f(U.grain, .028); gl.uniform1f(U.hz, hzNow);
         gl.uniform1f(U.drift, drift * (1 - dv));
         gl.uniform3fv(U.top, grade.top); gl.uniform3fv(U.mid, grade.mid); gl.uniform3fv(U.bot, grade.bot);
-        gl.uniform1f(U.moonK, moonK); gl.uniform1f(U.ph, qs.get('moon') === 'full' ? .5 : moonNow.phase);
+        // the painted moon and its path on the water give way to the owner's moon, drawn above the picture
+        gl.uniform1f(U.moonK, 0); gl.uniform1f(U.ph, qs.get('moon') === 'full' ? .5 : moonNow.phase);
+        if (Math.abs(moonK - heroMoonShown) > .004) { heroMoonShown = moonK; heroMoonBox.style.opacity = moonK.toFixed(3); }
         gl.uniform2f(U.mpos, .8, portrait ? .86 : .87); gl.uniform1f(U.mr, portrait ? .024 : .033);
         gl.uniform1f(U.hzS, horizonUv(hzNow, drift * (1 - dv)));
         gl.uniform1f(U.cyc, cycleReady ? cyc : 0);
@@ -216,9 +269,8 @@
     if (key === lastChrome) return;
     lastChrome = key;
     const root = document.documentElement.style;
-    // The name keeps Peace Radio's colour on Rain Radio, so changing station never shades it; only under the
-    // grey-blue rain sky does it turn cream. No shadow (the owner's note: it darkened the name in the change).
-    root.setProperty('--mgv', rain && sky === 'rain' ? '#fffdf8' : grade.mgv);
+    root.setProperty('--mgv', rain ? '#fffdf8' : grade.mgv);
+    // No shadow behind the name (the owner's note: it showed as a dark shade while the stations changed)
     root.setProperty('--corner', corner);
     // Over Monte Verde the cream name needs a shadow to read: a deep sky blue, never black
     root.setProperty('--mgv-shadow', 'none');
@@ -339,10 +391,10 @@
       if (!AC) return false;
       const ctx = this.ctx = new AC();
       this.gain = ctx.createGain(); this.gain.gain.value = 0; this.gain.connect(ctx.destination);
-      const LOOP = 2875392 / 44100;   // the loop's exact length; some decoders keep the MP3's lead-in silence
+      const LOOP = 497664 / 44100;   // the loop's exact length; some decoders keep the MP3's lead-in silence
       const load = url => fetch(url).then(r => { if (!r.ok) throw new Error(r.status); return r.arrayBuffer(); })
         .then(data => new Promise((ok, no) => ctx.decodeAudioData(data, ok, no)));
-      load('media/rain/rain-loop.mp3?v=2').catch(() => load('media/rain/rain-loop.m4a?v=2')).then(buf => {
+      load('media/rain/rain-loop.mp3?v=3').catch(() => load('media/rain/rain-loop.m4a?v=3')).then(buf => {
         const src = ctx.createBufferSource(); src.buffer = buf; src.loop = true;
         const extra = buf.duration - LOOP;
         if (extra > .002) { src.loopStart = Math.min(extra, 1105 / 44100); src.loopEnd = src.loopStart + LOOP; }
@@ -491,7 +543,7 @@
   document.addEventListener('click', e => { if (!langList.hidden && !e.target.closest('.lang')) closeLang(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && !langList.hidden) { closeLang(); langBtn.focus(); } });
 
-  window.RH = { radio, light, SKIES, get sky() { return sky; }, setSky };
+  window.RH = { radio, light, SKIES, get sky() { return sky; }, setSky, photoMoon };
   runIntro();
   render();
 })();

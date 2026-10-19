@@ -2,9 +2,9 @@
    Network first, so a new revision always shows; the cache is only the fallback.
    Streams, videos and range requests are never touched. */
 // The release build puts a hash of its files in the name, so every release installs afresh and clears the old cache
-const CACHE = 'rh-ayvalik-1e968b2d7e';
+const CACHE = 'rh-ayvalik-49b98f8140';
 const SHELL = ['./', './app.js', './info.js', 'shared/radio.js', 'shared/light.js', 'shared/i18n.js', './i18n/en.js', 'shared/vendor/hls.min.js',
-  'shared/fonts/fonts.css', 'media/ayvalik.jpg', 'media/monteverde-photo.jpg', 'media/yumurta.jpg', './icons/icon-192.png'];
+  'shared/fonts/fonts.css', 'media/ayvalik.jpg', 'media/monteverde-photo.jpg', 'media/moon.png', './icons/icon-192.png'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));
