@@ -317,9 +317,10 @@
   // The character of each watch's ragas (watch.N.character), after the time theory of ragas in the Indian classical tradition.
   let picked = null;
   function showWatch(i) {
-    const p = R.period(), x = R.PERIODS[i], isNow = i === p.index;
+    const x = R.PERIODS[i];
     cells.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', +b.dataset.i === i));
-    const html = T('band.cap', { now: isNow ? T('band.now') : '', watch: T(`watch.${i}.name`), watchInline: T(`watch.${i}.inline`), from: `${R.pad(x.start)}:00`, to: `${R.pad((x.start + 3) % 24)}:00`, character: T(`watch.${i}.character`) });
+    // "Now playing, …" on every watch, not only the current one (owner, 19 Oct)
+    const html = T('band.cap', { now: T('band.now'), watch: T(`watch.${i}.name`), watchInline: T(`watch.${i}.inline`), from: `${R.pad(x.start)}:00`, to: `${R.pad((x.start + 3) % 24)}:00`, character: T(`watch.${i}.character`) });
     const linked = html.replace('*', `<a class="star" href="#praharas" title="${T('prahara.title').replace('*', '')}">*</a>`);
     if (cap.dataset.html !== linked) { cap.dataset.html = linked; cap.innerHTML = linked; }   // only when it changes: the line is read aloud each time it is written
   }

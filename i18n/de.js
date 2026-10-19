@@ -41,7 +41,7 @@
   "station.rain": "Regenradio",
   "station.no1": "SENDER 01",
   "station.no2": "SENDER 02",
-  "intro.title": "Musik für den Frieden",
+  "intro.title": "Musik Für Den Frieden",
   "hero.play": "HÖREN",
   "hero.always": "24/7",
   "hero.order": "play-always",

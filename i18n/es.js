@@ -40,7 +40,7 @@
   "station.rain": "Radio Lluvia",
   "station.no1": "EMISORA 01",
   "station.no2": "EMISORA 02",
-  "intro.title": "Música por la paz",
+  "intro.title": "Música Por La Paz",
   "hero.play": "ESCUCHAR",
   "hero.always": "24/7",
   "hero.order": "play-always",

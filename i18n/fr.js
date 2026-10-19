@@ -40,7 +40,7 @@
   "station.rain": "Radio Pluie",
   "station.no1": "STATION 01",
   "station.no2": "STATION 02",
-  "intro.title": "Musique pour la paix",
+  "intro.title": "Musique Pour La Paix",
   "hero.play": "ÉCOUTER",
   "hero.always": "24/7",
   "hero.order": "play-always",

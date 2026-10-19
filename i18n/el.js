@@ -37,7 +37,7 @@
   "station.rain": "Ράδιο Βροχή",
   "station.no1": "ΣΤΑΘΜΟΣ 01",
   "station.no2": "ΣΤΑΘΜΟΣ 02",
-  "intro.title": "Μουσική για την ειρήνη",
+  "intro.title": "Μουσική Για Την Ειρήνη",
   "hero.play": "ΑΚΟΥΣΤΕ",
   "hero.always": "24/7",
   "hero.order": "play-always",

@@ -39,7 +39,7 @@
   "station.rain": "Rádio Chuva",
   "station.no1": "ESTAÇÃO 01",
   "station.no2": "ESTAÇÃO 02",
-  "intro.title": "Música pela paz",
+  "intro.title": "Música Pela Paz",
   "hero.play": "OUVIR",
   "hero.always": "24/7",
   "hero.order": "play-always",

@@ -1,7 +1,7 @@
 (window.RH_I18N = window.RH_I18N || {}).tr = {
   "_review": [
     "Brand: “Maharishi Gandharva Veda” kept unchanged in Latin letters; Turkish suffixes are attached with an apostrophe (Gandharva Veda’yı, Veda’ya).",
-    "Stations: “Barış Radyosu” and “Yağmur Radyosu” (the usual Turkish pattern, like Ankara Radyosu), set apart from the umbrella brand Radyo Harmoni. In meta.title shortened to “Barış ve Yağmur Radyoları” to stay under 70 characters. Alternatives if preferred: “Radyo Barış / Radyo Yağmur” (the brand’s own pattern), or “Huzur Radyosu” for a softer, inner peace (but “barış” keeps the link with “Barış için müzik” and “dünya barışı” in Maharishi’s words).",
+    "Stations: “Barış Radyosu” and “Yağmur Radyosu” (the usual Turkish pattern, like Ankara Radyosu), set apart from the umbrella brand Radyo Harmoni. In meta.title shortened to “Barış ve Yağmur Radyoları” to stay under 70 characters. Alternatives if preferred: “Radyo Barış / Radyo Yağmur” (the brand’s own pattern), or “Huzur Radyosu” for a softer, inner peace (but “barış” keeps the link with “Barış İçin Müzik” and “dünya barışı” in Maharishi’s words).",
     "Maharishi’s words (peace.why.quote, rain.ancient.*, rain.why.quote, about.*) are my own translations; please compare them with official Turkish translations if they exist.",
     "“Transcendental Meditation” is “Transandantal Meditasyon” in running text (the form used in Türkiye); legal.tm keeps every trademark in its original Latin spelling.",
     "“24/7” is written “7/24” throughout, as Turkish does (the large figure beside the play button too).",
@@ -43,7 +43,7 @@
   "station.rain": "Yağmur Radyosu",
   "station.no1": "İSTASYON 01",
   "station.no2": "İSTASYON 02",
-  "intro.title": "Barış için müzik",
+  "intro.title": "Barış İçin Müzik",
   "hero.play": "ÇALIN",
   "hero.always": "7/24",
   "hero.order": "cap-always-play",

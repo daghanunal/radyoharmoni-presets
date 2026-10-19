@@ -38,7 +38,7 @@
   "station.rain": "Радио Дъжд",
   "station.no1": "СТАНЦИЯ 01",
   "station.no2": "СТАНЦИЯ 02",
-  "intro.title": "Музика за мир",
+  "intro.title": "Музика За Мир",
   "hero.play": "ПУСНИ",
   "hero.always": "24/7",
   "hero.order": "play-always",

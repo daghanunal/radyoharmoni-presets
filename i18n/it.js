@@ -41,7 +41,7 @@
   "station.rain": "Radio Pioggia",
   "station.no1": "STAZIONE 01",
   "station.no2": "STAZIONE 02",
-  "intro.title": "Musica per la pace",
+  "intro.title": "Musica Per La Pace",
   "hero.play": "ASCOLTA",
   "hero.always": "24/7",
   "hero.order": "play-always",

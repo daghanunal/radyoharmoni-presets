@@ -38,7 +38,7 @@
   "station.rain": "Радио дождя",
   "station.no1": "СТАНЦИЯ 01",
   "station.no2": "СТАНЦИЯ 02",
-  "intro.title": "Музыка ради мира",
+  "intro.title": "Музыка Ради Мира",
   "hero.play": "СЛУШАТЬ",
   "hero.always": "24/7",
   "hero.order": "play-always",

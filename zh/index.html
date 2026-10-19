@@ -271,7 +271,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 /* A picture under a section's text, from the text column to the page's edge (Canva pages 2 and 3, the smaller
    versions): as wide as the column plus the margin beside it; the section clips the scrollbar's width */
 .strip-r{grid-column:2;position:relative;display:block;width:calc(100% + (100vw - min(100vw - 2 * clamp(20px,5vw,48px), 1180px)) / 2);max-width:none;margin:clamp(6px,1.5vw,20px) 0 0}
-.strip-r img{display:block;width:100%;height:auto}
+.strip-r img{display:block;width:100%;height:auto;border-radius:14px}   /* the films' corners; the cow's photo band has its own left corners rounded in the picture */
 /* Where the picture was taken, in the corner, as the picture at the top does it */
 .strip-credit{position:absolute;left:clamp(12px,1.6vw,22px);bottom:clamp(10px,1.4vw,18px);font:400 12px/1.4 var(--sans);letter-spacing:.12em;color:#fffaf0;opacity:.95;text-shadow:0 1px 8px rgba(20,30,20,.65),0 0 2px rgba(20,30,20,.5);pointer-events:none}
 section:has(.strip-r){overflow-x:clip}
@@ -726,7 +726,7 @@ footer .langs a[aria-current="true"]{text-decoration:underline;text-underline-of
       <div class="body">
         <p>每月满月之夜，乾闼婆吠陀音乐家都会为全球听众现场演奏。</p>
         <div class="circle-row">
-          <div class="moon-photo" data-w="moon" style="--glow: 0.589;"><canvas aria-hidden="true" height="128" width="128"></canvas></div>
+          <div class="moon-photo" data-w="moon" style="--glow: 0.595;"><canvas aria-hidden="true" height="128" width="128"></canvas></div>
           <div>
             <p class="date" data-w="nextfull"></p>
             <p class="days" data-w="moondays"></p>
@@ -1069,13 +1069,13 @@ void main() {
   gl_FragColor = vec4(clamp(o, 0., 1.), 1.);
 }
 </script>
-<script src="i18n/en.js?v=07c66c15"></script>
+<script src="i18n/en.js?v=3cf989fc"></script>
 <script src="i18n/zh.js?v=4a75b38c"></script>
 <script src="shared/i18n.js?v=95093879"></script>
 <script src="shared/radio.js?v=7aa80d03"></script>
 <script src="shared/light.js?v=9bf551bd"></script>
 <script src="app.js?v=1691466d"></script>
-<script src="info.js?v=00c35635"></script>
+<script src="info.js?v=e1ead712"></script>
 <script src="analytics.js?v=2657696a"></script>
 </body>
 </html>
