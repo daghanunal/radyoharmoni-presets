@@ -5,6 +5,7 @@
 <meta name="robots" content="noindex">
 <base href="../">
 <meta name="rh-i18n" content="paths">
+<meta name="google-site-verification" content="sraRJ313P41QGDQikldB5TDWxSCj3lHjUelSR12jKd8">
 <script>document.documentElement.classList.add('js')</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Radyo Harmoni｜平和のラジオと雨のラジオ｜マハリシ・ガンダルヴァ・ヴェーダ</title>
@@ -267,8 +268,10 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .moonband .moonsel button[aria-pressed="true"]{background:#fffaf2;border-color:#fffaf2;color:#3b3428}
 .moonband .circle-row{grid-template-columns:minmax(120px,.8fr) 1.2fr}
 .moonband .moon-photo{width:clamp(96px,9vw,128px);aspect-ratio:1;justify-self:center}
-/* A picture across the foot of a section, edge to edge (Canva pages 2 and 3) */
-.strip{display:block;width:calc(100% + 2 * clamp(20px,5vw,48px));max-width:none;height:auto;margin:clamp(36px,5vw,64px) calc(-1 * clamp(20px,5vw,48px)) calc(-1 * clamp(80px,10vw,140px))}
+/* A picture under a section's text, from the text column to the page's edge (Canva pages 2 and 3, the smaller
+   versions): as wide as the column plus the margin beside it; the section clips the scrollbar's width */
+.strip-r{grid-column:2;display:block;width:calc(100% + (100vw - min(100vw - 2 * clamp(20px,5vw,48px), 1180px)) / 2);max-width:none;height:auto;margin-top:clamp(6px,1.5vw,20px)}
+section:has(.strip-r){overflow-x:clip}
 @media (max-width:700px){.moonband .circle-row{grid-template-columns:1fr}.moonband .moon-photo{width:110px;margin:8px auto 4px}}
 .cols{display:grid;grid-template-columns:minmax(220px,1fr) 2fr;gap:clamp(24px,5vw,80px);max-width:1180px;margin:0 auto}
 h2{font:italic 400 clamp(40px,4.8vw,64px)/1.04 var(--serif);color:var(--ink)}
@@ -468,6 +471,7 @@ footer .langs a[aria-current="true"]{text-decoration:underline;text-underline-of
   .foot-row .friends{order:3}
   .cols{gap:22px}
   .reel{grid-auto-columns:100%}
+  .strip-r{grid-column:auto}
 }
 @media (max-width:700px){
   .ui{padding-top:54px;padding-bottom:calc(14px + env(safe-area-inset-bottom))}
@@ -668,9 +672,9 @@ footer .langs a[aria-current="true"]{text-decoration:underline;text-underline-of
         <p>ガンダルヴァ・ヴェーダは、一日のそれぞれの時間に固有のラーガを与えています。平和のラジオは、あなたの今の時間のラーガを流します。アイヴァルクの海の光も、それとともに移ろいます。</p>
         <div class="dayband" data-w="dayband" style="--grad-h: linear-gradient(90deg,rgb(74,82,144) 0.00%,rgb(74,82,144) 2.08%,rgb(74,82,144) 4.17%,rgb(74,82,144) 6.25%,rgb(74,82,144) 8.33%,rgb(74,82,144) 10.42%,rgb(74,82,144) 12.50%,rgb(74,82,144) 14.58%,rgb(156,131,172) 16.67%,rgb(238,179,199) 18.75%,rgb(238,184,175) 20.83%,rgb(239,190,144) 22.92%,rgb(230,193,156) 25.00%,rgb(204,200,193) 27.08%,rgb(183,206,223) 29.17%,rgb(180,207,227) 31.25%,rgb(180,207,227) 33.33%,rgb(180,207,227) 35.42%,rgb(180,207,227) 37.50%,rgb(180,207,227) 39.58%,rgb(180,207,227) 41.67%,rgb(180,207,227) 43.75%,rgb(180,207,227) 45.83%,rgb(180,207,227) 47.92%,rgb(180,207,227) 50.00%,rgb(180,207,227) 52.08%,rgb(180,207,227) 54.17%,rgb(180,207,227) 56.25%,rgb(180,207,227) 58.33%,rgb(180,207,227) 60.42%,rgb(182,206,224) 62.50%,rgb(200,201,199) 64.58%,rgb(224,194,165) 66.67%,rgb(238,190,144) 68.75%,rgb(239,188,154) 70.83%,rgb(238,182,183) 72.92%,rgb(238,179,199) 75.00%,rgb(184,147,181) 77.08%,rgb(96,95,151) 79.17%,rgb(74,82,144) 81.25%,rgb(74,82,144) 83.33%,rgb(74,82,144) 85.42%,rgb(74,82,144) 87.50%,rgb(74,82,144) 89.58%,rgb(74,82,144) 91.67%,rgb(74,82,144) 93.75%,rgb(74,82,144) 95.83%,rgb(74,82,144) 97.92%,rgb(74,82,144) 100.00%); --grad-v: linear-gradient(180deg,rgb(74,82,144) 0.00%,rgb(74,82,144) 2.08%,rgb(74,82,144) 4.17%,rgb(74,82,144) 6.25%,rgb(74,82,144) 8.33%,rgb(74,82,144) 10.42%,rgb(74,82,144) 12.50%,rgb(74,82,144) 14.58%,rgb(156,131,172) 16.67%,rgb(238,179,199) 18.75%,rgb(238,184,175) 20.83%,rgb(239,190,144) 22.92%,rgb(230,193,156) 25.00%,rgb(204,200,193) 27.08%,rgb(183,206,223) 29.17%,rgb(180,207,227) 31.25%,rgb(180,207,227) 33.33%,rgb(180,207,227) 35.42%,rgb(180,207,227) 37.50%,rgb(180,207,227) 39.58%,rgb(180,207,227) 41.67%,rgb(180,207,227) 43.75%,rgb(180,207,227) 45.83%,rgb(180,207,227) 47.92%,rgb(180,207,227) 50.00%,rgb(180,207,227) 52.08%,rgb(180,207,227) 54.17%,rgb(180,207,227) 56.25%,rgb(180,207,227) 58.33%,rgb(180,207,227) 60.42%,rgb(182,206,224) 62.50%,rgb(200,201,199) 64.58%,rgb(224,194,165) 66.67%,rgb(238,190,144) 68.75%,rgb(239,188,154) 70.83%,rgb(238,182,183) 72.92%,rgb(238,179,199) 75.00%,rgb(184,147,181) 77.08%,rgb(96,95,151) 79.17%,rgb(74,82,144) 81.25%,rgb(74,82,144) 83.33%,rgb(74,82,144) 85.42%,rgb(74,82,144) 87.50%,rgb(74,82,144) 89.58%,rgb(74,82,144) 91.67%,rgb(74,82,144) 93.75%,rgb(74,82,144) 95.83%,rgb(74,82,144) 97.92%,rgb(74,82,144) 100.00%);">
           <div class="ribbon" aria-hidden="true"><i class="mark"></i></div>
-          <ol class="cells" aria-label="一日の八つの時間帯"><li><button data-i="0" aria-pressed="false"><b>深夜</b><small>01–04</small></button></li><li><button data-i="1" aria-pressed="false"><b>夜明け</b><small>04–07</small></button></li><li><button data-i="2" aria-pressed="false"><b>朝</b><small>07–10</small></button></li><li><button data-i="3" aria-pressed="false"><b>真昼</b><small>10–13</small></button></li><li><button data-i="4" aria-pressed="true"><b>午後</b><small>13–16</small></button></li><li><button data-i="5" aria-pressed="false"><b>夕暮れ</b><small>16–19</small></button></li><li><button data-i="6" aria-pressed="false"><b>宵</b><small>19–22</small></button></li><li><button data-i="7" aria-pressed="false"><b>夜</b><small>22–01</small></button></li></ol>
+          <ol class="cells" aria-label="一日の八つの時間帯"><li><button data-i="0" aria-pressed="false"><b>深夜</b><small>01–04</small></button></li><li><button data-i="1" aria-pressed="false"><b>夜明け</b><small>04–07</small></button></li><li><button data-i="2" aria-pressed="false"><b>朝</b><small>07–10</small></button></li><li><button data-i="3" aria-pressed="false"><b>真昼</b><small>10–13</small></button></li><li><button data-i="4" aria-pressed="false"><b>午後</b><small>13–16</small></button></li><li><button data-i="5" aria-pressed="true"><b>夕暮れ</b><small>16–19</small></button></li><li><button data-i="6" aria-pressed="false"><b>宵</b><small>19–22</small></button></li><li><button data-i="7" aria-pressed="false"><b>夜</b><small>22–01</small></button></li></ol>
         </div>
-        <p class="band-cap" data-w="band-cap" aria-live="polite" data-html="&lt;em&gt;ただいま放送中：13:00〜16:00、午後のラーガ。&lt;/em&gt;このプラハラ&lt;a class=&quot;star&quot; href=&quot;#praharas&quot; title=&quot;プラハラ（一日を八つに分けた時間帯）について&quot;&gt;*&lt;/a&gt;（一日を八つに分けた時間帯の一つ）のラーガ：&lt;i&gt;達成と創造性&lt;/i&gt;。"></p>
+        <p class="band-cap" data-w="band-cap" aria-live="polite" data-html="&lt;em&gt;ただいま放送中：16:00〜19:00、夕暮れのラーガ。&lt;/em&gt;このプラハラ&lt;a class=&quot;star&quot; href=&quot;#praharas&quot; title=&quot;プラハラ（一日を八つに分けた時間帯）について&quot;&gt;*&lt;/a&gt;（一日を八つに分けた時間帯の一つ）のラーガ：&lt;i&gt;調和と心の明晰さ&lt;/i&gt;。"></p>
       </div>
     </div></section>
 
@@ -722,8 +726,8 @@ footer .langs a[aria-current="true"]{text-decoration:underline;text-underline-of
       <div class="body">
         <div class="ways"><article><h3>自分のために</h3><p>楽な姿勢で座り、目を閉じてください。ラーガを始まりから最後の音まで味わえば、すがすがしい効果が得られます。</p></article><article><h3>まわりの環境のために</h3><p>スピーカーをつないで、ラーガを静かに、絶え間なく流してください。</p></article></div>
       </div>
-    </div>
-    <img class="strip" src="media/rain-how.webp" alt="" loading="lazy" decoding="async"></section>
+      <img class="strip-r" src="media/rain-how-2.webp" alt="" loading="lazy" decoding="async">
+    </div></section>
 
     <section class="row"><div class="cols">
       <h2>時と同じほど古く</h2>
@@ -788,14 +792,14 @@ footer .langs a[aria-current="true"]{text-decoration:underline;text-underline-of
         <p class="ref"><span lang="en">Chivukula &amp; Ramaswamy (2014), Effect of Different Types of Music on Rosa Chinensis Plants. <i>International Journal of Environmental Science and Development</i> 5(5), 431–434.</span> <a href="https://doi.org/10.7763/IJESD.2014.V5.522">論文を読む</a></p>
         <div class="voices garden-voice"><blockquote>10年ぶりに木が花を咲かせました。現場の作業員たちは落ち着き、お客様も喜んでいます。<cite>B.C.、ランドスケープアーキテクト、トルコ</cite></blockquote></div>
       </div>
-    </div>
-    <img class="strip" src="media/garden.webp" alt="" loading="lazy" decoding="async"></section></div><div class="info-common">
+      <img class="strip-r" src="media/garden-2.webp" alt="" loading="lazy" decoding="async">
+    </div></section></div><div class="info-common">
     <section class="row moonsec moonband" id="concerts"><div class="cols">
       <h2>満月のコンサート</h2>
       <div class="body">
         <p>毎月、満月の夜に、ガンダルヴァ・ヴェーダの音楽家たちが世界中の聴衆に向けてライブ演奏を行います。</p>
         <div class="circle-row">
-          <div class="moon-photo" data-w="moon" style="--glow: 0.579;"><canvas aria-hidden="true" height="128" width="128"></canvas></div>
+          <div class="moon-photo" data-w="moon" style="--glow: 0.585;"><canvas aria-hidden="true" height="128" width="128"></canvas></div>
           <div>
             <p class="date" data-w="nextfull"></p>
             <p class="days" data-w="moondays"></p>
@@ -1064,7 +1068,7 @@ void main() {
 <script src="shared/radio.js?v=7aa80d03"></script>
 <script src="shared/light.js?v=9bf551bd"></script>
 <script src="app.js?v=1691466d"></script>
-<script src="info.js?v=4ce61178"></script>
+<script src="info.js?v=37d52051"></script>
 <script src="analytics.js?v=2657696a"></script>
 </body>
 </html>

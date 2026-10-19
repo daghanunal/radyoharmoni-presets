@@ -37,7 +37,7 @@ moon.png  (the moon in the picture at night and in Full moon concerts; page 1)
 concert-isles.webp  (Full moon concerts, the islands under the night sky; page 1)
   The lower band of page 1: the Ayvalık islands under the night blue. The sky above is drawn by the page (CSS),
   in the colours sampled from page 1.
-rain-how.webp  (How it is played, Rain Radio; page 2)
-  The strip along the foot of page 2: the cow, the bushes, the sound waves and the speaker; the top faded out.
-garden.webp  (Blooming gardens; page 3)
-  The lower part of page 3: flowering trees, the butterfly, the sun and the sea; the top faded out.
+rain-how-2.webp  (How it is played, Rain Radio; page 2, the smaller version of 2026-10-19)
+  The picture block of page 2: the cow, the bushes, the sound waves and the speaker; the top faded out.
+garden-2.webp  (Blooming gardens; page 3, the smaller version of 2026-10-19)
+  The picture block of page 3: flowering trees, the butterfly, the sun and the sea; the top faded out.

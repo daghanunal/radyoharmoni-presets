@@ -5,6 +5,7 @@
 <meta name="robots" content="noindex">
 <base href="../">
 <meta name="rh-i18n" content="paths">
+<meta name="google-site-verification" content="sraRJ313P41QGDQikldB5TDWxSCj3lHjUelSR12jKd8">
 <script>document.documentElement.classList.add('js')</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Radyo Harmoni | امن ریڈیو اور بارش ریڈیو | مہارشی گندھرو وید</title>
@@ -267,8 +268,10 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .moonband .moonsel button[aria-pressed="true"]{background:#fffaf2;border-color:#fffaf2;color:#3b3428}
 .moonband .circle-row{grid-template-columns:minmax(120px,.8fr) 1.2fr}
 .moonband .moon-photo{width:clamp(96px,9vw,128px);aspect-ratio:1;justify-self:center}
-/* A picture across the foot of a section, edge to edge (Canva pages 2 and 3) */
-.strip{display:block;width:calc(100% + 2 * clamp(20px,5vw,48px));max-width:none;height:auto;margin:clamp(36px,5vw,64px) calc(-1 * clamp(20px,5vw,48px)) calc(-1 * clamp(80px,10vw,140px))}
+/* A picture under a section's text, from the text column to the page's edge (Canva pages 2 and 3, the smaller
+   versions): as wide as the column plus the margin beside it; the section clips the scrollbar's width */
+.strip-r{grid-column:2;display:block;width:calc(100% + (100vw - min(100vw - 2 * clamp(20px,5vw,48px), 1180px)) / 2);max-width:none;height:auto;margin-top:clamp(6px,1.5vw,20px)}
+section:has(.strip-r){overflow-x:clip}
 @media (max-width:700px){.moonband .circle-row{grid-template-columns:1fr}.moonband .moon-photo{width:110px;margin:8px auto 4px}}
 .cols{display:grid;grid-template-columns:minmax(220px,1fr) 2fr;gap:clamp(24px,5vw,80px);max-width:1180px;margin:0 auto}
 h2{font:italic 400 clamp(40px,4.8vw,64px)/1.04 var(--serif);color:var(--ink)}
@@ -468,6 +471,7 @@ footer .langs a[aria-current="true"]{text-decoration:underline;text-underline-of
   .foot-row .friends{order:3}
   .cols{gap:22px}
   .reel{grid-auto-columns:100%}
+  .strip-r{grid-column:auto}
 }
 @media (max-width:700px){
   .ui{padding-top:54px;padding-bottom:calc(14px + env(safe-area-inset-bottom))}
@@ -668,9 +672,9 @@ footer .langs a[aria-current="true"]{text-decoration:underline;text-underline-of
         <p>گندھرو وید دن کے ہر حصے کو اس کے اپنے راگ دیتا ہے، اور امن ریڈیو آپ کی گھڑی کا راگ بجاتا ہے۔ آیوالک میں سمندر پر روشنی بھی اس کے ساتھ بدلتی ہے۔</p>
         <div class="dayband" data-w="dayband" style="--grad-h: linear-gradient(90deg,rgb(74,82,144) 0.00%,rgb(74,82,144) 2.08%,rgb(74,82,144) 4.17%,rgb(74,82,144) 6.25%,rgb(74,82,144) 8.33%,rgb(74,82,144) 10.42%,rgb(74,82,144) 12.50%,rgb(74,82,144) 14.58%,rgb(156,131,172) 16.67%,rgb(238,179,199) 18.75%,rgb(238,184,175) 20.83%,rgb(239,190,144) 22.92%,rgb(230,193,156) 25.00%,rgb(204,200,193) 27.08%,rgb(183,206,223) 29.17%,rgb(180,207,227) 31.25%,rgb(180,207,227) 33.33%,rgb(180,207,227) 35.42%,rgb(180,207,227) 37.50%,rgb(180,207,227) 39.58%,rgb(180,207,227) 41.67%,rgb(180,207,227) 43.75%,rgb(180,207,227) 45.83%,rgb(180,207,227) 47.92%,rgb(180,207,227) 50.00%,rgb(180,207,227) 52.08%,rgb(180,207,227) 54.17%,rgb(180,207,227) 56.25%,rgb(180,207,227) 58.33%,rgb(180,207,227) 60.42%,rgb(182,206,224) 62.50%,rgb(200,201,199) 64.58%,rgb(224,194,165) 66.67%,rgb(238,190,144) 68.75%,rgb(239,188,154) 70.83%,rgb(238,182,183) 72.92%,rgb(238,179,199) 75.00%,rgb(184,147,181) 77.08%,rgb(96,95,151) 79.17%,rgb(74,82,144) 81.25%,rgb(74,82,144) 83.33%,rgb(74,82,144) 85.42%,rgb(74,82,144) 87.50%,rgb(74,82,144) 89.58%,rgb(74,82,144) 91.67%,rgb(74,82,144) 93.75%,rgb(74,82,144) 95.83%,rgb(74,82,144) 97.92%,rgb(74,82,144) 100.00%); --grad-v: linear-gradient(180deg,rgb(74,82,144) 0.00%,rgb(74,82,144) 2.08%,rgb(74,82,144) 4.17%,rgb(74,82,144) 6.25%,rgb(74,82,144) 8.33%,rgb(74,82,144) 10.42%,rgb(74,82,144) 12.50%,rgb(74,82,144) 14.58%,rgb(156,131,172) 16.67%,rgb(238,179,199) 18.75%,rgb(238,184,175) 20.83%,rgb(239,190,144) 22.92%,rgb(230,193,156) 25.00%,rgb(204,200,193) 27.08%,rgb(183,206,223) 29.17%,rgb(180,207,227) 31.25%,rgb(180,207,227) 33.33%,rgb(180,207,227) 35.42%,rgb(180,207,227) 37.50%,rgb(180,207,227) 39.58%,rgb(180,207,227) 41.67%,rgb(180,207,227) 43.75%,rgb(180,207,227) 45.83%,rgb(180,207,227) 47.92%,rgb(180,207,227) 50.00%,rgb(180,207,227) 52.08%,rgb(180,207,227) 54.17%,rgb(180,207,227) 56.25%,rgb(180,207,227) 58.33%,rgb(180,207,227) 60.42%,rgb(182,206,224) 62.50%,rgb(200,201,199) 64.58%,rgb(224,194,165) 66.67%,rgb(238,190,144) 68.75%,rgb(239,188,154) 70.83%,rgb(238,182,183) 72.92%,rgb(238,179,199) 75.00%,rgb(184,147,181) 77.08%,rgb(96,95,151) 79.17%,rgb(74,82,144) 81.25%,rgb(74,82,144) 83.33%,rgb(74,82,144) 85.42%,rgb(74,82,144) 87.50%,rgb(74,82,144) 89.58%,rgb(74,82,144) 91.67%,rgb(74,82,144) 93.75%,rgb(74,82,144) 95.83%,rgb(74,82,144) 97.92%,rgb(74,82,144) 100.00%);">
           <div class="ribbon" aria-hidden="true"><i class="mark"></i></div>
-          <ol class="cells" aria-label="دن کے آٹھ پہر"><li><button data-i="0" aria-pressed="false"><b>پچھلی رات</b><small>01–04</small></button></li><li><button data-i="1" aria-pressed="false"><b>سحر</b><small>04–07</small></button></li><li><button data-i="2" aria-pressed="false"><b>صبح</b><small>07–10</small></button></li><li><button data-i="3" aria-pressed="false"><b>دوپہر</b><small>10–13</small></button></li><li><button data-i="4" aria-pressed="true"><b>سہ پہر</b><small>13–16</small></button></li><li><button data-i="5" aria-pressed="false"><b>غروب</b><small>16–19</small></button></li><li><button data-i="6" aria-pressed="false"><b>شام</b><small>19–22</small></button></li><li><button data-i="7" aria-pressed="false"><b>رات</b><small>22–01</small></button></li></ol>
+          <ol class="cells" aria-label="دن کے آٹھ پہر"><li><button data-i="0" aria-pressed="false"><b>پچھلی رات</b><small>01–04</small></button></li><li><button data-i="1" aria-pressed="false"><b>سحر</b><small>04–07</small></button></li><li><button data-i="2" aria-pressed="false"><b>صبح</b><small>07–10</small></button></li><li><button data-i="3" aria-pressed="false"><b>دوپہر</b><small>10–13</small></button></li><li><button data-i="4" aria-pressed="false"><b>سہ پہر</b><small>13–16</small></button></li><li><button data-i="5" aria-pressed="true"><b>غروب</b><small>16–19</small></button></li><li><button data-i="6" aria-pressed="false"><b>شام</b><small>19–22</small></button></li><li><button data-i="7" aria-pressed="false"><b>رات</b><small>22–01</small></button></li></ol>
         </div>
-        <p class="band-cap" data-w="band-cap" aria-live="polite" data-html="&lt;em&gt;اس وقت بج رہے ہیں: 13:00 سے 16:00 تک، سہ پہر کے راگ۔&lt;/em&gt; اس پہر&lt;a class=&quot;star&quot; href=&quot;#praharas&quot; title=&quot;پہروں کے بارے میں (دن رات کے آٹھ حصے)&quot;&gt;*&lt;/a&gt; (دن رات کے آٹھ پہروں میں سے ایک) کے راگ: &lt;i&gt;کامیابی اور تخلیقی صلاحیت&lt;/i&gt;۔"></p>
+        <p class="band-cap" data-w="band-cap" aria-live="polite" data-html="&lt;em&gt;اس وقت بج رہے ہیں: 16:00 سے 19:00 تک، غروب کے راگ۔&lt;/em&gt; اس پہر&lt;a class=&quot;star&quot; href=&quot;#praharas&quot; title=&quot;پہروں کے بارے میں (دن رات کے آٹھ حصے)&quot;&gt;*&lt;/a&gt; (دن رات کے آٹھ پہروں میں سے ایک) کے راگ: &lt;i&gt;ہم آہنگی اور ذہنی شفافیت&lt;/i&gt;۔"></p>
       </div>
     </div></section>
 
@@ -722,8 +726,8 @@ footer .langs a[aria-current="true"]{text-decoration:underline;text-underline-of
       <div class="body">
         <div class="ways"><article><h3>اپنے لیے</h3><p>آنکھیں بند کر کے آرام سے بیٹھیں۔ تازگی بخش اثر کے لیے راگ کا اس کے آغاز سے آخری سُر تک لطف اٹھائیں۔</p></article><article><h3>اپنے ماحول کے لیے</h3><p>ایک اسپیکر لگائیں اور راگ کو دھیمی آواز میں مسلسل بجنے دیں۔</p></article></div>
       </div>
-    </div>
-    <img class="strip" src="media/rain-how.webp" alt="" loading="lazy" decoding="async"></section>
+      <img class="strip-r" src="media/rain-how-2.webp" alt="" loading="lazy" decoding="async">
+    </div></section>
 
     <section class="row"><div class="cols">
       <h2>وقت جتنی قدیم</h2>
@@ -788,14 +792,14 @@ footer .langs a[aria-current="true"]{text-decoration:underline;text-underline-of
         <p class="ref"><span lang="en">Chivukula &amp; Ramaswamy (2014), Effect of Different Types of Music on Rosa Chinensis Plants. <i>International Journal of Environmental Science and Development</i> 5(5), 431–434.</span> <a href="https://doi.org/10.7763/IJESD.2014.V5.522">مقالہ پڑھیں</a></p>
         <div class="voices garden-voice"><blockquote>ایک درخت دس سال میں پہلی بار پھول دیتا ہے؛ سائٹ پر کام کرنے والے زیادہ پرسکون ہیں، کلائنٹ خوش ہیں۔<cite>B.C.، لینڈ اسکیپ آرکیٹیکٹ، ترکیہ</cite></blockquote></div>
       </div>
-    </div>
-    <img class="strip" src="media/garden.webp" alt="" loading="lazy" decoding="async"></section></div><div class="info-common">
+      <img class="strip-r" src="media/garden-2.webp" alt="" loading="lazy" decoding="async">
+    </div></section></div><div class="info-common">
     <section class="row moonsec moonband" id="concerts"><div class="cols">
       <h2>پورے چاند کے کنسرٹ</h2>
       <div class="body">
         <p>ہر مہینے، پورے چاند کی شام، گندھرو وید کے موسیقار دنیا بھر کے سامعین کے لیے براہِ راست ساز بجاتے ہیں۔</p>
         <div class="circle-row">
-          <div class="moon-photo" data-w="moon" style="--glow: 0.579;"><canvas aria-hidden="true" height="128" width="128"></canvas></div>
+          <div class="moon-photo" data-w="moon" style="--glow: 0.585;"><canvas aria-hidden="true" height="128" width="128"></canvas></div>
           <div>
             <p class="date" data-w="nextfull"></p>
             <p class="days" data-w="moondays"></p>
@@ -1064,7 +1068,7 @@ void main() {
 <script src="shared/radio.js?v=7aa80d03"></script>
 <script src="shared/light.js?v=9bf551bd"></script>
 <script src="app.js?v=1691466d"></script>
-<script src="info.js?v=4ce61178"></script>
+<script src="info.js?v=37d52051"></script>
 <script src="analytics.js?v=2657696a"></script>
 </body>
 </html>
