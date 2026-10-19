@@ -118,7 +118,7 @@
   "watch.5.mood": "光影渐长，向晚而去",
   "watch.6.mood": "灯火初上，一日将尽",
   "watch.7.mood": "午夜前后的静谧黑暗",
-  "watch.0.character": "平静、安宁与内在的力量",
+  "watch.0.character": "平静与内在的力量",
   "watch.1.character": "温柔与平和",
   "watch.2.character": "喜悦与慈悲",
   "watch.3.character": "行动中的力量与更充沛的能量",

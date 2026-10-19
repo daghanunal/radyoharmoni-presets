@@ -123,7 +123,7 @@
   "watch.5.mood": "akşama doğru uzayan ışık",
   "watch.6.mood": "lambalar yakılmış, gün çekiliyor",
   "watch.7.mood": "gece yarısının sessiz karanlığı",
-  "watch.0.character": "sakinlik, sükûnet ve içsel güç",
+  "watch.0.character": "sakinlik ve içsel güç",
   "watch.1.character": "sevecenlik ve huzur",
   "watch.2.character": "neşe ve şefkat",
   "watch.3.character": "eylem gücü ve artan enerji",

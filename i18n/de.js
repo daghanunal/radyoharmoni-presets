@@ -121,7 +121,7 @@
   "watch.5.mood": "das Licht wird länger, dem Abend entgegen",
   "watch.6.mood": "die Lampen brennen, der Tag neigt sich",
   "watch.7.mood": "stille Dunkelheit um Mitternacht",
-  "watch.0.character": "Ruhe, Stille und innere Stärke",
+  "watch.0.character": "Ruhe und innere Stärke",
   "watch.1.character": "Sanftheit und Frieden",
   "watch.2.character": "Freude und Mitgefühl",
   "watch.3.character": "Tatkraft und gesteigerte Energie",

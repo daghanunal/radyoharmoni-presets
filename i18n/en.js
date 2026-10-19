@@ -109,7 +109,7 @@
   "watch.5.mood": "light lengthening toward evening",
   "watch.6.mood": "lamps lit, the day drawing in",
   "watch.7.mood": "quiet dark around midnight",
-  "watch.0.character": "calmness tranquility and inner strength",
+  "watch.0.character": "calmness and inner strength",
   "watch.1.character": "tenderness and peace",
   "watch.2.character": "joy and compassion",
   "watch.3.character": "strength in action and greater energy",

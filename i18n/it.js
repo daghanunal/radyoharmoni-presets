@@ -121,7 +121,7 @@
   "watch.5.mood": "la luce che si allunga verso sera",
   "watch.6.mood": "le lampade accese, il giorno che declina",
   "watch.7.mood": "buio quieto intorno alla mezzanotte",
-  "watch.0.character": "calma, tranquillità e forza interiore",
+  "watch.0.character": "calma e forza interiore",
   "watch.1.character": "tenerezza e pace",
   "watch.2.character": "gioia e compassione",
   "watch.3.character": "forza nell’azione e più energia",

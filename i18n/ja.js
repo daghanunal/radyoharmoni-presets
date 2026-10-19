@@ -117,7 +117,7 @@
   "watch.5.mood": "夕べに向かって長く伸びていく光",
   "watch.6.mood": "灯がともり、一日が静かに暮れていくころ",
   "watch.7.mood": "真夜中をつつむ静かな闇",
-  "watch.0.character": "落ち着き、静けさ、内なる強さ",
+  "watch.0.character": "落ち着きと内なる強さ",
   "watch.1.character": "優しさと安らぎ",
   "watch.2.character": "喜びと思いやり",
   "watch.3.character": "行動の力強さと、高まるエネルギー",

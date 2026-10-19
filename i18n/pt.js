@@ -119,7 +119,7 @@
   "watch.5.mood": "a luz se alongando rumo ao anoitecer",
   "watch.6.mood": "luzes acesas, o dia se recolhendo",
   "watch.7.mood": "o escuro silencioso em torno da meia-noite",
-  "watch.0.character": "calma, tranquilidade e força interior",
+  "watch.0.character": "calma e força interior",
   "watch.1.character": "ternura e paz",
   "watch.2.character": "alegria e compaixão",
   "watch.3.character": "força na ação e mais energia",
