@@ -45,6 +45,8 @@
   "hero.capRain": "自然のバランスのために、<br>そして絶え間なく調和をもたらすために",
   "hero.creditPeace": "写真：アイヴァルク（トルコ）",
   "hero.creditRain": "写真：モンテベルデ（コスタリカ）",
+  "img.nosara": "写真：ノサラ（コスタリカ）",
+  "img.nicoya": "写真：ニコヤ（コスタリカ）",
   "hero.finding": "今の時間のラーガを探しています……",
   "hero.raga": "ラーガ {raga}",
   "hero.rainNow": "雨の旋律　アマル・ナート、レーシュマ・シュリーヴァスタヴァ",

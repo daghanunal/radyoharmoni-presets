@@ -49,6 +49,8 @@
   "hero.capRain": "für Gleichgewicht in der Natur<br>und eine stetig harmonisierende Wirkung",
   "hero.creditPeace": "Bild: Ayvalık, Türkei",
   "hero.creditRain": "Bild: Monte Verde, Costa Rica",
+  "img.nosara": "Bild: Nosara, Costa Rica",
+  "img.nicoya": "Bild: Nicoya, Costa Rica",
   "hero.finding": "Der Raga für Ihre Stunde wird gesucht…",
   "hero.raga": "Raga {raga}",
   "hero.rainNow": "Regenmelodien, Amar Nath und Reshma Srivastava",

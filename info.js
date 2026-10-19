@@ -75,7 +75,7 @@
       <div class="body">
         <div class="ways"><article><h3>${T('peace.listen.selfH')}</h3><p>${T('rain.how.selfP')}</p></article><article><h3>${T('peace.listen.aroundH')}</h3><p>${T('rain.how.envP')}</p></article></div>
       </div>
-      <img class="strip-r" src="media/rain-how-2.webp" alt="" loading="lazy" decoding="async">
+      <figure class="strip-r"><img src="media/rain-how-2.webp" alt="" loading="lazy" decoding="async"><figcaption class="strip-credit">${T('img.nicoya')}</figcaption></figure>
     </div></section>
 
     <section class="row"><div class="cols">
@@ -141,7 +141,7 @@
         <p class="ref"><span lang="en">Chivukula &amp; Ramaswamy (2014), Effect of Different Types of Music on Rosa Chinensis Plants. <i>International Journal of Environmental Science and Development</i> 5(5), 431–434.</span> <a href="https://doi.org/10.7763/IJESD.2014.V5.522">${T('readPaper')}</a></p>
         <div class="voices garden-voice"><blockquote>${T('rain.garden.voice')}<cite>${T('rain.garden.voice.cite')}</cite></blockquote></div>
       </div>
-      <img class="strip-r" src="media/garden-2.webp" alt="" loading="lazy" decoding="async">
+      <figure class="strip-r"><img src="media/garden-2.webp" alt="" loading="lazy" decoding="async"><figcaption class="strip-credit">${T('img.nosara')}</figcaption></figure>
     </div></section>`;
 
   // ── On both stations: what a listener can do (concerts, share a photo, write, subscribe, give) ──

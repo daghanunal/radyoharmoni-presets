@@ -270,7 +270,10 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .moonband .moon-photo{width:clamp(96px,9vw,128px);aspect-ratio:1;justify-self:center}
 /* A picture under a section's text, from the text column to the page's edge (Canva pages 2 and 3, the smaller
    versions): as wide as the column plus the margin beside it; the section clips the scrollbar's width */
-.strip-r{grid-column:2;display:block;width:calc(100% + (100vw - min(100vw - 2 * clamp(20px,5vw,48px), 1180px)) / 2);max-width:none;height:auto;margin-top:clamp(6px,1.5vw,20px)}
+.strip-r{grid-column:2;position:relative;display:block;width:calc(100% + (100vw - min(100vw - 2 * clamp(20px,5vw,48px), 1180px)) / 2);max-width:none;margin:clamp(6px,1.5vw,20px) 0 0}
+.strip-r img{display:block;width:100%;height:auto}
+/* Where the picture was taken, in the corner, as the picture at the top does it */
+.strip-credit{position:absolute;left:clamp(12px,1.6vw,22px);bottom:clamp(10px,1.4vw,18px);font:400 12px/1.4 var(--sans);letter-spacing:.12em;color:#fffaf0;opacity:.95;text-shadow:0 1px 8px rgba(20,30,20,.65),0 0 2px rgba(20,30,20,.5);pointer-events:none}
 section:has(.strip-r){overflow-x:clip}
 @media (max-width:700px){.moonband .circle-row{grid-template-columns:1fr}.moonband .moon-photo{width:110px;margin:8px auto 4px}}
 .cols{display:grid;grid-template-columns:minmax(220px,1fr) 2fr;gap:clamp(24px,5vw,80px);max-width:1180px;margin:0 auto}
@@ -726,7 +729,7 @@ footer .langs a[aria-current="true"]{text-decoration:underline;text-underline-of
       <div class="body">
         <div class="ways"><article><h3>Pour vous-même</h3><p>Installez-vous confortablement et fermez les yeux. Savourez le raga, de son ouverture à sa dernière note, pour un effet rafraîchissant.</p></article><article><h3>Pour votre environnement</h3><p>Branchez une enceinte et laissez le raga jouer doucement, en continu.</p></article></div>
       </div>
-      <img class="strip-r" src="media/rain-how-2.webp" alt="" loading="lazy" decoding="async">
+      <figure class="strip-r"><img src="media/rain-how-2.webp" alt="" loading="lazy" decoding="async"><figcaption class="strip-credit">Image&nbsp;: Nicoya, Costa Rica</figcaption></figure>
     </div></section>
 
     <section class="row"><div class="cols">
@@ -792,14 +795,14 @@ footer .langs a[aria-current="true"]{text-decoration:underline;text-underline-of
         <p class="ref"><span lang="en">Chivukula &amp; Ramaswamy (2014), Effect of Different Types of Music on Rosa Chinensis Plants. <i>International Journal of Environmental Science and Development</i> 5(5), 431–434.</span> <a href="https://doi.org/10.7763/IJESD.2014.V5.522">Lire l’article</a></p>
         <div class="voices garden-voice"><blockquote>Un arbre fleurit pour la première fois depuis dix ans&nbsp;; sur le chantier, les ouvriers sont plus calmes, les clients sont contents.<cite>B.C., architecte paysagiste, Turquie</cite></blockquote></div>
       </div>
-      <img class="strip-r" src="media/garden-2.webp" alt="" loading="lazy" decoding="async">
+      <figure class="strip-r"><img src="media/garden-2.webp" alt="" loading="lazy" decoding="async"><figcaption class="strip-credit">Image&nbsp;: Nosara, Costa Rica</figcaption></figure>
     </div></section></div><div class="info-common">
     <section class="row moonsec moonband" id="concerts"><div class="cols">
       <h2>Concerts de pleine lune</h2>
       <div class="body">
         <p>Chaque mois, le soir de la pleine lune, des musiciens du Gandharva Veda jouent en direct pour un public du monde entier.</p>
         <div class="circle-row">
-          <div class="moon-photo" data-w="moon" style="--glow: 0.585;"><canvas aria-hidden="true" height="128" width="128"></canvas></div>
+          <div class="moon-photo" data-w="moon" style="--glow: 0.587;"><canvas aria-hidden="true" height="128" width="128"></canvas></div>
           <div>
             <p class="date" data-w="nextfull"></p>
             <p class="days" data-w="moondays"></p>
@@ -1062,13 +1065,13 @@ void main() {
   gl_FragColor = vec4(clamp(o, 0., 1.), 1.);
 }
 </script>
-<script src="i18n/en.js?v=439b8c00"></script>
-<script src="i18n/fr.js?v=16836f6e"></script>
+<script src="i18n/en.js?v=07c66c15"></script>
+<script src="i18n/fr.js?v=ebf28864"></script>
 <script src="shared/i18n.js?v=95093879"></script>
 <script src="shared/radio.js?v=7aa80d03"></script>
 <script src="shared/light.js?v=9bf551bd"></script>
 <script src="app.js?v=1691466d"></script>
-<script src="info.js?v=37d52051"></script>
+<script src="info.js?v=2a16218c"></script>
 <script src="analytics.js?v=2657696a"></script>
 </body>
 </html>

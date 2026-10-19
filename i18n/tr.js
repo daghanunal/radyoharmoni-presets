@@ -51,6 +51,8 @@
   "hero.capRain": "doğada denge ve kesintisiz bir<br>uyum etkisi için",
   "hero.creditPeace": "Görsel: Ayvalık, Türkiye",
   "hero.creditRain": "Görsel: Monte Verde, Kosta Rika",
+  "img.nosara": "Görsel: Nosara, Kosta Rika",
+  "img.nicoya": "Görsel: Nicoya, Kosta Rika",
   "hero.finding": "Saatinize uygun raga aranıyor…",
   "hero.raga": "Raga {raga}",
   "hero.rainNow": "Yağmur ezgileri, Amar Nath ve Reshma Srivastava",

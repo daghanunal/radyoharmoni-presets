@@ -46,6 +46,8 @@
   "hero.capRain": "为自然带来平衡，<br>持续带来和谐的效应",
   "hero.creditPeace": "图片：艾瓦勒克，土耳其",
   "hero.creditRain": "图片：蒙特维德，哥斯达黎加",
+  "img.nosara": "图片：诺萨拉，哥斯达黎加",
+  "img.nicoya": "图片：尼科亚，哥斯达黎加",
   "hero.finding": "正在寻找此刻的拉格……",
   "hero.raga": "拉格 {raga}",
   "hero.rainNow": "雨之旋律，阿马尔·纳特与蕾什玛·什里瓦斯塔瓦",
