@@ -420,6 +420,13 @@ footer .wrap{display:grid;grid-template-columns:1fr;gap:36px}
 .foot-row .about-rh{grid-column:1;grid-row:1}
 .foot-row .friends{grid-column:2;grid-row:1}
 .foot-row .about-mgv{grid-column:1/-1;grid-row:2}
+.foot-row .about-praharas{grid-column:1/-1;grid-row:3}
+.praharas{width:100%;max-width:980px;border-collapse:collapse;margin-top:22px;font-size:15px;line-height:1.6;animation:settle .6s ease both}
+.praharas th,.praharas td{border:1px solid rgba(46,26,7,.28);padding:12px 16px;text-align:start;vertical-align:middle}
+.praharas thead th{font-weight:600}
+.praharas tbody th{font-weight:400;width:38%}
+.band-cap .star{color:inherit;text-decoration:none;padding:0 2px}
+.band-cap .star:hover{text-decoration:underline}
 .about-body p{margin-top:16px;font-size:15px;line-height:1.7;max-width:34em;animation:settle .6s ease both}
 /* The Affiliates heading shares the size and face of the two "About" headings */
 .foot-h{font:italic 400 clamp(24px,2.4vw,30px)/1.2 var(--serif);margin-bottom:12px}
@@ -452,7 +459,12 @@ footer .langs a[aria-current="true"]{text-decoration:underline;text-underline-of
   .cols,footer .wrap,.about .cols,.foot-row{grid-template-columns:1fr}
   .friends{text-align:start}
   .friends p{justify-content:flex-start}
-  .foot-row .about-rh,.foot-row .friends,.foot-row .about-mgv{grid-column:auto;grid-row:auto}
+  .foot-row .about-rh,.foot-row .friends,.foot-row .about-mgv,.foot-row .about-praharas{grid-column:auto;grid-row:auto}
+  .praharas,.praharas tbody,.praharas tr,.praharas th,.praharas td{display:block;width:auto}
+  .praharas thead{display:none}
+  .praharas tr{border-top:1px solid rgba(46,26,7,.28);padding:12px 0}
+  .praharas th,.praharas td{border:0;padding:0}
+  .praharas tbody th{font-weight:600;margin-bottom:4px;width:auto}
   .foot-row .friends{order:3}
   .cols{gap:22px}
   .reel{grid-auto-columns:100%}
@@ -658,7 +670,7 @@ footer .langs a[aria-current="true"]{text-decoration:underline;text-underline-of
           <div class="ribbon" aria-hidden="true"><i class="mark"></i></div>
           <ol class="cells" aria-label="一日の八つの時間帯"><li><button data-i="0" aria-pressed="false"><b>深夜</b><small>01–04</small></button></li><li><button data-i="1" aria-pressed="false"><b>夜明け</b><small>04–07</small></button></li><li><button data-i="2" aria-pressed="false"><b>朝</b><small>07–10</small></button></li><li><button data-i="3" aria-pressed="false"><b>真昼</b><small>10–13</small></button></li><li><button data-i="4" aria-pressed="true"><b>午後</b><small>13–16</small></button></li><li><button data-i="5" aria-pressed="false"><b>夕暮れ</b><small>16–19</small></button></li><li><button data-i="6" aria-pressed="false"><b>宵</b><small>19–22</small></button></li><li><button data-i="7" aria-pressed="false"><b>夜</b><small>22–01</small></button></li></ol>
         </div>
-        <p class="band-cap" data-w="band-cap" aria-live="polite"></p>
+        <p class="band-cap" data-w="band-cap" aria-live="polite" data-html="&lt;em&gt;ただいま放送中：13:00〜16:00、午後のラーガ。&lt;/em&gt;このプラハラ&lt;a class=&quot;star&quot; href=&quot;#praharas&quot; title=&quot;プラハラ（一日を八つに分けた時間帯）について&quot;&gt;*&lt;/a&gt;（一日を八つに分けた時間帯の一つ）のラーガ：&lt;i&gt;達成と創造性&lt;/i&gt;。"></p>
       </div>
     </div></section>
 
@@ -783,7 +795,7 @@ footer .langs a[aria-current="true"]{text-decoration:underline;text-underline-of
       <div class="body">
         <p>毎月、満月の夜に、ガンダルヴァ・ヴェーダの音楽家たちが世界中の聴衆に向けてライブ演奏を行います。</p>
         <div class="circle-row">
-          <div class="moon-photo" data-w="moon" style="--glow: 0.576;"><canvas aria-hidden="true" height="128" width="128"></canvas></div>
+          <div class="moon-photo" data-w="moon" style="--glow: 0.579;"><canvas aria-hidden="true" height="128" width="128"></canvas></div>
           <div>
             <p class="date" data-w="nextfull"></p>
             <p class="days" data-w="moondays"></p>
@@ -874,6 +886,14 @@ footer .langs a[aria-current="true"]{text-decoration:underline;text-underline-of
           <p>研究によれば、ガンダルヴァ・ヴェーダ音楽は、否定的な感情の有意な減少と、肯定的な感情の増加をもたらします。*マハリシの「世界平和のための音楽祭」（1986年）によれば、ガンダルヴァ音楽が世界中で広く演奏されたとき、社会の否定的な傾向は目に見えて減少し、肯定的で平和な流れに取って代わられました。</p>
           <p class="foot-note"><span lang="en" dir="ltr">* Travis, Morehead &amp; Parim (2023), <i>International Journal of Psychological Studies</i> 15(1), 8.</span> <a href="https://doi.org/10.5539/ijps.v15n1p8">論文を読む</a></p></div>
       </div>
+    </details>
+        
+    <details class="about about-praharas" id="praharas">
+      <summary>プラハラ*（一日を八つに分けた時間帯）について</summary>
+      <table class="praharas">
+        <thead><tr><th scope="col">一日のプラハラ</th><th scope="col">恩恵</th></tr></thead>
+        <tbody><tr><th scope="row">サンディ・プラカーシュ（光の移り変わり）04:00〜07:00</th><td>優しさ、最も微細な感情のレベルの洗練、安らぎ、心の明晰さ、生命のあらゆるレベルの統合、自然からのより大きな支援。</td></tr><tr><th scope="row">朝 07:00〜10:00</th><td>喜び、思いやり、愛と献身、忍耐、心の滋養と支え。</td></tr><tr><th scope="row">真昼 10:00〜13:00</th><td>行動の力強さ、高まるエネルギー、活動における成功、知識と英知。</td></tr><tr><th scope="row">午後 13:00〜16:00</th><td>達成、成功、創造性、富と繁栄、願望の成就。</td></tr><tr><th scope="row">サンディ・プラカーシュ（光の移り変わり）16:00〜19:00</th><td>調和、神経系の秩序ある働き、安らぎ、心の明晰さ、生命のあらゆるレベルの統合、自然からのより大きな支援。</td></tr><tr><th scope="row">宵 19:00〜22:00</th><td>祝祭の喜び、広がり、穏やかさ、眠りに備えて心身が落ち着いていくこと。</td></tr><tr><th scope="row">真夜中 22:00〜01:00</th><td>深い休息とくつろぎ、より良い眠り、浄化、再生と若返り。</td></tr><tr><th scope="row">深夜 01:00〜04:00</th><td>落ち着き、静けさ、内なる強さ、健やかな心と体。</td></tr></tbody>
+      </table>
     </details>
       </div>
       <div class="legal">
@@ -1038,13 +1058,13 @@ void main() {
   gl_FragColor = vec4(clamp(o, 0., 1.), 1.);
 }
 </script>
-<script src="i18n/en.js?v=e39fd6b7"></script>
-<script src="i18n/ja.js?v=e57bac62"></script>
+<script src="i18n/en.js?v=439b8c00"></script>
+<script src="i18n/ja.js?v=74d04d54"></script>
 <script src="shared/i18n.js?v=95093879"></script>
 <script src="shared/radio.js?v=7aa80d03"></script>
 <script src="shared/light.js?v=9bf551bd"></script>
 <script src="app.js?v=1691466d"></script>
-<script src="info.js?v=52a40770"></script>
+<script src="info.js?v=4ce61178"></script>
 <script src="analytics.js?v=2657696a"></script>
 </body>
 </html>

@@ -420,6 +420,13 @@ footer .wrap{display:grid;grid-template-columns:1fr;gap:36px}
 .foot-row .about-rh{grid-column:1;grid-row:1}
 .foot-row .friends{grid-column:2;grid-row:1}
 .foot-row .about-mgv{grid-column:1/-1;grid-row:2}
+.foot-row .about-praharas{grid-column:1/-1;grid-row:3}
+.praharas{width:100%;max-width:980px;border-collapse:collapse;margin-top:22px;font-size:15px;line-height:1.6;animation:settle .6s ease both}
+.praharas th,.praharas td{border:1px solid rgba(46,26,7,.28);padding:12px 16px;text-align:start;vertical-align:middle}
+.praharas thead th{font-weight:600}
+.praharas tbody th{font-weight:400;width:38%}
+.band-cap .star{color:inherit;text-decoration:none;padding:0 2px}
+.band-cap .star:hover{text-decoration:underline}
 .about-body p{margin-top:16px;font-size:15px;line-height:1.7;max-width:34em;animation:settle .6s ease both}
 /* The Affiliates heading shares the size and face of the two "About" headings */
 .foot-h{font:italic 400 clamp(24px,2.4vw,30px)/1.2 var(--serif);margin-bottom:12px}
@@ -452,7 +459,12 @@ footer .langs a[aria-current="true"]{text-decoration:underline;text-underline-of
   .cols,footer .wrap,.about .cols,.foot-row{grid-template-columns:1fr}
   .friends{text-align:start}
   .friends p{justify-content:flex-start}
-  .foot-row .about-rh,.foot-row .friends,.foot-row .about-mgv{grid-column:auto;grid-row:auto}
+  .foot-row .about-rh,.foot-row .friends,.foot-row .about-mgv,.foot-row .about-praharas{grid-column:auto;grid-row:auto}
+  .praharas,.praharas tbody,.praharas tr,.praharas th,.praharas td{display:block;width:auto}
+  .praharas thead{display:none}
+  .praharas tr{border-top:1px solid rgba(46,26,7,.28);padding:12px 0}
+  .praharas th,.praharas td{border:0;padding:0}
+  .praharas tbody th{font-weight:600;margin-bottom:4px;width:auto}
   .foot-row .friends{order:3}
   .cols{gap:22px}
   .reel{grid-auto-columns:100%}
@@ -658,7 +670,7 @@ footer .langs a[aria-current="true"]{text-decoration:underline;text-underline-of
           <div class="ribbon" aria-hidden="true"><i class="mark"></i></div>
           <ol class="cells" aria-label="دن کے آٹھ پہر"><li><button data-i="0" aria-pressed="false"><b>پچھلی رات</b><small>01–04</small></button></li><li><button data-i="1" aria-pressed="false"><b>سحر</b><small>04–07</small></button></li><li><button data-i="2" aria-pressed="false"><b>صبح</b><small>07–10</small></button></li><li><button data-i="3" aria-pressed="false"><b>دوپہر</b><small>10–13</small></button></li><li><button data-i="4" aria-pressed="true"><b>سہ پہر</b><small>13–16</small></button></li><li><button data-i="5" aria-pressed="false"><b>غروب</b><small>16–19</small></button></li><li><button data-i="6" aria-pressed="false"><b>شام</b><small>19–22</small></button></li><li><button data-i="7" aria-pressed="false"><b>رات</b><small>22–01</small></button></li></ol>
         </div>
-        <p class="band-cap" data-w="band-cap" aria-live="polite"></p>
+        <p class="band-cap" data-w="band-cap" aria-live="polite" data-html="&lt;em&gt;اس وقت بج رہے ہیں: 13:00 سے 16:00 تک، سہ پہر کے راگ۔&lt;/em&gt; اس پہر&lt;a class=&quot;star&quot; href=&quot;#praharas&quot; title=&quot;پہروں کے بارے میں (دن رات کے آٹھ حصے)&quot;&gt;*&lt;/a&gt; (دن رات کے آٹھ پہروں میں سے ایک) کے راگ: &lt;i&gt;کامیابی اور تخلیقی صلاحیت&lt;/i&gt;۔"></p>
       </div>
     </div></section>
 
@@ -783,7 +795,7 @@ footer .langs a[aria-current="true"]{text-decoration:underline;text-underline-of
       <div class="body">
         <p>ہر مہینے، پورے چاند کی شام، گندھرو وید کے موسیقار دنیا بھر کے سامعین کے لیے براہِ راست ساز بجاتے ہیں۔</p>
         <div class="circle-row">
-          <div class="moon-photo" data-w="moon" style="--glow: 0.576;"><canvas aria-hidden="true" height="128" width="128"></canvas></div>
+          <div class="moon-photo" data-w="moon" style="--glow: 0.579;"><canvas aria-hidden="true" height="128" width="128"></canvas></div>
           <div>
             <p class="date" data-w="nextfull"></p>
             <p class="days" data-w="moondays"></p>
@@ -874,6 +886,14 @@ footer .langs a[aria-current="true"]{text-decoration:underline;text-underline-of
           <p>تحقیق سے ظاہر ہوتا ہے کہ گندھرو وید موسیقی منفی جذبات میں نمایاں کمی اور مثبت جذبات میں اضافے کا باعث بنتی ہے۔* عالمی امن کے لیے مہارشی کے موسیقی میلے (1986) کے مطابق، جب دنیا بھر میں گندھرو موسیقی وسیع پیمانے پر بجائی گئی تو معاشرے میں منفی رجحانات واضح طور پر کم ہوئے اور ان کی جگہ مثبت سوچ اور امن کے رجحانات نے لے لی۔</p>
           <p class="foot-note"><span lang="en" dir="ltr">* Travis, Morehead &amp; Parim (2023), <i>International Journal of Psychological Studies</i> 15(1), 8.</span> <a href="https://doi.org/10.5539/ijps.v15n1p8">مقالہ پڑھیں</a></p></div>
       </div>
+    </details>
+        
+    <details class="about about-praharas" id="praharas">
+      <summary>پہروں* کے بارے میں (دن رات کے آٹھ حصے)</summary>
+      <table class="praharas">
+        <thead><tr><th scope="col">دن کے پہر</th><th scope="col">فوائد</th></tr></thead>
+        <tbody><tr><th scope="row">سَندھی پرکاش (روشنی کی تبدیلی) 04:00 سے 07:00 تک</th><td>لطافت، احساس کی لطیف ترین سطح کا نکھار، امن، ذہنی شفافیت، زندگی کی تمام سطحوں کا انضمام، فطرت کی زیادہ حمایت۔</td></tr><tr><th scope="row">صبح 07:00 سے 10:00 تک</th><td>خوشی، ہمدردی، محبت اور عقیدت، صبر، دل کی پرورش اور تقویت۔</td></tr><tr><th scope="row">دوپہر 10:00 سے 13:00 تک</th><td>عمل میں قوت، زیادہ توانائی، سرگرمی میں کامیابی، علم اور حکمت۔</td></tr><tr><th scope="row">سہ پہر 13:00 سے 16:00 تک</th><td>حصولِ مقصد، کامیابی، تخلیقی صلاحیت، دولت اور خوشحالی، آرزوؤں کی تکمیل۔</td></tr><tr><th scope="row">سَندھی پرکاش (روشنی کی تبدیلی) 16:00 سے 19:00 تک</th><td>ہم آہنگی، اعصابی نظام کی مربوط کارکردگی، امن، ذہنی شفافیت، زندگی کی تمام سطحوں کا انضمام، فطرت کی زیادہ حمایت۔</td></tr><tr><th scope="row">شام 19:00 سے 22:00 تک</th><td>جشن کی کیفیت، وسعت، طمانیت، نیند کی تیاری کے لیے پُرسکون ہو جانا۔</td></tr><tr><th scope="row">آدھی رات 22:00 سے 01:00 تک</th><td>گہرا آرام اور سکون، بہتر نیند، پاکیزگی، تجدید اور تازگی۔</td></tr><tr><th scope="row">پچھلی رات 01:00 سے 04:00 تک</th><td>سکون، اطمینان، باطنی قوت، صحت مند ذہن اور جسم۔</td></tr></tbody>
+      </table>
     </details>
       </div>
       <div class="legal">
@@ -1038,13 +1058,13 @@ void main() {
   gl_FragColor = vec4(clamp(o, 0., 1.), 1.);
 }
 </script>
-<script src="i18n/en.js?v=e39fd6b7"></script>
-<script src="i18n/ur.js?v=66726f08"></script>
+<script src="i18n/en.js?v=439b8c00"></script>
+<script src="i18n/ur.js?v=ec5a290b"></script>
 <script src="shared/i18n.js?v=95093879"></script>
 <script src="shared/radio.js?v=7aa80d03"></script>
 <script src="shared/light.js?v=9bf551bd"></script>
 <script src="app.js?v=1691466d"></script>
-<script src="info.js?v=52a40770"></script>
+<script src="info.js?v=4ce61178"></script>
 <script src="analytics.js?v=2657696a"></script>
 </body>
 </html>

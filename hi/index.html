@@ -420,6 +420,13 @@ footer .wrap{display:grid;grid-template-columns:1fr;gap:36px}
 .foot-row .about-rh{grid-column:1;grid-row:1}
 .foot-row .friends{grid-column:2;grid-row:1}
 .foot-row .about-mgv{grid-column:1/-1;grid-row:2}
+.foot-row .about-praharas{grid-column:1/-1;grid-row:3}
+.praharas{width:100%;max-width:980px;border-collapse:collapse;margin-top:22px;font-size:15px;line-height:1.6;animation:settle .6s ease both}
+.praharas th,.praharas td{border:1px solid rgba(46,26,7,.28);padding:12px 16px;text-align:start;vertical-align:middle}
+.praharas thead th{font-weight:600}
+.praharas tbody th{font-weight:400;width:38%}
+.band-cap .star{color:inherit;text-decoration:none;padding:0 2px}
+.band-cap .star:hover{text-decoration:underline}
 .about-body p{margin-top:16px;font-size:15px;line-height:1.7;max-width:34em;animation:settle .6s ease both}
 /* The Affiliates heading shares the size and face of the two "About" headings */
 .foot-h{font:italic 400 clamp(24px,2.4vw,30px)/1.2 var(--serif);margin-bottom:12px}
@@ -452,7 +459,12 @@ footer .langs a[aria-current="true"]{text-decoration:underline;text-underline-of
   .cols,footer .wrap,.about .cols,.foot-row{grid-template-columns:1fr}
   .friends{text-align:start}
   .friends p{justify-content:flex-start}
-  .foot-row .about-rh,.foot-row .friends,.foot-row .about-mgv{grid-column:auto;grid-row:auto}
+  .foot-row .about-rh,.foot-row .friends,.foot-row .about-mgv,.foot-row .about-praharas{grid-column:auto;grid-row:auto}
+  .praharas,.praharas tbody,.praharas tr,.praharas th,.praharas td{display:block;width:auto}
+  .praharas thead{display:none}
+  .praharas tr{border-top:1px solid rgba(46,26,7,.28);padding:12px 0}
+  .praharas th,.praharas td{border:0;padding:0}
+  .praharas tbody th{font-weight:600;margin-bottom:4px;width:auto}
   .foot-row .friends{order:3}
   .cols{gap:22px}
   .reel{grid-auto-columns:100%}
@@ -658,7 +670,7 @@ footer .langs a[aria-current="true"]{text-decoration:underline;text-underline-of
           <div class="ribbon" aria-hidden="true"><i class="mark"></i></div>
           <ol class="cells" aria-label="दिन के आठ प्रहर"><li><button data-i="0" aria-pressed="false"><b>गहरी रात</b><small>01–04</small></button></li><li><button data-i="1" aria-pressed="false"><b>भोर</b><small>04–07</small></button></li><li><button data-i="2" aria-pressed="false"><b>सुबह</b><small>07–10</small></button></li><li><button data-i="3" aria-pressed="false"><b>दोपहर</b><small>10–13</small></button></li><li><button data-i="4" aria-pressed="true"><b>ढलती दोपहर</b><small>13–16</small></button></li><li><button data-i="5" aria-pressed="false"><b>सूर्यास्त</b><small>16–19</small></button></li><li><button data-i="6" aria-pressed="false"><b>शाम</b><small>19–22</small></button></li><li><button data-i="7" aria-pressed="false"><b>रात</b><small>22–01</small></button></li></ol>
         </div>
-        <p class="band-cap" data-w="band-cap" aria-live="polite"></p>
+        <p class="band-cap" data-w="band-cap" aria-live="polite" data-html="&lt;em&gt;अभी बज रहे हैं: 13:00 – 16:00, ढलती दोपहर के राग।&lt;/em&gt; इस प्रहर&lt;a class=&quot;star&quot; href=&quot;#praharas&quot; title=&quot;प्रहरों के बारे में (दिन-रात के 8 समय-विभाग)&quot;&gt;*&lt;/a&gt; (दिन-रात के 8 समय-विभागों में से एक) के रागों का भाव: &lt;i&gt;उपलब्धि और रचनात्मकता&lt;/i&gt;।"></p>
       </div>
     </div></section>
 
@@ -783,7 +795,7 @@ footer .langs a[aria-current="true"]{text-decoration:underline;text-underline-of
       <div class="body">
         <p>हर महीने, पूर्णिमा की शाम, गंधर्व वेद के संगीतज्ञ दुनिया भर के श्रोताओं के लिए लाइव बजाते हैं।</p>
         <div class="circle-row">
-          <div class="moon-photo" data-w="moon" style="--glow: 0.576;"><canvas aria-hidden="true" height="128" width="128"></canvas></div>
+          <div class="moon-photo" data-w="moon" style="--glow: 0.579;"><canvas aria-hidden="true" height="128" width="128"></canvas></div>
           <div>
             <p class="date" data-w="nextfull"></p>
             <p class="days" data-w="moondays"></p>
@@ -874,6 +886,14 @@ footer .langs a[aria-current="true"]{text-decoration:underline;text-underline-of
           <p>शोध से संकेत मिलता है कि गंधर्व वेद संगीत से नकारात्मक भावनाओं में उल्लेखनीय कमी और सकारात्मक भावनाओं में वृद्धि होती है।* महर्षि के विश्व शांति संगीत महोत्सव (1986) के अनुसार, जब गंधर्व संगीत दुनिया भर में व्यापक रूप से बजाया गया, तो समाज में नकारात्मक प्रवृत्तियाँ स्पष्ट रूप से घटीं, और उनकी जगह सकारात्मकता और शांति के रुझानों ने ले ली।</p>
           <p class="foot-note"><span lang="en" dir="ltr">* Travis, Morehead &amp; Parim (2023), <i>International Journal of Psychological Studies</i> 15(1), 8.</span> <a href="https://doi.org/10.5539/ijps.v15n1p8">शोधपत्र पढ़ें</a></p></div>
       </div>
+    </details>
+        
+    <details class="about about-praharas" id="praharas">
+      <summary>प्रहरों* के बारे में (दिन-रात के 8 समय-विभाग)</summary>
+      <table class="praharas">
+        <thead><tr><th scope="col">दिन के प्रहर</th><th scope="col">लाभ</th></tr></thead>
+        <tbody><tr><th scope="row">संधि प्रकाश (रोशनी का बदलाव) 04:00 – 07:00</th><td>कोमलता, भावना के सूक्ष्मतम स्तर का परिष्कार, शांति, मानसिक स्पष्टता, जीवन के सभी स्तरों का एकीकरण, प्रकृति का अधिक समर्थन।</td></tr><tr><th scope="row">सुबह 07:00 – 10:00</th><td>आनंद, करुणा, प्रेम और भक्ति, धैर्य, हृदय का पोषण और संबल।</td></tr><tr><th scope="row">दोपहर 10:00 – 13:00</th><td>कर्म में शक्ति, बढ़ी हुई ऊर्जा, कार्य में सफलता, ज्ञान और प्रज्ञा।</td></tr><tr><th scope="row">ढलती दोपहर 13:00 – 16:00</th><td>उपलब्धि, सफलता, रचनात्मकता, धन और समृद्धि, इच्छाओं की पूर्ति।</td></tr><tr><th scope="row">संधि प्रकाश (रोशनी का बदलाव) 16:00 – 19:00</th><td>सामंजस्य, तंत्रिका तंत्र की सुसंगत कार्यप्रणाली, शांति, मानसिक स्पष्टता, जीवन के सभी स्तरों का एकीकरण, प्रकृति का अधिक समर्थन।</td></tr><tr><th scope="row">शाम 19:00 – 22:00</th><td>उल्लास, विस्तार, निर्मल शांति, नींद की तैयारी में धीरे-धीरे शांत होना।</td></tr><tr><th scope="row">आधी रात 22:00 – 01:00</th><td>गहरा विश्राम और सुकून, बेहतर नींद, शुद्धि, नवीनीकरण और कायाकल्प।</td></tr><tr><th scope="row">देर रात 01:00 – 04:00</th><td>चैन, प्रशांति, आंतरिक शक्ति, स्वस्थ मन और शरीर।</td></tr></tbody>
+      </table>
     </details>
       </div>
       <div class="legal">
@@ -1038,13 +1058,13 @@ void main() {
   gl_FragColor = vec4(clamp(o, 0., 1.), 1.);
 }
 </script>
-<script src="i18n/en.js?v=e39fd6b7"></script>
-<script src="i18n/hi.js?v=26dd37de"></script>
+<script src="i18n/en.js?v=439b8c00"></script>
+<script src="i18n/hi.js?v=20d5efc9"></script>
 <script src="shared/i18n.js?v=95093879"></script>
 <script src="shared/radio.js?v=7aa80d03"></script>
 <script src="shared/light.js?v=9bf551bd"></script>
 <script src="app.js?v=1691466d"></script>
-<script src="info.js?v=52a40770"></script>
+<script src="info.js?v=4ce61178"></script>
 <script src="analytics.js?v=2657696a"></script>
 </body>
 </html>

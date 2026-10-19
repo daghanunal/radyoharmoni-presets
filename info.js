@@ -234,6 +234,15 @@
           <p class="foot-note"><span lang="en" dir="ltr">* Travis, Morehead &amp; Parim (2023), <i>International Journal of Psychological Studies</i> 15(1), 8.</span> <a href="https://doi.org/10.5539/ijps.v15n1p8">${T('readPaper')}</a></p></div>
       </div>
     </details>`;
+  // The eight praharas of the day and what each brings (the owner's table, revision v3 row 49)
+  const PRAHARAS = `
+    <details class="about about-praharas" id="praharas">
+      <summary>${T('prahara.title')}</summary>
+      <table class="praharas">
+        <thead><tr><th scope="col">${T('prahara.colName')}</th><th scope="col">${T('prahara.colBenefits')}</th></tr></thead>
+        <tbody>${[1, 2, 3, 4, 5, 6, 7, 8].map(n => `<tr><th scope="row">${T(`prahara.${n}.name`)}</th><td>${T(`prahara.${n}.benefits`)}</td></tr>`).join('')}</tbody>
+      </table>
+    </details>`;
   const FOOT = `
     <div class="wrap">
       <div class="foot-row">
@@ -246,6 +255,7 @@
           <p><a href="https://apps.apple.com/app/id977489377">Veda App</a><a href="https://www.tm.org/">TM.org</a><a href="https://tm-women.org/">TM-Women.org</a></p>
         </div>
         ${ABOUT}
+        ${PRAHARAS}
       </div>
       <div class="legal">
         <p>${T('legal.music')}</p>
@@ -310,8 +320,11 @@
     const p = R.period(), x = R.PERIODS[i], isNow = i === p.index;
     cells.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', +b.dataset.i === i));
     const html = T('band.cap', { now: isNow ? T('band.now') : '', watch: T(`watch.${i}.name`), watchInline: T(`watch.${i}.inline`), from: `${R.pad(x.start)}:00`, to: `${R.pad((x.start + 3) % 24)}:00`, character: T(`watch.${i}.character`) });
-    if (cap.innerHTML !== html) cap.innerHTML = html;   // only when it changes: the line is read aloud each time it is written
+    const linked = html.replace('*', `<a class="star" href="#praharas" title="${T('prahara.title').replace('*', '')}">*</a>`);
+    if (cap.dataset.html !== linked) { cap.dataset.html = linked; cap.innerHTML = linked; }   // only when it changes: the line is read aloud each time it is written
   }
+  // The asterisk opens the praharas table in the footer before the page goes there
+  document.addEventListener('click', e => { if (e.target.closest('a[href="#praharas"]')) { const d = document.getElementById('praharas'); if (d) d.open = true; } });
   cells.querySelectorAll('button').forEach(b => b.addEventListener('click', () => { picked = +b.dataset.i === R.period().index ? null : +b.dataset.i; showWatch(+b.dataset.i); }));
   function paintHours() {
     const p = R.period();
