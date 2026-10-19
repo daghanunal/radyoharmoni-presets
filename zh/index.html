@@ -275,6 +275,10 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 /* Where the picture was taken, in the corner, as the picture at the top does it */
 .strip-credit{position:absolute;left:clamp(12px,1.6vw,22px);bottom:clamp(10px,1.4vw,18px);font:400 12px/1.4 var(--sans);letter-spacing:.12em;color:#fffaf0;opacity:.95;text-shadow:0 1px 8px rgba(20,30,20,.65),0 0 2px rgba(20,30,20,.5);pointer-events:none}
 section:has(.strip-r){overflow-x:clip}
+/* How it is played: the cow picture close under the texts, its credit up in the bushes, less room below */
+.how-sec > .cols{row-gap:clamp(14px,2vw,26px)}
+.row.how-sec{padding-bottom:clamp(40px,5vw,64px)}
+.how-sec .strip-credit{bottom:12%}
 @media (max-width:700px){.moonband .circle-row{grid-template-columns:1fr}.moonband .moon-photo{width:110px;margin:8px auto 4px}}
 .cols{display:grid;grid-template-columns:minmax(220px,1fr) 2fr;gap:clamp(24px,5vw,80px);max-width:1180px;margin:0 auto}
 h2{font:italic 400 clamp(40px,4.8vw,64px)/1.04 var(--serif);color:var(--ink)}
@@ -715,6 +719,25 @@ footer .langs a[aria-current="true"]{text-decoration:underline;text-underline-of
           <p class="ref"><span lang="en">Travis, Morehead &amp; Parim (2023), <i>International Journal of Psychological Studies</i> 15(1), 8.</span> <a href="https://doi.org/10.5539/ijps.v15n1p8">阅读论文</a></p>
         </div>
       </div>
+    </div></section>
+
+    <section class="row moonsec moonband" id="concerts"><div class="cols">
+      <h2>满月音乐会</h2>
+      <div class="body">
+        <p>每月满月之夜，乾闼婆吠陀音乐家都会为全球听众现场演奏。</p>
+        <div class="circle-row">
+          <div class="moon-photo" data-w="moon" style="--glow: 0.589;"><canvas aria-hidden="true" height="128" width="128"></canvas></div>
+          <div>
+            <p class="date" data-w="nextfull"></p>
+            <p class="days" data-w="moondays"></p>
+            <div class="moonsel" role="group" aria-label="显示的月相">
+              <button data-m="full" aria-pressed="true">音乐会之夜</button>
+              <button data-m="now" aria-pressed="false">今晚</button>
+            </div>
+            <a class="btn" href="https://artsforenlightenment.org/">报名参加音乐会</a>
+          </div>
+        </div>
+      </div>
     </div></section></div><div class="info-set" data-set="rain">
     <section class="row"><div class="cols">
       <h2>与自然节律同调的旋律</h2>
@@ -724,7 +747,7 @@ footer .langs a[aria-current="true"]{text-decoration:underline;text-underline-of
       </div>
     </div></section>
 
-    <section class="row"><div class="cols">
+    <section class="row how-sec"><div class="cols">
       <h2>如何播放</h2>
       <div class="body">
         <div class="ways"><article><h3>为自己</h3><p>舒适地坐下，闭上双眼。从开头到最后一个音尽情享受拉格，感受它带来的清新效果。</p></article><article><h3>为您的环境</h3><p>连接一台音箱，让拉格轻柔、持续地播放。</p></article></div>
@@ -797,25 +820,6 @@ footer .langs a[aria-current="true"]{text-decoration:underline;text-underline-of
       </div>
       <figure class="strip-r"><img src="media/garden-2.webp" alt="" loading="lazy" decoding="async"><figcaption class="strip-credit">图片：诺萨拉，哥斯达黎加</figcaption></figure>
     </div></section></div><div class="info-common">
-    <section class="row moonsec moonband" id="concerts"><div class="cols">
-      <h2>满月音乐会</h2>
-      <div class="body">
-        <p>每月满月之夜，乾闼婆吠陀音乐家都会为全球听众现场演奏。</p>
-        <div class="circle-row">
-          <div class="moon-photo" data-w="moon" style="--glow: 0.587;"><canvas aria-hidden="true" height="128" width="128"></canvas></div>
-          <div>
-            <p class="date" data-w="nextfull"></p>
-            <p class="days" data-w="moondays"></p>
-            <div class="moonsel" role="group" aria-label="显示的月相">
-              <button data-m="full" aria-pressed="true">音乐会之夜</button>
-              <button data-m="now" aria-pressed="false">今晚</button>
-            </div>
-            <a class="btn" href="https://artsforenlightenment.org/">报名参加音乐会</a>
-          </div>
-        </div>
-      </div>
-    </div></section>
-
     <section class="row"><div class="cols">
       <h2>分享您的天空</h2>
       <div class="body">
@@ -1071,7 +1075,7 @@ void main() {
 <script src="shared/radio.js?v=7aa80d03"></script>
 <script src="shared/light.js?v=9bf551bd"></script>
 <script src="app.js?v=1691466d"></script>
-<script src="info.js?v=2a16218c"></script>
+<script src="info.js?v=00c35635"></script>
 <script src="analytics.js?v=2657696a"></script>
 </body>
 </html>

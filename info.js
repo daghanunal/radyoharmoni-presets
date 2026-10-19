@@ -57,6 +57,25 @@
           <p class="ref"><span lang="en">Travis, Morehead &amp; Parim (2023), <i>International Journal of Psychological Studies</i> 15(1), 8.</span> <a href="https://doi.org/10.5539/ijps.v15n1p8">${T('readPaper')}</a></p>
         </div>
       </div>
+    </div></section>
+
+    <section class="row moonsec moonband" id="concerts"><div class="cols">
+      <h2>${T('peace.moon.h2')}</h2>
+      <div class="body">
+        <p>${T('peace.moon.p')}</p>
+        <div class="circle-row">
+          <div class="moon-photo" data-w="moon"><canvas aria-hidden="true"></canvas></div>
+          <div>
+            <p class="date" data-w="nextfull"></p>
+            <p class="days" data-w="moondays"></p>
+            <div class="moonsel" role="group" aria-label="${T('moon.shown')}">
+              <button data-m="full" aria-pressed="true">${T('moon.concert')}</button>
+              <button data-m="now" aria-pressed="false">${T('moon.tonight')}</button>
+            </div>
+            <a class="btn" href="https://artsforenlightenment.org/">${T('moon.register')}</a>
+          </div>
+        </div>
+      </div>
     </div></section>`;
 
   // ── Rain Radio ──────────────────────────────────────────────
@@ -70,7 +89,7 @@
       </div>
     </div></section>
 
-    <section class="row"><div class="cols">
+    <section class="row how-sec"><div class="cols">
       <h2>${T('rain.how.h2')}</h2>
       <div class="body">
         <div class="ways"><article><h3>${T('peace.listen.selfH')}</h3><p>${T('rain.how.selfP')}</p></article><article><h3>${T('peace.listen.aroundH')}</h3><p>${T('rain.how.envP')}</p></article></div>
@@ -146,25 +165,6 @@
 
   // ── On both stations: what a listener can do (concerts, share a photo, write, subscribe, give) ──
   const COMMON = `
-    <section class="row moonsec moonband" id="concerts"><div class="cols">
-      <h2>${T('peace.moon.h2')}</h2>
-      <div class="body">
-        <p>${T('peace.moon.p')}</p>
-        <div class="circle-row">
-          <div class="moon-photo" data-w="moon"><canvas aria-hidden="true"></canvas></div>
-          <div>
-            <p class="date" data-w="nextfull"></p>
-            <p class="days" data-w="moondays"></p>
-            <div class="moonsel" role="group" aria-label="${T('moon.shown')}">
-              <button data-m="full" aria-pressed="true">${T('moon.concert')}</button>
-              <button data-m="now" aria-pressed="false">${T('moon.tonight')}</button>
-            </div>
-            <a class="btn" href="https://artsforenlightenment.org/">${T('moon.register')}</a>
-          </div>
-        </div>
-      </div>
-    </div></section>
-
     <section class="row"><div class="cols">
       <h2>${T('rain.share.h2')}</h2>
       <div class="body">
