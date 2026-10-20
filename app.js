@@ -103,12 +103,21 @@
   const vid = $('#v-peace'), photo = $('#i-rain'), cycle = $('#v-cycle');
   // The films wait until the page itself has loaded (the still of the bay shows until then); Rain Radio's photo comes
   // then too, or at once when Rain Radio is the station
-  let filmsOk = document.readyState === 'complete';
+  // Once the page has loaded: the load event, or the document saying it is complete (a page written in by the preview's
+  // lock gets no load event of its own), or at the latest after a few seconds
+  const whenLoaded = fn => {
+    let done = false; const go = () => { if (!done) { done = true; fn(); } };
+    if (document.readyState === 'complete') return go();
+    addEventListener('load', go, { once: true });
+    document.addEventListener('readystatechange', () => { if (document.readyState === 'complete') go(); });
+    setTimeout(go, 4000);
+  };
+  let filmsOk = false;
   const playVid = () => { if (reduce || !filmsOk) return; const p = vid.play(); if (p) p.catch(() => {}); };
   const loadRainPhoto = () => { if (!photo.getAttribute('src')) photo.src = photo.dataset.src; };
   if (radio.station === 'rain') loadRainPhoto();
   const afterLoad = () => { filmsOk = true; vid.preload = 'auto'; playVid(); loadRainPhoto(); };
-  if (filmsOk) afterLoad(); else addEventListener('load', afterLoad, { once: true });
+  whenLoaded(afterLoad);
   document.addEventListener('rh:station', loadRainPhoto);
   // A film is copied to the picture only when its clock reaches a new frame (both films run at 30 frames a second),
   // not at every refresh of the screen: on a 120 Hz phone it was copied four times over, and while paused not at all
@@ -504,8 +513,7 @@
   // ── Installable as an app ───────────────────────────────────
   // the offline copy is set up once the page has loaded, never competing with it
   if ('serviceWorker' in navigator && location.protocol === 'https:') {
-    const reg = () => navigator.serviceWorker.register('sw.js').catch(() => {});
-    if (document.readyState === 'complete') reg(); else addEventListener('load', reg, { once: true });
+    whenLoaded(() => navigator.serviceWorker.register('sw.js').catch(() => {}));
   }
 
   // ── Full screen: the radio alone on the screen. Hidden where the browser cannot do it (iPhone Safari). ──
